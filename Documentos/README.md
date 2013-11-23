@@ -11,7 +11,9 @@
 
 ## White Paper (WP)
 1. [WP374] (v1.02) **Partial Reconfiguration of Xilinx FPGAs Using ISE Design Suite**: Explica porque fazer reconfiguração dinâmica. Contém alguma informação por alto de como fazê-la e muitas imagens legais.
+2. [WP375] (v1.00) **High Performance Computing Using FPGAs**: Explica vantagens de se usar FPGAs.
 2. [WP383] (v1.02) **Achieving High Performance DDR3 Data Rates**: Descreve a implementação de um controlador DDR3 de alta performance.
+2. [WP394] (v1.00) **Advancing the Use of FPGA Co-Processors through Platforms and High-Level Design Flows**: Descreve as vantagens da aceleração de sistemas por FPGAs.
 
 ## Application Note (XAPP)
 1. [XAPP058] (v4.01) **Xilinx In-System Programming Using an Embedded Microcontroller**: Explica o processo de programar a FPGA usando um microcontrolador embarcado.
@@ -26,18 +28,67 @@
 8. [XAPP951] (v1.03) **Configuring Xilinx FPGAs with SPI Serial Flash**: Explica passo-a-passo e em baixo nível como programar a FPGA a partir da SPI Flash.
 9. [XAPP963] (v1.01) **Using and Creating Flash Files for the MicroBlaze Development Kit - Spartan-3E Edition**: Descreve como programar a memória Flash para ser usada pelo MicroBlaze.
 10. [XAPP978] (v1.2) **FPGA Configuration from Flash PROMs on the Spartan-3E 1600E Board**: Descreve os diferentes modos de configuração usando a memória Flash: BPI Up, BPI Down, SPI. Mostra o passo-a-passo de como _bootload_ um programa (_software_) da memória.
+11. [XAPP1100] (v1.00) **MultiBoot with Virtex-5 FPGAs and Platform Flash XL**: Mostra como configurar e reconfigurar a FPGA pelo ICAP.
 
 ## Product Guide (PG)
 1. [PG100] (v2.00) **LogiCORE IP AXI EMC v2.0 - Product Guide for Vivado Design Suite**
 2. [PG134] (v3.0) **LogiCORE IP AXI HWICAP v3.0 - Product Guide for Vivado Design Suite**
 
 ## User Guide (UG)
-- [UG470] (v1.07) **7 Series FPGAs Configuration User Guide**: Explica as interfaces de configuração, inclusive a SelectMAP, que é similar a ICAP.
-- [UG625] (v13.4) **Constraints Guide**: Explica alguns tipos de arquivos de restrições (UCF, etc).
-- [UG702] (v14.5) **Partial Reconfiguration User Guide**: Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
-- [UG744] (v14.6) **Partial Reconfiguration of a Processor Tutorial**: Tutorial mostrando como fazer um processador com um periférico reconfigurável.
-- [UG768] (v14.6) **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs**: Contém todos os macros e primitivas, inclusive o ICAP.
+1. [UG470] (v1.07) **7 Series FPGAs Configuration User Guide**: Explica as interfaces de configuração, inclusive a SelectMAP, que é similar a ICAP.
+2. [UG625] (v13.4) **Constraints Guide**: Explica alguns tipos de arquivos de restrições (UCF, etc).
+3. [UG702] (v14.5) **Partial Reconfiguration User Guide**: Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
+4. [UG744] (v14.6) **Partial Reconfiguration of a Processor Tutorial**: Tutorial mostrando como fazer um processador com um periférico reconfigurável.
+5. [UG768] (v14.6) **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs**: Contém todos os macros e primitivas, inclusive o ICAP.
  
+## Slides
+1. [01_PR_Intro] **Introduction to Partial Reconfiguration Methodology**
+2. [04_PR_Design] **Partial Reconfiguration Design Considerations**
+3. [10_Driving] **Driving ICAP Resource**
 
 # Artigos
 1. [ftp09lai](./Artigos/ftp09lai.pdf) **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**: Artigo muito interessante, que descreve uma forma mais rápida de se realizar a autoreconfiguração. Ele usa DMA e ICAP para isso.
+
+[DS123]: ./xilinx/ds/ds123.pdf
+[DS176]: ./xilinx/ds/ds176.pdf
+[DS180]: ./xilinx/ds/ds180.pdf
+[DS182]: ./xilinx/ds/ds182.pdf
+[DS575]: ./xilinx/ds/ds575.pdf
+[DS583]: ./xilinx/ds/ds583.pdf
+[DS817]: ./xilinx/ds/ds817.pdf
+[DS843]: ./xilinx/ds/ds843.pdf
+
+[WP374]: ./xilinx/wp/wp374.pdf
+[WP375]: ./xilinx/wp/wp375.pdf
+[WP383]: ./xilinx/wp/wp383.pdf
+[WP394]: ./xilinx/wp/wp394.pdf
+
+[XAPP058]: ./xilinx/xapp/xapp058.pdf
+[XAPP463]: ./xilinx/xapp/xapp463.pdf
+[XAPP482]: ./xilinx/xapp/xapp482.pdf
+[XAPP501]: ./xilinx/xapp/xapp501.pdf
+[XAPP583]: ./xilinx/xapp/xapp583.pdf
+[XAPP739]: ./xilinx/xapp/xapp739.pdf
+[XAPP789]: ./xilinx/xapp/xapp789.pdf
+[XAPP883]: ./xilinx/xapp/xapp883.pdf
+[XAPP887]: ./xilinx/xapp/xapp887.pdf
+[XAPP951]: ./xilinx/xapp/xapp951.pdf
+[XAPP963]: ./xilinx/xapp/xapp963.pdf
+[XAPP978]: ./xilinx/xapp/xapp978.pdf
+[XAPP1100]: ./xilinx/xapp/xapp1100.pdf
+
+[PG100]: ./xilinx/pg/pg100.pdf
+[PG134]: ./xilinx/pg/pg134.pdf
+
+[UG470]: ./xilinx/ug/ug470.pdf
+[UG625]: ./xilinx/ug/ug625.pdf
+[UG702]: ./xilinx/ug/ug702.pdf
+[UG744]: ./xilinx/ug/ug744.pdf
+[UG768]: ./xilinx/ug/ug768.pdf
+
+[01_PR_Intro]: ./xilinx/others/01_PR_Intro.pdf
+[04_PR_Design]: ./xilinx/others/04_PR_Design.pdf
+[10_Driving]: ./xilinx/others/10_Driving.pdf
+
+# Artigos
+[ftp09lai]: ./artigos/ftp09lai.pdf
