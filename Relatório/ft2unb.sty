@@ -1,0 +1,408 @@
+%%
+%% This is file `ft2unb.sty'.
+%% 
+%% This file was forked by Lucas Sousa de Oliveira from Prof. Geovany Araujo Borges' webpage <http://lara.unb.br/~gaborges/orientacoes/orientacoes.htm>.
+%% Updates: 
+%% - 2013/12/01: Improved cover and funcionalities. Also improved usability and speed.
+%% - 2007/04/09: Package incorporates a page for bibliographic information. Contributions from Nathalie Pinheiro, André Calmon and Renan Utida)
+%% - 2007/01/08: Package updated in order to support three co-authors. Proposed by Nathalie Pinheiro, André Calmon and Renan Utida)
+%% - 2006/03/19: Version 1.0 released.
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{ft2unb}[2013/12/01 v2.0]
+\def\packagename{ft2unb}
+
+%% Fonte
+\usepackage{times}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+\renewcommand{\ttdefault}{pcr}
+\normalfont\selectfont
+
+\usepackage[UTF8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian,portuges]{babel}
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{datetime}
+\usetikzlibrary{calc,positioning,decorations.pathreplacing,shapes.misc}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{titling}
+\usepackage[hidelinks]{hyperref}
+\usepackage{etoolbox}
+\usepackage{setspace}
+\usepackage[alf]{abntex2cite}
+\usepackage{ifthen}
+
+\setcounter{secnumdepth}{3} % numeração de seções até nível 3
+\setcounter{tocdepth}{2} % numeração de seções no sumário até nível 2
+\pagestyle{empty}
+
+%%% Dados do trabalho
+% Data
+\newcommand{\mes}[1]{\def\mesnome{#1}}
+\newcommand{\ano}[1]{\def\anonome{#1}}
+
+% Autores
+\newcounter{contadorautores}
+\newcommand{\autor}[1]{
+	\stepcounter{contadorautores}
+	\ifthenelse{\value{contadorautores}>3}{
+		\PackageError{\packagename}{Autores > 3. Apenas 3 autores sao permitidos.}{Verifique quantas vezes autor foi chamado.}}{}
+	\csdef{autornome\arabic{contadorautores}}{#1}}
+\newcommand{\@autornome}[1]{\csuse{autornome#1}}
+
+% Titulo
+\newcommand{\titulo}[1]{\def\@titulo{#1}}
+
+% Banca
+\newcounter{contadorbanca}
+\newcommand{\membrodabanca}[3]{
+	\stepcounter{contadorbanca}
+	\ifthenelse{\value{contadorbanca}>5}{
+		\PackageError{\packagename}{Membros da Banca > 5. Apenas 5 membros sao permitidos.}{Verifique quantas vezes membrodabanca foi chamado.}}{}
+	\csdef{bancanome\arabic{contadorbanca}}{{#1}\ifthenelse{\equal{#2}{}}{}{, #2}}
+	\csdef{bancafuncao\arabic{contadorbanca}}{#3}}
+\newcommand{\@membrodabancanome}[1]{\csuse{bancanome#1}}
+\newcommand{\@membrodabancafuncao}[1]{\csuse{bancafuncao#1}}
+
+\newcommand{\tipodemonografia}[1]{\def\tipodemonografianome{#1}}
+\newcommand{\grau}[1]{\def\graunome{#1}}
+
+% Dedicatoria
+\newcounter{contadordedicatoria}
+\newcommand{\dedicatoria}[1]{
+	\stepcounter{contadordedicatoria}
+	\ifthenelse{\value{contadordedicatoria}>\value{contadorautores}}{
+		\PackageError{\packagename}{Quantidade de dedicatorias maior que o numero de autores.}{Tente informar os autores antes das dedicatorias.}}{}
+	\csdef{dedicatoria\arabic{contadordedicatoria}}{#1}}
+\newcommand{\@dedicatoria}[1]{\csuse{dedicatoria#1}}
+
+% Mensagem da Contra-capa
+\newcommand{\mensagemcontracapa}{Relatório submetido ao Departamento de \mbox{Engenharia} Elétrica como requisito parcial para obtenção do grau de \graunome}
+
+%%% Capa:
+\newcommand{\capaprincipal}{
+\@ifundefined{mesnome}{\def\mesnome{\monthname}}{}
+\@ifundefined{anonome}{\def\anonome{\the\year}}{}
+
+\definecolor{green}{HTML}{00CC66} %33D685
+\definecolor{blue}{HTML}{3399FF}
+
+\begin{titlepage}
+\begin{tikzpicture}[overlay,remember picture]
+    \newcommand\cs{0.02} % column separation
+    \newcommand\rs{0.6} %row separation
+    \newcommand\ttoh{0.9} %top's top outter height
+    \newcommand\tth{0.342} %top total height
+    \newcommand\bth{0.234} %bottom total height
+    
+    \coordinate (O) at (current page.south west);
+    \coordinate (B) at (current page.south);
+    \coordinate (T) at (current page.north);
+    \coordinate (L) at (current page.west);
+    \coordinate (R) at (current page.east);
+    \coordinate (BL) at (current page.south west);
+    \coordinate (BR) at (current page.south east);
+    \coordinate (TR) at (current page.north east);
+    \coordinate (TL) at (current page.north west);
+    
+    \coordinate (TM) at ($(TL)!0.5!(TR)$);
+    \coordinate (BM) at ($(BL)!0.5!(BR)$);
+    \coordinate (TML) at ($(TL)!0.5-\cs/2!(TR)$);
+    \coordinate (TMR) at ($(TL)!0.5+\cs/2!(TR)$);
+    \coordinate (TMML) at ($(TL)!0.25+\cs/4!(TR)$);
+    \coordinate (TMMR) at ($(TR)!0.25+\cs/4!(TL)$);
+    \coordinate (BML) at ($(BL)!0.5-\cs/2!(BR)$);
+    \coordinate (BMR) at ($(BL)!0.5+\cs/2!(BR)$);
+    
+    \coordinate (TEND) at ($(TM)!\tth!(BM)$);
+    \coordinate (BEND) at ($(BM)!\bth!(TM)$);
+    
+    \fill [blue] (BL) rectangle ($(BR)!\bth!(TR)$);
+    \fill [blue] ($(TL)+(0,-\ttoh)$)
+	parabola[bend at start] ($(TMML)+(-3,-1.2)+(0,-\ttoh)$)
+	parabola[bend at end] ($(TML)+(0,-4.85)+(0,-\ttoh)$)
+	-- (TML) -- (TL) -- cycle;
+    \fill [green] ($(TL)+(0,-\ttoh)+(0,-\rs)$)
+	parabola[bend at start] ($(TMML)+(-3,-1.2)+(0,-\ttoh)+(0,-\rs)$)
+	parabola[bend at end] ($(TML)+(0,-4.85)+(0,-\ttoh)+(0,-\rs)$)
+	-- ($(TML)!\tth!(BML)$) -- ($(TL)!\tth!(BL)$) -- cycle;
+    \fill [blue] ($(TR)+(0,-\ttoh)$)
+	parabola[bend at start] ($(TMMR)+(3,-1.2)+(0,-\ttoh)$)
+	parabola[bend at end] ($(TMR)+(0,-4.85)+(0,-\ttoh)$)
+	-- (TMR) -- (TR) -- cycle;
+    \fill [green] ($(TR)+(0,-\ttoh)+(0,-\rs)$)
+	parabola[bend at start] ($(TMMR)+(3,-1.2)+(0,-\ttoh)+(0,-\rs)$)
+	parabola[bend at end] ($(TMR)+(0,-4.85)+(0,-\ttoh)+(0,-\rs)$)
+	-- ($(TMR)!\tth!(BMR)$) -- ($(TR)!\tth!(BR)$) -- cycle;
+	
+    \node[rectangle, below=1.15cm of TEND,text width=\textwidth,align=center] (tipo) {\Large\MakeUppercase \tipodemonografianome};
+    \node[rectangle, below=2.2cm of tipo,text width=\textwidth,align=center] (titulo) {\MakeUppercase{\bf\Large \@titulo}};
+    \node[rectangle, below=2cm of titulo,text width=\textwidth,align=center] (autor1) {\large\bf \@autornome1};
+    \node[rectangle, below=2mm of autor1,text width=\textwidth,align=center] (autor2) {\large\bf \@autornome2};
+    \node[rectangle, below=2mm of autor2,text width=\textwidth,align=center] (autor3) {\large\bf \@autornome3};
+    \node[rectangle, above=0.05cm of BEND,text width=\textwidth,align=center] (data) {\normalsize\bf Brasília, \mesnome \space de \anonome};
+    \node[rectangle, below=1.3cm of data,text width=\textwidth,align=center] (unb) {\Large\bf UNIVERSIDADE DE BRASÍLIA};
+    \node[rectangle, below=1cm of unb,text width=\textwidth,align=center] (ft) {\large FACULDADE DE TECNOLOGIA};
+\end{tikzpicture}
+\end{titlepage}
+}
+
+%%% Contra-capa:
+\newcommand{\capaassinaturas}{
+\begin{titlepage}
+\begin{tikzpicture}[overlay,remember picture]
+    \coordinate (O) at (current page.south west);
+    \coordinate (B) at (current page.south);
+    \coordinate (T) at (current page.north);
+    \coordinate (L) at (current page.west);
+    \coordinate (R) at (current page.east);
+    \coordinate (BL) at (current page.south west);
+    \coordinate (BR) at (current page.south east);
+    \coordinate (TR) at (current page.north east);
+    \coordinate (TL) at (current page.north west);
+    
+    \coordinate (TM) at ($(TL)!0.5!(TR)$);
+    \coordinate (BM) at ($(BL)!0.5!(BR)$);
+    
+    
+    \node[rectangle, below=1.85cm of TM,text width=\textwidth,align=center] (unb) {\large UNIVERSIDADE DE BRASÍLIA};
+    \node[rectangle, below=0.5mm of unb,text width=\textwidth,align=center] (ft) {\large Faculdade de Tecnologia};
+    \node[rectangle, below=3.8cm of ft,text width=\textwidth,align=center] (tipo) {\Large\MakeUppercase \tipodemonografianome};
+    \node[rectangle, below=0.4cm of tipo,text width=\textwidth,align=center] (titulo) {\MakeUppercase{\bf\Large \@titulo}};
+    
+    \node[rectangle, below=2cm of titulo,text width=\textwidth,align=center] (autor1) {\large\bf \@autornome1};
+    \node[rectangle, below=2mm of autor1,text width=\textwidth,align=center] (autor2) {\large\bf \@autornome2};
+    \node[rectangle, below=2mm of autor2,text width=\textwidth,align=center] (autor3) {\large\bf \@autornome3};
+    \node[rectangle, above=12.15cm of BM,text width=13cm,align=center] (descricao) {\begin{spacing}{1.556}\large\it \mensagemcontracapa\end{spacing}};
+    \node[rectangle, below=6.5mm of descricao,text width=\textwidth,align=center] (bancatitulo) {\large Banca Examinadora};
+    \node[rectangle, below=7.6mm of bancatitulo,text width=\textwidth,align=center] (bancatitulo) {
+    	\small\def\arraystretch{0.5}
+	\begin{tabular}{p{0.45\textwidth}p{0.45\textwidth}p{0cm}}
+		\ifthenelse{\value{contadorbanca}<1}{& \\}{\small\@membrodabancanome1 & \hrule \\ \small\it\@membrodabancafuncao1 & \\ \\ \\ 
+		\ifthenelse{\value{contadorbanca}<2}{& \\}{\small\@membrodabancanome2 & \hrule \\ \small\it\@membrodabancafuncao2 & \\ \\ \\
+		\ifthenelse{\value{contadorbanca}<3}{& \\}{\small\@membrodabancanome3 & \hrule \\ \small\it\@membrodabancafuncao3 & \\ \\ \\
+		\ifthenelse{\value{contadorbanca}<4}{& \\}{\small\@membrodabancanome4 & \hrule \\ \small\it\@membrodabancafuncao4 & \\ \\ \\
+		\ifthenelse{\value{contadorbanca}<5}{& \\}{\small\@membrodabancanome5 & \hrule \\ \small\it\@membrodabancafuncao5 & \\ \\ \\}}}}}
+	\end{tabular}
+	\def\arraystretch{1.0}};
+\end{tikzpicture}
+\end{titlepage}
+}
+
+%%% Dedicatória
+\newcommand{\dedicatorias}{
+\begin{titlepage}
+\begin{center}
+\vspace*{\fill}
+\begin{flushright}
+\large
+\ifthenelse{\value{contadordedicatoria}<2}
+	{\bf Dedicat\'oria\space\space\space\space}
+	{\bf Dedicat\'orias}
+\end{flushright}
+\begin{center}
+	\ifthenelse{\value{contadordedicatoria}<2}{ % 0-1 dedicatorias
+		\begin{tabular}{p{0.90\textwidth}}
+			\textit{\@dedicatoria1}\\ \\
+			\raggedleft\textit{\@autornome1}
+		\end{tabular}
+	}{ % 2 dedicatorias
+	\ifthenelse{\value{contadordedicatoria}<3}{
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			\textit{\@dedicatoria1} & &	\textit{\@dedicatoria2}.
+		\end{tabular}
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			& \\\raggedleft\textit{\@autornome2} & & \raggedleft\textit{\@autornome1}
+		\end{tabular}
+	}{ % 3 dedicatorias
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+		 	& \\ & & \textit{\@dedicatoria1} 
+		\end{tabular}
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			& \\ & & \raggedleft\textit{\@autornome1}
+		\end{tabular}
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			& \\ & & \textit{\@dedicatoria2}
+		\end{tabular}
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			& \\ & & \raggedleft\textit{\@autornome2}
+		\end{tabular}
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			& \\ & & \textit{\@dedicatoria3}
+		\end{tabular}
+		\begin{tabular}{p{0.45\textwidth}p{0.01\textwidth}p{0.45\textwidth}}
+			& \\ & & \raggedleft\textit{\@autornome3}
+		\end{tabular}
+	}}
+\end{center}
+\vspace*{2cm}
+\end{center}
+\end{titlepage}
+}
+
+%%% Agradecimentos
+\newcommand{\agradecimentosautori}[1]{\def\agradecimentosautorinome{#1}}
+\newcommand{\agradecimentosautorii}[1]{\def\agradecimentosautoriinome{#1}}
+\newcommand{\agradecimentosautoriii}[1]{\def\agradecimentosautoriiinome{#1}}
+
+\newcommand{\agradecimentos}{
+\begin{titlepage}
+\begin{flushleft}
+\large\bf Agradecimentos 
+\end{flushleft}
+\begin{center}
+	\vspace*{1cm}
+	\begin{tabular}{p{0.9\textwidth}}
+		\textit{\agradecimentosautorinome}\\
+	  \\
+  	\raggedleft\textit{\@autornome1}\\
+	\end{tabular}
+	\vspace*{1cm}
+	\ifthenelse{\equal{\@autornome2}{}}{}{
+		\begin{tabular}{p{0.9\textwidth}}
+			\textit{\agradecimentosautoriinome}\\
+	  	\\
+	  	\raggedleft\textit{\@autornome2}\\
+		\end{tabular}
+	}
+	\vspace*{1cm}
+	\ifthenelse{\equal{\@autornome3}{}}{}{
+		\begin{tabular}{p{0.9\textwidth}}
+			\textit{\agradecimentosautoriiinome}\\
+	  	\\
+	  	\raggedleft\textit{\@autornome3}\\
+		\end{tabular}
+	}
+\end{center}
+\end{titlepage}
+}
+
+%%% Resumos opcionais do início de cada capítulo
+\newcommand{\resumodocapitulo}[1]{
+\vspace*{-0.8cm}
+\begin{flushright}
+	\begin{tabular}{p{0.5\textwidth}}
+		\itshape{#1}\\
+	\end{tabular}
+	\vspace*{-0.5cm}
+\end{flushright}
+}
+
+%%% Cabeçalhos dos resumos:
+\newcommand{\resumo}[2]{
+\begin{flushright}
+\hrule
+\vspace*{4mm}\large\bf\uppercase{#1} \\
+\end{flushright}
+{\normalsize\noindent#2}
+}
+
+%%% Fontes:
+\newcommand{\setfontarial}{}
+\newcommand{\setfonttimes}{}
+
+%%% Estilo dos capítulos, seções, sub-seções:
+\makeatletter
+
+\newcommand{\anexos}{
+%	\chapter*{\mdseries ANEXOS}
+	\chapter*{ANEXOS}
+	\addcontentsline{toc}{chapter}{{Anexos}}
+	\renewcommand{\appendixname}{ANEXO}
+	\appendix
+	\newcounter{noAnexo}
+	\renewcommand{\thechapter}{\Roman{noAnexo}}
+	\setcounter{noAnexo}{1}
+}
+
+%%% Figura de fundo da capa:
+\usepackage{eso-pic,graphicx}
+\newcommand\BackgroundPicture[2]{%
+  \setlength{\unitlength}{1pt}%
+  \put(0,\strip@pt\paperheight){%
+  \parbox[t][\paperheight]{\paperwidth}{%
+    \vfill
+    \centering\includegraphics[width=#2]{#1}
+    \vfill
+}}} 
+
+%%% Formatação do sumário:
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      {#1}\nobreak\hfil\dotfill \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{3.6em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.6em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{1.5em}{3.6em}}
+
+%%% Sumário:
+\newcommand{\sumario}{
+	\renewcommand{\contentsname}{SUMÁRIO}
+	{\renewcommand{\@dotsep}{0.5}\parskip=0pt\mdseries\scshape\tableofcontents}
+}
+
+%%% Lista de figuras:
+\newcommand{\listadefiguras}{
+	\renewcommand{\listfigurename}{LISTA DE FIGURAS}
+	{\renewcommand{\@dotsep}{0.5}\parskip=0pt\listoffigures}
+}
+
+%%% Lista de tabelas:
+\newcommand{\listadetabelas}{
+	\renewcommand{\listtablename}{LISTA DE TABELAS}
+	{\renewcommand{\@dotsep}{0.5}\parskip=0pt\listoftables}
+}
+
+%%% Lista de símbolos: apenas o formato do título.
+\newcommand{\listadesimbolos}{
+	\renewcommand{\contentsname}{LISTA DE SIMBOLOS}
+	\listoftables 
+}
+
+\makeatother
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lengths
+
+\geometry{headsep=.2in,footskip=0.7in,top=2cm,textwidth=16.32cm}                            
+\setlength{\evensidemargin}{-0.2cm}
+\setlength{\oddsidemargin}{-0.2cm}
+\renewcommand{\baselinestretch}{1.2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros
+\newcommand{\PreserveBacklash}[1]{\let\temp=\\#1\let\\=\temp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Espaço entre parágrafos
+\parskip=6pt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Red\'{e}finition de cleardoublepage pour que les pages vides s\'{e}parant
+% les chapitres soient vraiment vides 
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+ \hbox{}
+ \vspace*{\fill}% test \vspace{\fill}
+ \thispagestyle{empty}
+ \newpage
+ \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+

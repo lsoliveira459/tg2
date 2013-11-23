@@ -1,0 +1,177 @@
+\documentclass[11pt,a4paper,titlepage,openright,oneside]{book}
+
+\usepackage{ft2unb}
+
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[thmmarks,amsmath]{ntheorem}
+\usepackage{boxedminipage}
+\usepackage{theorem}
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{afterpage}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{rotating}
+\usepackage{makeidx}
+\usepackage{indentfirst}
+\usepackage{bibentry}
+\usepackage{subcaption}
+\usepackage[obeyDraft]{todonotes}
+\presetkeys{todonotes}{inline}{}
+\def\compilewholereport{}
+
+\makeindex
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilações parciais: com o comando abaixo, selecione apenas os capitulos
+% que deseja compilar. Por exemplo, veja o que acontece se descomentar a
+% linha abaixo:
+%\includeonly{resumos}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Documento principal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\grau{Engenheiro de Controle e Automa\c{c}\~ao} \tipodemonografia{Trabalho de Gradua\c{c}\~ao}
+
+% Os comandos a seguir servem para definir o título do trabalho. Para evitar 
+% que o latex defina automaticamente a quebra de linha, foram definidos um comando por linha. 
+% Desta forma o autor define como quer que o título seja dividio em várias linhas. 
+% O exemplo abaixo é para um título que ocupa três linhas. Observe que mesmo com a linha
+% 4 não sendo utilizada, o comando \titulolinhaiv é chamado.
+\titulo{Estudo e Implementa\c{c}\~ao de Reconfigura\c{c}\~ao \mbox{Din\^amica} Em Instrumenta\c{c}\~ao, Automa\c{c}\~ao e Controle}
+
+% Os nomes dos autores são definidos pelos comandos \autori (autor 1) e \autorii (autor 2).
+% Para trabalhos com apenas um autor, deve-se usar \autorii{} para que não apareça 
+% um nome para segundo autor.
+\autor{Lucas Sousa de Oliveira}
+
+% Os nomes dos membros da banca são definidos a seguir. Pode-se ter até 5 membros da banca.
+% É incubência do usuário definir no argumento dos comandos a afiliação do membro da banca,
+% assim como sua posição (se for orientador ou co-orientador). 
+% Os nomes definidos pelos comandos abaixo aparecem na ordem de i a v.
+\membrodabanca{Prof. Jones Yudi}{ENM/UnB}{Orientador}
+\membrodabanca{Prof. Carlos Humberto Llanos}{ENM/UnB}{Co-orientador}
+\membrodabanca{Prof. Fulano de Tal 1}{ENM/UnB}{Examinador interno}
+\membrodabanca{Prof. Fulano de Tal 2}{ENM/UnB}{Examinador externo}
+\membrodabanca{Prof. Fulano de Tal 3}{ENM/UnB}{Examinador externo}
+
+% data de defesa: mês e ano.
+\mes{dezembro}
+%\ano{2013}
+
+% Comandos para criar a capa e a página de assinaturas.
+\capaprincipal
+\listoftodos
+\capaassinaturas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedicatória 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+% Texto de dedicatória do primeiro autor
+\dedicatoria{Dedicatória do autor 1}
+%% Texto de dedicatória do segundo autor. Caso não tenha um segundo autor, este texto não será mostrado
+%\dedicatoria{Dedicatória do autor 2}
+%% Texto de dedicatória do terceiro autor. Caso não tenha um segundo autor, este texto não será mostrado
+%\dedicatoria{Dedicatória do autor 3}
+
+% Comando para criar a página de dedicatória
+\dedicatorias
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Agradecimentos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Texto de agradecimentos do primeiro autor
+\agradecimentosautori{A inclusão desta seção de agradecimentos é opcional e fica à critério do(s) autor(es), que caso deseje(em) inclui-la deverá(ao) utilizar este espaço, seguindo está formatação.}
+
+% Texto de agradecimentos do segundo autor. Caso não tenha um segundo autor, este texto não 
+% será mostrado
+\agradecimentosautorii{A inclusão desta seção de agradecimentos é opcional e fica à critério do(s) autor(es), que caso deseje(em) inclui-la deverá(ao) utilizar este espaço, seguindo está formatação.}
+
+% Texto de agradecimentos do segundo autor. Caso não tenha um terceiro autor, este texto não 
+% será mostrado
+\agradecimentosautoriii{A inclusão desta seção de agradecimentos é opcional e fica à critério do(s) autor(es), que caso deseje(em) inclui-la deverá(ao) utilizar este espaço, seguindo está formatação.}
+
+% Comando para criar a página de agradecimentos
+\agradecimentos
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Resumo: arquivo resumo.tex editável no Scientific Word
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{resumos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Listas de conteúdo, figuras e tabelas.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sumario
+\listadefiguras
+\listadetabelas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lista de simbolos.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{simbolos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Corpo principal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\setcounter{page}{1} \pagenumbering{arabic} \pagestyle{plain}
+
+% *** Introducao ***
+\include{cap_Introducao}
+
+% *** Revisao Bibliografica ***
+\include{cap_RevisaoBibliografica}
+
+% *** Desenvolvimento ***
+\include{cap_Desenvolvimento}
+
+% *** Resultados Experimentais ***
+\include{cap_Experimentos}
+
+% *** Conclusões
+\include{cap_Conclusoes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Referências bibliográficas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\bibliographystyle{abnt-num} % use este estilo para ABNT numérico
+%\bibliographystyle{abnt-alf} % use este estilo para ABNT alfa-numérico
+\renewcommand{\bibname}{REFERÊNCIAS BIBLIOGRÁFICAS}
+\addcontentsline{toc}{chapter}{REFERÊNCIAS BIBLIOGRÁFICAS}
+\bibliography{bibliografia}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Anexos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\anexos
+%\makeatletter % não retirar estes comandos
+%\renewcommand{\@makechapterhead}[1]{%
+%  {\parindent \z@ \raggedleft \setfontarial\bfseries 
+%        \LARGE \thechapter. \space\space 
+%    \uppercase{#1}\par
+%    \vskip 40\p@
+%  }
+%}
+%\makeatother
+%
+%% *** Anexo I: Diagramas esquemáticos ***
+%\include{anexo_Esquematicos}
+%\refstepcounter{noAnexo}
+%
+%% *** Anexo II: Descrição do CD ***
+%\include{anexo_CD}
+%\refstepcounter{noAnexo}
+
+% Acrescente mais anexos conforme julgar necessário.
+\end{document}
+

@@ -1,0 +1,63 @@
+%TCIDATA{LaTeXparent=0,0,relatorio.tex}
+\ifx\compilewholereport\undefined
+	\documentclass[11pt,a4paper,oneside]{book}
+	
+	% Escolher um dos seguintes formatos:
+	\usepackage{ft2unb} % segue padrão de fontes do Latex
+	
+	% Pacotes
+	\usepackage{graphicx}
+	\usepackage{amsfonts}
+	\usepackage{amsmath}
+	\usepackage{amssymb}
+	\usepackage[thmmarks,amsmath]{ntheorem}
+	\usepackage{boxedminipage}
+	\usepackage{theorem}
+	\usepackage{fancybox}
+	\usepackage{fancyhdr}
+	\usepackage{url}
+	\usepackage{afterpage}
+	\usepackage{color}
+	\usepackage{colortbl}
+	\usepackage{rotating}
+	\usepackage{makeidx}
+	\usepackage{indentfirst}
+	\usepackage{bibentry}
+	\usepackage{subcaption}
+	\usepackage{todonotes}
+	\presetkeys{todonotes}{inline}{}
+	
+	\begin{document}
+	\frontmatter
+	\listoftodos
+	\mainmatter
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%% Apagar coisas acima
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fi
+                      
+\chapter{Revisão Bibliográfica}\label{CapRevisaoBibliografica}
+
+% Resumo opcional. Comentar se não usar.
+\resumodocapitulo{Este capítulo visa apresentar as ferramentas disponíveis e o estado-da-arte da auto-reconfiguração.}
+
+\section{Introdução}
+\todo{Apresentar o estado-da-arte}
+\todo{Apresentar o project-flow tradicional e o para renconf. dinamica.}
+
+\section{Ferramentas}
+\todo{Falar sobre o ISE, SDK, PlanAhead e iMpact}
+
+\section{\textit{Intelectual Property}}
+\todo{Falar sobre o clock}
+\todo{Falar sobre a memória}
+\todo{Falar sobre o ICAP e ICAPE2}
+
+\ifx\compilewholereport\undefined
+	\bibliographystyle{authordate1} 
+	%\bibliography{bibliografia}
+	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
+
+	\end{document}
+\fi
