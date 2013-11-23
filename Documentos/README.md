@@ -47,7 +47,30 @@
 3. [10_Driving] **Driving ICAP Resource**
 
 # Artigos
-1. [ftp09lai](./Artigos/ftp09lai.pdf) **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**: Artigo muito interessante, que descreve uma forma mais rápida de se realizar a autoreconfiguração. Ele usa DMA e ICAP para isso.
+1. [fpt09lai] **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**
+2. [fpt12vipin] **A High Speed Open Source Controller for FPGA Partial Reconﬁguration**: Artigo muito interessante, que descreve uma forma mais rápida de se realizar a autoreconfiguração. Ele usa DMA e ICAP para isso.
+
+# Tutoriais
+1. [microblaze_tutorial] **MicroBlaze Tutorial Creating a Simple Embedded System and Adding Custom Peripherals Using Xilinx EDK Software Tools**: Ensina basicamente como criar um sistema MicroBlaze.
+2. [Bootloader] **SPI Flash Bootloader**: Tutorial um pouco confuso sobre como gerar o _bitstream_ para um _bootloader_ de configurações.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [DS123]: ./xilinx/ds/ds123.pdf
 [DS176]: ./xilinx/ds/ds176.pdf
@@ -90,5 +113,8 @@
 [04_PR_Design]: ./xilinx/others/04_PR_Design.pdf
 [10_Driving]: ./xilinx/others/10_Driving.pdf
 
-# Artigos
-[ftp09lai]: ./artigos/ftp09lai.pdf
+[fpt09lai]: ./Artigos/fpt09lai.pdf
+[fpt12vipin]: ./Artigos/fpt12vipin.pdf
+
+[microblaze_tutorial]: ./Tutoriais/microblaze_tutorial.pdf
+[Bootloader]: ./Tutoriais/Bootloader.pdf
