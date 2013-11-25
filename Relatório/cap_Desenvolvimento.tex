@@ -126,9 +126,8 @@ Por motivos de simplicidade, utilizou-se o SYSCLK.
 De forma a poder trabalhar com o sinal diferencial emitido pelo SYSCLK, construiu-se um componente, utilizando as ferramentas do ISE, para tratamento do sinal de relógio.
 Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
 
-
-\todo{CLK\_N e CLK\_P}
-\todo{Estruturas de pastas \cite{ug702, ug743, ug744}}
+\subsubsection{Pastas}
+A questão da organização do projeto em pastas bem específicas é sempre bem mencionado na literatura \cite{ug702, ug743, ug744}.
 
 \subsection{Teste}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
@@ -220,7 +219,6 @@ A única coisa que se faz neste \textit{script} é a construção dinâmica dos 
 
 \subsubsection{PlanAhead}
 \todo{Promoção de partições explicado em ug748, p. 50.}
-
 
 \todo{Explicar como fui para o próximo experimento}
 \section{Experimento 2 - Teste de Acesso a Memória}

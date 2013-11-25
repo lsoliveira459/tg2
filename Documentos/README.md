@@ -103,12 +103,12 @@
 [UG768]: ./xilinx/ug/ug768.pdf
 [UG810]: ./xilinx/ug/ug810.pdf
 
-[01_PR_Intro]: ./xilinx/others/01_PR_Intro.pdf
+[01_PR_Intro]: 	./xilinx/others/01_PR_Intro.pdf
 [04_PR_Design]: ./xilinx/others/04_PR_Design.pdf
-[10_Driving]: ./xilinx/others/10_Driving.pdf
+[10_Driving]: 	./xilinx/others/10_Driving.pdf
 
-[fpt09lai]: ./Artigos/fpt09lai.pdf
-[fpt12vipin]: ./Artigos/fpt12vipin.pdf
+[fpt09lai]: 	./Artigos/fpt09lai.pdf
+[fpt12vipin]: 	./Artigos/fpt12vipin.pdf
 
-[microblaze_tutorial]: ./Tutoriais/microblaze_tutorial.pdf
-[Bootloader]: ./Tutoriais/Bootloader.pdf
+[microblaze_tutorial]: 	./Tutoriais/microblaze_tutorial.pdf
+[Bootloader]: 			./Tutoriais/Bootloader.pdf

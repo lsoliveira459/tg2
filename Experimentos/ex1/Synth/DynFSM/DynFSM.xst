@@ -1,0 +1,7 @@
+run
+-ifn DynFSM.prj
+-ofn DynFSM
+-ofmt NGC
+-p xc7k325t-2-ffg900
+-top dynamic
+-iobuf NO
