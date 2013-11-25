@@ -49,58 +49,44 @@
 2. [04_PR_Design] **Partial Reconfiguration Design Considerations**
 3. [10_Driving] **Driving ICAP Resource**
 
-# Artigos
-1. [fpt09lai] **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**
-2. [fpt12vipin] **A High Speed Open Source Controller for FPGA Partial Reconﬁguration**: Artigo muito interessante, que descreve uma forma mais rápida de se realizar a autoreconfiguração. Ele usa DMA e ICAP para isso.
+[DS123]: ./ds/ds123.pdf
+[DS176]: ./ds/ds176.pdf
+[DS180]: ./ds/ds180.pdf
+[DS182]: ./ds/ds182.pdf
+[DS575]: ./ds/ds575.pdf
+[DS583]: ./ds/ds583.pdf
+[DS817]: ./ds/ds817.pdf
+[DS843]: ./ds/ds843.pdf
 
-# Tutoriais
-1. [microblaze_tutorial] **MicroBlaze Tutorial Creating a Simple Embedded System and Adding Custom Peripherals Using Xilinx EDK Software Tools**: Ensina basicamente como criar um sistema MicroBlaze.
-2. [Bootloader] **SPI Flash Bootloader**: Tutorial um pouco confuso sobre como gerar o _bitstream_ para um _bootloader_ de configurações.
+[WP374]: ./wp/wp374.pdf
+[WP375]: ./wp/wp375.pdf
+[WP383]: ./wp/wp383.pdf
+[WP394]: ./wp/wp394.pdf
 
-[DS123]: ./xilinx/ds/ds123.pdf
-[DS176]: ./xilinx/ds/ds176.pdf
-[DS180]: ./xilinx/ds/ds180.pdf
-[DS182]: ./xilinx/ds/ds182.pdf
-[DS575]: ./xilinx/ds/ds575.pdf
-[DS583]: ./xilinx/ds/ds583.pdf
-[DS817]: ./xilinx/ds/ds817.pdf
-[DS843]: ./xilinx/ds/ds843.pdf
+[XAPP058]: ./xapp/xapp058.pdf
+[XAPP463]: ./xapp/xapp463.pdf
+[XAPP482]: ./xapp/xapp482.pdf
+[XAPP501]: ./xapp/xapp501.pdf
+[XAPP583]: ./xapp/xapp583.pdf
+[XAPP739]: ./xapp/xapp739.pdf
+[XAPP789]: ./xapp/xapp789.pdf
+[XAPP883]: ./xapp/xapp883.pdf
+[XAPP887]: ./xapp/xapp887.pdf
+[XAPP951]: ./xapp/xapp951.pdf
+[XAPP963]: ./xapp/xapp963.pdf
+[XAPP978]: ./xapp/xapp978.pdf
+[XAPP1100]: ./xapp/xapp1100.pdf
 
-[WP374]: ./xilinx/wp/wp374.pdf
-[WP375]: ./xilinx/wp/wp375.pdf
-[WP383]: ./xilinx/wp/wp383.pdf
-[WP394]: ./xilinx/wp/wp394.pdf
+[PG100]: ./pg/pg100.pdf
+[PG134]: ./pg/pg134.pdf
 
-[XAPP058]: ./xilinx/xapp/xapp058.pdf
-[XAPP463]: ./xilinx/xapp/xapp463.pdf
-[XAPP482]: ./xilinx/xapp/xapp482.pdf
-[XAPP501]: ./xilinx/xapp/xapp501.pdf
-[XAPP583]: ./xilinx/xapp/xapp583.pdf
-[XAPP739]: ./xilinx/xapp/xapp739.pdf
-[XAPP789]: ./xilinx/xapp/xapp789.pdf
-[XAPP883]: ./xilinx/xapp/xapp883.pdf
-[XAPP887]: ./xilinx/xapp/xapp887.pdf
-[XAPP951]: ./xilinx/xapp/xapp951.pdf
-[XAPP963]: ./xilinx/xapp/xapp963.pdf
-[XAPP978]: ./xilinx/xapp/xapp978.pdf
-[XAPP1100]: ./xilinx/xapp/xapp1100.pdf
+[UG111]: ./ug/ug111.pdf
+[UG470]: ./ug/ug470.pdf
+[UG625]: ./ug/ug625.pdf
+[UG702]: ./ug/ug702.pdf
+[UG744]: ./ug/ug744.pdf
+[UG768]: ./ug/ug768.pdf
 
-[PG100]: ./xilinx/pg/pg100.pdf
-[PG134]: ./xilinx/pg/pg134.pdf
-
-[UG111]: ./xilinx/ug/ug111.pdf
-[UG470]: ./xilinx/ug/ug470.pdf
-[UG625]: ./xilinx/ug/ug625.pdf
-[UG702]: ./xilinx/ug/ug702.pdf
-[UG744]: ./xilinx/ug/ug744.pdf
-[UG768]: ./xilinx/ug/ug768.pdf
-
-[01_PR_Intro]: ./xilinx/others/01_PR_Intro.pdf
-[04_PR_Design]: ./xilinx/others/04_PR_Design.pdf
-[10_Driving]: ./xilinx/others/10_Driving.pdf
-
-[fpt09lai]: ./Artigos/fpt09lai.pdf
-[fpt12vipin]: ./Artigos/fpt12vipin.pdf
-
-[microblaze_tutorial]: ./Tutoriais/microblaze_tutorial.pdf
-[Bootloader]: ./Tutoriais/Bootloader.pdf
+[01_PR_Intro]: ./others/01_PR_Intro.pdf
+[04_PR_Design]: ./others/04_PR_Design.pdf
+[10_Driving]: ./others/10_Driving.pdf

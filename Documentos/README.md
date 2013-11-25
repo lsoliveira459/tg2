@@ -37,12 +37,15 @@
 ## User Guide (UG)
 1. [UG111] **Embedded System Tools Reference Manual (EDK)** (v14.6): Explica os comandos e programas auxiliares do EDK.
 2. [UG257] **MicroBlaze Development Kit Spartan-3E 1600E Edition User Guide** (v1.01): Mostra os recursos e configurações da Spartan-3E 1600E.
-3. [UG257] **Getting Started with the MicroBlaze Development Kit - Spartan-3E 1600E Edition** (v1.03)
+3. [UG258] **Getting Started with the MicroBlaze Development Kit - Spartan-3E 1600E Edition** (v1.03)
 1. [UG470] **7 Series FPGAs Configuration User Guide** (v1.07): Explica as interfaces de configuração, inclusive a SelectMAP, que é similar a ICAP.
 2. [UG625] **Constraints Guide** (v13.4): Explica alguns tipos de arquivos de restrições (UCF, etc).
 3. [UG702] **Partial Reconfiguration User Guide** (v14.5): Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
+3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
 4. [UG744] **Partial Reconfiguration of a Processor Tutorial** (v14.6): Tutorial mostrando como fazer um processador com um periférico reconfigurável.
+3. [UG748] **Hierarchical Design Methodology Guide** (v14.5): Explica porque usar "-iobuf NO". Também apresenta muitas informações sobre partições e 
 5. [UG768] **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs** (v14.6): Contém todos os macros e primitivas, inclusive o ICAP.
+6. [UG810] **KC705 Evaluation Board for the Kintex-7 FPGA User Guide** (v1.04): Explica os diversos componentes da KC705, inclusive os clocks, dando informação sobre os pinos e etc.
  
 ## Slides
 1. [01_PR_Intro] **Introduction to Partial Reconfiguration Methodology**
@@ -89,11 +92,16 @@
 [PG134]: ./xilinx/pg/pg134.pdf
 
 [UG111]: ./xilinx/ug/ug111.pdf
+[UG257]: ./xilinx/ug/ug257.pdf
+[UG258]: ./xilinx/ug/ug258.pdf
 [UG470]: ./xilinx/ug/ug470.pdf
 [UG625]: ./xilinx/ug/ug625.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
+[UG743]: ./xilinx/ug/ug743.pdf
+[UG748]: ./xilinx/ug/ug748.pdf
 [UG744]: ./xilinx/ug/ug744.pdf
 [UG768]: ./xilinx/ug/ug768.pdf
+[UG810]: ./xilinx/ug/ug810.pdf
 
 [01_PR_Intro]: ./xilinx/others/01_PR_Intro.pdf
 [04_PR_Design]: ./xilinx/others/04_PR_Design.pdf
