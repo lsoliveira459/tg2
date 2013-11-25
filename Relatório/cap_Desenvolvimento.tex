@@ -63,8 +63,7 @@ Devido ao caráter experimental e exploratório do objetivo proposto na seção 
 Desta forma, além de garantir algum material mesmo que tudo dê errado, consegue-se simplificar o processo de pesquisa e desenvolvimento através dos pequenos passos e análises frequentes.
 
 Como o objetivo final do projeto é a familiarização com as ferramentas e processos envolvidos na autoreconfiguração, decidiu-se começar estudando os elementos necessários para se realizar a reconfiguração dinâmica.
-O passo seguinte mais lógico é o de estudar como funciona as memórias dos sistema.
-Em seguida, o estudo da inicialização da memória se faz muito importante.
+O passo seguinte mais lógico é o de estudar como funciona as memórias dos sistema e de que jeito elas seriam melhor utilizadas.
 O último passo seria entender como funciona a autoreconfiguração em baixo nível, ou seja, como os dados devem ser entregues aos devidos componentes para que ela aconteça.
 Para cada um destes experimentos foi proposto um teste que validasse o completo entendimento do mesmo.
 
@@ -75,9 +74,11 @@ Para cada um destes experimentos foi proposto um teste que validasse o completo 
 \label{fig:kc705}
 \end{figure}
 
-Para o desenvolvimento desse projeto, escolheu-se, por motivos arbitrários, utilizar o kit de desenvolvimento da Xilinx\textregistered{} chamado Kintex-7 KC705.
-O único critério foi a disponibilidade dos equipamentos no início do projeto e a capacidade do dispositivo de fazer o que deseja-se.
+Para o desenvolvimento desse projeto, escolheu-se utilizar o kit de desenvolvimento da Xilinx\textregistered{} chamado Kintex-7 KC705.
+O único critério utilizado foi a disponibilidade dos equipamentos no início do projeto e a capacidade do dispositivo de realizar a reconfiguração parcial dinâmica.
 Este kit possui FPGA modelo XC7K325T-2FFG900C, leitor de cartão de memória, conector PCIe\textregistered{}, memória DDR3, visor de 7-segmentos e porta ethernet, dentre outros.
+
+Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descrição de \textit{hardware} ao invés da Verilog.
 
 \section{Experimento 1 - Reconfiguração Dinâmica}
 De forma a dar validade a todo o projeto, foi preciso desenvolver um experimento para se entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
@@ -110,24 +111,19 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 Reconfiguração parcial pede uma síntese utilizando o método \dlq de baixo para cima\drq{} (\textit{bottom-up}), mas uma implementação \dlq de cima para baixo\drq{} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
-\subsection{Considerações}
-O kit de desenvolvimento utilizada apresenta algumas peculiaridades com relação aos outros.
+\subsection{Peculiaridades}
+O kit de desenvolvimento utilizada apresenta algumas peculiaridades com relação aos kits comuns.
 A seguir serão apresentadas algumas destas peculiaridades.
 
 \subsubsection{Relógios}
 Diferentemente das FPGAs comuns, a que está presente neste kit contém um relógio diferencial, ou seja, dois sinais compoem tal relógio.
 A razão para tal é a presença de circuitos sensíveis a interferência, tais como \textit{transceivers}, que são muito menores em sinais diferenciais.
-
 O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
 O primeiro possui uma frequência fixa de oscilação de 200 MHz.
 O segundo possui uma frequência original de 156.250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
 Por motivos de simplicidade, utilizou-se o SYSCLK.
-
-De forma a poder trabalhar com o sinal diferencial emitido pelo SYSCLK, construiu-se um componente, utilizando as ferramentas do ISE, para tratamento do sinal de relógio.
+Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
 Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
-
-\subsubsection{Pastas}
-A questão da organização do projeto em pastas bem específicas é sempre bem mencionado na literatura \cite{ug702, ug743, ug744}.
 
 \subsection{Teste}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
@@ -141,8 +137,21 @@ Este sistema contém o \dlq{}Top\drq{} para interfaceamento com a FPGA, o \dlq{}
 \label{fig:ex1:componentes}
 \end{figure}
 
+\paragraph{Estrutura de Pastas}
+A questão da organização do projeto em pastas bem específicas é sempre bem mencionado na literatura \cite{ug702, ug743, ug744}.
+Os manuais recomendam a seguinte estrutura de pastas.
+\begin{lstlisting}
+Projeto/
+  Source/           //codigos-fonte organizados segundo particao
+  Implementation/   //contem pastas para cada config. dinamica gerada
+  Synth/            //contem pastas com os arquivos .xst e .prj
+  Tools/            //ferramentas para automacao da sintese
+  PlanAhead/        //pasta para o projeto do PlanAhead
+\end{lstlisting}
+Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvolvimento limpo.
+
 \subsubsection{Comportamento}
-Como foi explicado anteriormente, o projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
+Como explicado anteriormente, o projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
 Seguindo essa lógica, dois projetos com comportamentos diferentes foram construídos usando como base a figura \ref{fig:ex1:componentes}.
 O comportamento individual de cada módulo ou componente será descrito a seguir.
 Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:prsoftwareflow} como ISE.
@@ -161,9 +170,15 @@ O bloco lógico utilizado para isso foi construído usando ferramentas presentes
 Uma vez que a ferramenta permitia a construção de um relógio com divisor de frequência, a frequência do relógio da placa, que nesse caso é de 200 MHz, foi reduzida para 20 MHz.
 
 O módulo \dlq{}Top\drq{} instancia os componentes descritos acima e faz a interface dos mesmos com a FPGA.
-Ele ainda possui um divisor de frequência para reduzir a frequência devolvida por \dlq{}Clocks\drq{} para 1 e 2 Hz.
-
-\todo{Como instanciar os módulos dinâmicos}
+O componente dinâmico precisa de uma declaração de protótipo para ser instanciado corretamente.
+Utilizou-se o código abaixo para esta finalidade.
+\begin{lstlisting}[style=customVHDL]
+component dynamic
+    port ( clk  : in  std_logic;
+           leds : out std_logic_vector (3 downto 0));
+end component;
+\end{lstlisting}
+O módulo \dlq{}Top\drq{} possui também um divisor de frequência para reduzir a frequência devolvida por \dlq{}Clocks\drq{} para 1 e 2 Hz.
 
 \subsubsection{Síntese}
 Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese.
@@ -193,9 +208,9 @@ vhdl work "../../Sources/static/clocks.vhd"
 \end{lstlisting}\
 
 Note que estes comandos e arquivos indicados acima são para síntese dos componentes estáticos.
-Uma vez que não existe nenhuma restrição especial para tais componentes, eles podem ser síntetizados em conjunto.
+Uma vez que não existe nenhuma restrição especial para tais componentes, eles podem ser síntetizados para um único arquivo de saída.
 O mesmo não pode ser dito para os elementos dinâmicos.
-Cada componente dinâmico precisa ser compilado em separado para depois ser incluído no projeto através do PlanAhead.
+Cada componente dinâmico precisa ser sintetizado em separado para depois ser incluído no projeto através do PlanAhead.
 
 A síntese de componentes dinâmicos precisa ser realizada com um \textit{script} \dlq{}.xst\drq{} ligeiramente diferente.
 Como mostrado a seguir, faz-se necessária a inclusão do argumento \dlq{}-iobuf NO\drq{}, que desabilita a inserção de componentes de Entrada/Saída \cite{ug743, ug748}.
@@ -217,8 +232,13 @@ Existe também a possibilidade de construção de um \textit{script} para a sín
 Utilizou-se aqui uma adaptação do arquivo em linguagem TCL usado pela Xilinx em seus manuais \cite{ug702, ug743, ug744}.
 A única coisa que se faz neste \textit{script} é a construção dinâmica dos comandos com base em listas de arquivos pré-informados.
 
-\subsubsection{PlanAhead}
+\subsection{PlanAhead}
+Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
+Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, criaremos configurações alternativas, promoremos tais configurações e geraremos os \textit{bitfiles} para a programação do dispositivo.
+
 \todo{Promoção de partições explicado em ug748, p. 50.}
+
+\subsection{iMPACT}
 
 \todo{Explicar como fui para o próximo experimento}
 \section{Experimento 2 - Teste de Acesso a Memória}
