@@ -235,6 +235,39 @@ A única coisa que se faz neste \textit{script} é a construção dinâmica dos 
 \subsection{PlanAhead}
 Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
 Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, criaremos configurações alternativas, promoremos tais configurações e geraremos os \textit{bitfiles} para a programação do dispositivo.
+Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial.
+
+O primeiro passo necessário no PlanAhead é a criação do projeto.
+Para isso, após a abertura do programa, clica-se no ícone superior esquerdo mostrado na figura \ref{fig:ex1:planahead}, onde se lê \dlq{}Create New Project\drq{}.
+Na janela que aparece, indicamos o nome do projeto e seu caminho, lembrando que foi criada uma pasta anteriormente especificamente para conter este projeto.
+Indicamos também que o projeto é do tipo \dlq{}\textit{Post-synthesis Project}\drq{} e que desejamos habilitar a reconfiguração parcial, indicamos quais \textit{netlists} compõe o comportamento do projeto e qual corresponde ao arquivo principal, qual é o arquivo de restrições (\textit{constrains}) e qual é o modelo da FPGA.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figs/ex1/PlanAhead}
+\caption{Imagem do PlanAhead logo que aberto.}
+\label{fig:ex1:planahead}
+\end{figure}
+
+Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \dlq{}\textit{Open Synthesized Design}\drq{}.
+Duas janelas de avisos aparecem, informando que existe uma partição não implementada e aviso sobre alguns pinos.
+
+Pode-se agora definir a partição que armazenará o componente dinâmico.
+Isso é feito através do painel \dlq{}\textit{Netlist}\drq{}, selecionando a opção \dlq{}\textit{Set Partition}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} com o botão direito.
+Na janela que aparece, selecionamos a opção referente à partição reconfigurável, nomeamos o módulo reconfigurável de acordo com o componente que será carregado e indicamos o arquivo que corresponde ao arquivo sintetizado do componente reconfigurável.
+Não é necessário informar restrições, visto que o componente, seguindo recomendações, não acessa os pinos de entrada e saída diretamente.
+Note ainda que é recomendado que o primeiro módulo a ser incluído seja o mais complexo e sucetível a falhas, permitindo que erros e falhas na definição da região a seguir sejam identificados mais cedo.
+
+Precisa-se definir também uma região para a partição recém definida.
+Isto pode ser feito pelo mesmo painel \dlq{}\textit{Netlist}\drq{}, selecionando a opção \dlq{}\textit{Set Pblock Size}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} com o botão direito.
+Nesse momento, precisa-se selecionar na aba \dlq{}\textit{Device}\drq{} uma região do dispositivo que contenha uma quantidade de recursos maior que a requerida pelo projeto.
+Note que o processo de escolha dessa região não é bem definido, o que abre espaço para diversos erros de alocação.
+Para testar se a região foi bem alocada, abre-se a aba \dlq{}\textit{Design Runs}\drq{} do painel inferior, clica-se com o botão direito na única configuração disponível no momento e seleciona-se \dlq{}\textit{Run Launch}\drq{}.
+Em tentativas subsequentes, seleciona-se a opção de recomeçar todo o processo do zero, evitando erros gerados nos estágios iniciais.
+Uma região possível, que foi utilizada nesse projeto, foi a que contém as células (\textit{slice}) de X80Y244 a X139Y205.
+Os nomes das células ficam visíveis através da ampliação do dispositivo.
+
+Uma vez terminado o \dlq{}\textit{Design Run}\drq{}
 
 \todo{Promoção de partições explicado em ug748, p. 50.}
 
