@@ -249,8 +249,16 @@ Indicamos também que o projeto é do tipo \dlq{}\textit{Post-synthesis Project}
 \label{fig:ex1:planahead}
 \end{figure}
 
-Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \dlq{}\textit{Open Synthesized Design}\drq{}.
+Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \dlq{}\textit{Open Synthesized Design}\drq{}, mostrado na figura \ref{fig:ex1:planahead_open_synthesized_design}.
 Duas janelas de avisos aparecem, informando que existe uma partição não implementada e aviso sobre alguns pinos.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=173px]{figs/ex1/planahead_open_synthesized_design}
+\caption{Imagem do menu \dlq{}\textit{Open Synthesized Design}\drq{}.}
+\label{fig:ex1:planahead_open_synthesized_design}
+\end{figure}
+
 
 Pode-se agora definir a partição que armazenará o componente dinâmico.
 Isso é feito através do painel \dlq{}\textit{Netlist}\drq{}, selecionando a opção \dlq{}\textit{Set Partition}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} com o botão direito.
@@ -329,7 +337,7 @@ A melhor solução é o reinício do computador, visto que o programa bloqueia a
 Seguindo o raciocínio apresentado no início do capítulo, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os \textit{bitfiles} de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
 
-Existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades.
+No kit utilizado existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades \cite{ug810}.
 A seguir cometará-se cada um dos tipos.
 
 \subsection{Memória \textit{Block RAM}}
