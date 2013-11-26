@@ -42,6 +42,7 @@
 3. [UG258] **Getting Started with the MicroBlaze Development Kit - Spartan-3E 1600E Edition** (v1.03)
 1. [UG470] **7 Series FPGAs Configuration User Guide** (v1.07): Explica as interfaces de configuração, inclusive a SelectMAP, que é similar a ICAP.
 1. [UG473] **7 Series FPGAs Memory Resources User Guide** (v1.09): Explica a Block RAM.
+1. [UG586] **7 Series FPGAs Memory Interface Solutions v1.9 and v1.9a User Guide** (v1.09):  
 2. [UG625] **Constraints Guide** (v13.4): Explica alguns tipos de arquivos de restrições (UCF, etc).
 3. [UG702] **Partial Reconfiguration User Guide** (v14.5): Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
