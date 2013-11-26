@@ -263,11 +263,26 @@ Isto pode ser feito pelo mesmo painel \dlq{}\textit{Netlist}\drq{}, selecionando
 Nesse momento, precisa-se selecionar na aba \dlq{}\textit{Device}\drq{} uma região do dispositivo que contenha uma quantidade de recursos maior que a requerida pelo projeto.
 Note que o processo de escolha dessa região não é bem definido, o que abre espaço para diversos erros de alocação.
 Para testar se a região foi bem alocada, abre-se a aba \dlq{}\textit{Design Runs}\drq{} do painel inferior, clica-se com o botão direito na única configuração disponível no momento e seleciona-se \dlq{}\textit{Run Launch}\drq{}.
+Este processo pode demorar.
 Em tentativas subsequentes, seleciona-se a opção de recomeçar todo o processo do zero, evitando erros gerados nos estágios iniciais.
 Uma região possível, que foi utilizada nesse projeto, foi a que contém as células (\textit{slice}) de X80Y244 a X139Y205.
 Os nomes das células ficam visíveis através da ampliação do dispositivo.
 
-Uma vez terminado o \dlq{}\textit{Design Run}\drq{}
+Uma vez terminado o \dlq{}\textit{Design Run}\drq{}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
+Para isso, clica-se em \dlq{}\textit{Synthesized Design}\drq{} novamente e seleciona-se a opção \dlq{}\textit{Add reconfigurable module}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} no painel \dlq{}\textit{Netlist}\drq{} com o botão direito.
+O processo é o mesmo da definição da partição, sendo a única mudança na seleção do arquivo sintetizado e do nome do módulo.
+Um módulo vazio pode ser criado usando esta mesma opção, mas selecionando a opção que indica a inclusão de uma \textit{blackbox} sem o uso de uma \textit{netlist}.
+
+Com as possibilidades de módulos reconfiguráveis definidas, pode-se construir várias configurações.
+Isso é feito através do clique com botão direito na \dlq{}\textit{Design Runs}\drq{} do painel inferior e selecionando-se a opção \dlq{}\textit{Create Runs...}\drq{}.
+A janela que abre possui um painel chamado \dlq{}\textit{Create Implementation Runs}\drq{}.
+Nesse painel, na coluna \dlq{}\textit{Partition Action}\drq{}, define-se, na coluna \dlq{}\textit{Module Variant}\drq{} da nova janela que aparece, o módulo desejado.
+Voltando para a primeira janela, clica-se em \dlq{}\textit{More}\drq{} para adicionar a última configuração desejada.
+Em seguida, as duas novas configurações serão criadas através de \dlq{}\textit{Design Runs}\drq{}.
+Não é necessário promover as partições neste momento, apenas iniciar os processos de criação das partições.
+Note que os avisos que aparecerem podem ser ignorados.
+
+Ao final dos \dlq{}\textit{Design Runs}\drq{}, recomenda-se fazer a verificação das configurações.
 
 \todo{Promoção de partições explicado em ug748, p. 50.}
 
