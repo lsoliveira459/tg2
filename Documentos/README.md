@@ -12,6 +12,7 @@
 ## White Paper (WP)
 1. [WP374] **Partial Reconfiguration of Xilinx FPGAs Using ISE Design Suite** (v1.02): Explica porque fazer reconfiguração dinâmica. Contém alguma informação por alto de como fazê-la e muitas imagens legais.
 2. [WP375] **High Performance Computing Using FPGAs** (v1.00): Explica vantagens de se usar FPGAs.
+2. [WP377] **Xilinx 7 Series FPGAs Embedded Memory Advantages** (v1.01): Explica vantagens de se usar FPGAs.
 2. [WP383] **Achieving High Performance DDR3 Data Rates** (v1.02): Descreve a implementação de um controlador DDR3 de alta performance.
 2. [WP394] **Advancing the Use of FPGA Co-Processors through Platforms and High-Level Design Flows** (v1.00): Descreve as vantagens da aceleração de sistemas por FPGAs.
 
@@ -40,6 +41,7 @@
 2. [UG257] **MicroBlaze Development Kit Spartan-3E 1600E Edition User Guide** (v1.01): Mostra os recursos e configurações da Spartan-3E 1600E.
 3. [UG258] **Getting Started with the MicroBlaze Development Kit - Spartan-3E 1600E Edition** (v1.03)
 1. [UG470] **7 Series FPGAs Configuration User Guide** (v1.07): Explica as interfaces de configuração, inclusive a SelectMAP, que é similar a ICAP.
+1. [UG473] **7 Series FPGAs Memory Resources User Guide** (v1.09): Explica a Block RAM.
 2. [UG625] **Constraints Guide** (v13.4): Explica alguns tipos de arquivos de restrições (UCF, etc).
 3. [UG702] **Partial Reconfiguration User Guide** (v14.5): Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
@@ -75,6 +77,7 @@
 
 [WP374]: ./xilinx/wp/wp374.pdf
 [WP375]: ./xilinx/wp/wp375.pdf
+[WP377]: ./xilinx/wp/wp377.pdf
 [WP383]: ./xilinx/wp/wp383.pdf
 [WP394]: ./xilinx/wp/wp394.pdf
 
@@ -100,6 +103,7 @@
 [UG257]: ./xilinx/ug/ug257.pdf
 [UG258]: ./xilinx/ug/ug258.pdf
 [UG470]: ./xilinx/ug/ug470.pdf
+[UG473]: ./xilinx/ug/ug473.pdf
 [UG625]: ./xilinx/ug/ug625.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
 [UG743]: ./xilinx/ug/ug743.pdf
