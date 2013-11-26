@@ -288,18 +288,65 @@ Clicando-se com o botão direito, encontra-se a opção \dlq{}\textit{Verify Con
 Selecionado-se todos os itens e clicando em \dlq{}\textit{OK}\drq{}, a verificação se inicia.
 Nenhum erro deve ser encontrado.
 
-\todo{Promoção de partições explicado em ug748, p. 50.}
+Devemos agora promover as configurações.
+No menu de quando se clica com o botão direito sobre as configurações já existentes do painel \dlq{}\textit{Configurations}\drq{}, seleciona-se \dlq{}\textit{Promote Configuration...}\drq{}.
+A promoção de uma configuração é o equivalente a sua exportação \cite{ug748}.
+Promover a primeira configuração antes de implementar novas contribui para manter a parte estática, compartilhada, igual em todas as configurações, uma vez que elas não mais são sintetizadas e sim importadas.
+
+O último passo necessário para a criação dos \textit{bitfiles} é o \dlq{}\textit{Generate Bitstream}\drq{}, localizado no menu a esquerda.
+Este passo recebe o resultado das sínteses e implementações e transforma-os em \textit{bitfiles}.
+Esta etapa precisa ser realizada com cada uma das configurações realizadas, ou alguma delas não terá seus \textit{bitfiles} gerados.
+Tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta *.runs.
+Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que contém a configuração completa, e outro menor que possui a configuração parcial.
 
 \subsection{iMPACT}
+Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através auxilio da ferramenta iMPACT. 
+
+A primeira coisa a se fazer é inicializar a cadeia de dispositivos, fazendo com que um símbolo representando a FPGA apareça na tela.
+\todo{Terminar iMPACT}
 
 \subsection{Possíveis Erros}
-\todo{Erros nos códigos-fonte}
-\todo{Ver evernote}
-\todo{Esquecer de promover a partição}
-\todo{O PlanAhead travar enquanto rodando um Design Run}
+\paragraph{Erros no código-fonte} Este é um dos erros mais comuns.
+A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
+Para acelerar o processo, realiza-se apenas a síntese.
 
-\todo{Explicar como fui para o próximo experimento}
-\section{Experimento 2 - Teste de Acesso a Memória}
+\paragraph{Erros no na alocação de partições}
+Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\url{http://www.xilinx.com/support/answers/53290.htm}}.
+Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições UCF ou alterando a região da partição.
+A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \dlq{}INCLUSIVE=ROUTE\drq{} na linha que contém \dlq{}INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"\drq{}.
+A segunda forma é simplemente mudando a posição da região da partição para a direita, para a esquerda ou sua largura, de acordo com a mensagem de erro retornada.
+Esta método não é determinístico e pode ser necessárias várias tentativas antes de se conseguir uma partição mapeável. 
+
+\paragraph{Esquecer de promover a partição}
+A promoção da primeira configuração antes de se implementar as seguintes contribui para a implementação de configurações compatíveis.
+Esquecer de promover esta partição pode fazer com que erros sejam gerados na etapa de verificação das partições.
+
+\paragraph{O PlanAhead pode travar enquanto implementando uma configuração}
+Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
+A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
+
+\section{Experimento 2 - Teste de Memórias}
+Seguindo o raciocínio apresentado no início do capítulo, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
+Esta etapa abre caminho para que se armazene os \textit{bitfiles} de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
+
+Existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades.
+A seguir cometará-se cada um dos tipos.
+
+\subsection{Memória \textit{Block RAM}}
+A memória do tipo 
+
+\subsection{Memória\textit{ Distributed RAM}}
+
+\subsection{Memória \textit{Linear Flash}}
+
+\subsection{Memória \textit{SPI Flash}}
+A memória SPI Flash é diferente na sua forma de acesso, que acontece através da interface SPI.
+
+
+\subsection{Memória DDR3}
+
+\subsection{Conclusão}
+
 \todo{Descrever o experimento 2}
 \todo{Descrever os tipos de memória disponíveis e o porque de escolher a DDR3}
 \todo{Explicar porque não deu certo e como fui para o próximo experimento}
@@ -315,8 +362,8 @@ Nenhum erro deve ser encontrado.
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{plain} 
-	%\bibliography{bibliografia.bib}
-	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
+	\bibliography{bibliografia.bib}
+	%\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
 
 	\end{document}
 \fi
