@@ -21,6 +21,7 @@
 3. [XAPP482] **MicroBlaze Platform Flash/PROM Boot Loader and User Data Storage** (v2.00): Descreve em baixo nível e em _software_ como carregar dados da memória Flash, seja código, dados de usuário ou informação de configuração.
 4. [XAPP501] **Configuration Quick Start Guidelines** (v1.05): Explica os diversos processos de programação da FPGA.
 5. [XAPP583] **Using a Microprocessor to Configure 7 Series FPGAs via Slave Serial or Slave SelectMAP Mode** (v1.00): Discute a programação de uma FPGA através de um microcontrolador usando uma interface Slave Serial ou Slave SelectMap.
+5. [XAPP586] **Using SPI Flash with 7 Series FPGAs** (v1.01): Explica como funciona a memória SPI Flash, inclusive como calcular sua frequência de operação.
 5. [XAPP739] **AXI Multi-Ported Memory Controller** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
 6. [XAPP789] **7 Series FPGAs AXI Multi-Port Memory Controller Using the Vivado Tools** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
 7. [XAPP883] **Fast Configuration of PCI Express Technology through Partial Reconfiguration** (v1.00): Explica a metodologia para construção de um Fast PCIe Configuration Module (FPC), ou seja, uma configuração inicial e configurações customizáveis subsequentes.
@@ -79,6 +80,7 @@
 [XAPP482]: ./xilinx/xapp/xapp482.pdf
 [XAPP501]: ./xilinx/xapp/xapp501.pdf
 [XAPP583]: ./xilinx/xapp/xapp583.pdf
+[XAPP586]: ./xilinx/xapp/xapp586.pdf
 [XAPP739]: ./xilinx/xapp/xapp739.pdf
 [XAPP789]: ./xilinx/xapp/xapp789.pdf
 [XAPP883]: ./xilinx/xapp/xapp883.pdf
