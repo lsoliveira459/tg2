@@ -61,6 +61,9 @@
 1. [microblaze_tutorial] **MicroBlaze Tutorial Creating a Simple Embedded System and Adding Custom Peripherals Using Xilinx EDK Software Tools**: Ensina basicamente como criar um sistema MicroBlaze.
 2. [Bootloader] **SPI Flash Bootloader**: Tutorial um pouco confuso sobre como gerar o _bitstream_ para um _bootloader_ de configurações.
 
+# Datasheets
+1. [N25Q128] **N25Q128: 128-Mbit 3 V, multiple I/O, 4-Kbyte subsector erase on boot sectors, XiP enabled, serial flash memory with 108 MHz SPI bus interface**: Datasheet da memória SPI Flash.
+
 [DS123]: ./xilinx/ds/ds123.pdf
 [DS176]: ./xilinx/ds/ds176.pdf
 [DS180]: ./xilinx/ds/ds180.pdf
@@ -114,3 +117,5 @@
 
 [microblaze_tutorial]: 	./Tutoriais/microblaze_tutorial.pdf
 [Bootloader]: 			./Tutoriais/Bootloader.pdf
+
+[N25Q128]:		./Datasheet/N25Q128.pdf
