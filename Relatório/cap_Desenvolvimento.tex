@@ -368,11 +368,15 @@ Ela aceita três modos de operação, x1, x2 e x4, que corresponde a largura da 
 A frequência de operação é de no máximo 50 MHz \cite{xapp586}.
 Pode-se programá-la através do iMPACT.
 
-\subsection{Leitor de Cartão de Memória SD}
+\subsection{Cartão de Memória SD}
 O cartão de memória SD dá acesso a uma memória não-volátil de tamanho arbitrário.
 Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4 bits a frequências de até 50 MHz \cite{ug810}.
 A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
 Note que também não existe a possibilidade de programação do cartão através do iMPACT, o que resolveria o problema do sistema de arquivos.
+
+\subsubsection{\textit{CompactFlash} e o \textit{System ACE}}
+\textit{SystemAce} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
+Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão.
 
 \subsection{Memória DDR3}
 A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
@@ -386,11 +390,13 @@ Este típo de memória é mais útil como memória de dados e de programa em mic
 
 Observa-se que a interface de reprogramação dinâmica, ICAPE2, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s.
 Por causa disso, todas as interfaces não-voláteis apresentadas acima acabariam por ser o gargalo do tempo da programação.
-Uma solução é a implementação de um sistema que carregue as informações de uma memória não-volátil para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica.
+Uma solução é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica.
 A forma mais fácil de implementar tal funcionalidade é através do uso de um microcontrolador MicroBlaze funcionando como \textit{bootloader}.
 
 \section{Experimento 3 - Teste do \textit{Bootloader}}
-O \textit{bootloader}, como mencionado acima, é um sistema que carregará as informações de uma memória lenta, a QSPI Flash foi escolhida, para uma memória rápida.
+O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a QSPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
+Usou-se um microcontrolador MicroBlaze com controlador
+É interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
 
 \todo{Descrever o experimento 3}
 \todo{Explicar como fui para o próximo experimento}
