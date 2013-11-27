@@ -1,5 +1,6 @@
 # Documentos da Xilinx
-## Data Sheet (DS), Product Specification 
+## Data Sheet (DS), Product Specification
+1. [DS080] **System ACE CompactFlash Solution** (v2.00): Explica o funcionamento do controlador do System ACE.
 1. [DS123] **Platform Flash In-System Programmable Configuration PROMs** (v2.18)
 2. [DS176] **7 Series FPGAs Memory Interface Solutions (v2.0)** (v2.00): Descreve os controladores gerados pelo MIS.
 3. [DS180] **7 Series FPGAs Overview** (v1.14): Descreve os recursos das FPGAs da família 7.
@@ -18,6 +19,7 @@
 
 ## Application Note (XAPP)
 1. [XAPP058] **Xilinx In-System Programming Using an Embedded Microcontroller** (v4.01): Explica o processo de programar a FPGA usando um microcontrolador embarcado.
+1. [XAPP290] **Difference-Based Partial Reconfiguration** (v2.00): Possível modificação. _**Acrescentar na conclusão**_!
 2. [XAPP463] **Using Block RAM in Spartan-3 Generation FPGAs** (v2.00): Explica como funcionam as _Block Rams_ em baixo nível.
 3. [XAPP482] **MicroBlaze Platform Flash/PROM Boot Loader and User Data Storage** (v2.00): Descreve em baixo nível e em _software_ como carregar dados da memória Flash, seja código, dados de usuário ou informação de configuração.
 4. [XAPP501] **Configuration Quick Start Guidelines** (v1.05): Explica os diversos processos de programação da FPGA.
