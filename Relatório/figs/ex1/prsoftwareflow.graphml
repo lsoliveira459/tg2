@@ -313,7 +313,6 @@
     </node>
     <node id="n6" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -363,7 +362,6 @@ Flash<y:LabelModel>
     </node>
     <node id="n7" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -392,7 +390,6 @@ Flash<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n7:">
         <node id="n7::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="80.0" x="-71.82999999999998" y="127.06999999999994"/>
@@ -413,7 +410,6 @@ Flash<y:LabelModel>
     </node>
     <node id="n8" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -442,7 +438,6 @@ Flash<y:LabelModel>
       </data>
       <graph edgedefault="directed" id="n8:">
         <node id="n8::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="80.0" x="-71.82999999999998" y="259.56999999999994"/>
@@ -591,7 +586,6 @@ Flash<y:LabelModel>
       </data>
     </edge>
     <edge id="e12" source="n2::n1" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -602,7 +596,6 @@ Flash<y:LabelModel>
       </data>
     </edge>
     <edge id="e13" source="n5" target="n6::n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -612,8 +605,7 @@ Flash<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e14" source="n7::n0" target="n8::n0">
-      <data key="d9"/>
+    <edge id="e14" source="n8::n0" target="n0::n2">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -623,7 +615,7 @@ Flash<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e15" source="n8::n0" target="n0::n2">
+    <edge id="e15" source="n8::n0" target="n7::n0">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>

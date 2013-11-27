@@ -95,13 +95,13 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
        	\begin{subfigure}[b]{\textwidth}
        		\centering
 		\includegraphics[height=100px]{figs/ex1/softwareflow}
-		\caption{Foto ilustrativa do \textit{software-flow} tradicional. Note que o uso do microcontrolador MicroBlaze é opcional, tornando os primeiros blocos, SDK e XPS, também opcionais.}
+		\caption{Foto ilustrativa do fluxo de ferramentas tradicional. Note que o uso do microcontrolador MicroBlaze é opcional, tornando os primeiros blocos, SDK e XPS, também opcionais.}
 		\label{fig:softwareflow}
 	\end{subfigure}\\
 	\begin{subfigure}[b]{\textwidth}
 		\centering
 		\includegraphics[height=100px]{figs/ex1/prsoftwareflow}
-		\caption{Foto ilustrativa do \textit{software-flow} para a reconfiguração dinâmica. Assim como no caso tradicional, o uso do SDK e do XPS são opcionais. Note que o bloco em amarelo indica a configuração padrão, que será programada inicialmente. A escolha da configuração padrão é arbitrária.}
+		\caption{Foto ilustrativa do fluxo de ferramentas para a reconfiguração dinâmica. Assim como no caso tradicional, o uso do SDK e do XPS são opcionais. Note que o bloco em amarelo indica a configuração padrão, que será programada inicialmente. A escolha da configuração padrão é arbitrária.}
 		\label{fig:prsoftwareflow}
 	\end{subfigure}
 	\caption{Comparação dos fluxos de ferramentas. Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.}
@@ -395,8 +395,17 @@ A forma mais fácil de implementar tal funcionalidade é através do uso de um m
 
 \section{Experimento 3 - Teste do \textit{Bootloader}}
 O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a QSPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
-Usou-se um microcontrolador MicroBlaze com controlador
-É interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
+Usou-se um microcontrolador MicroBlaze com controladores para a memória QSPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
+Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
+
+O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=100px]{figs/ex3/softwareflow}
+\caption{Foto ilustrativa do fluxo de ferramentas para o desenvolvimento de sistemas com MicroBlaze.}
+\label{fig:ex3:softwareflow}
+\end{figure}
 
 \todo{Descrever o experimento 3}
 
