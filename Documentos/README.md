@@ -92,6 +92,7 @@
 [WP377]: ./xilinx/wp/wp377.pdf
 [WP383]: ./xilinx/wp/wp383.pdf
 [WP394]: ./xilinx/wp/wp394.pdf
+[WP417]: ./xilinx/wp/wp417.pdf
 
 [XAPP058]: ./xilinx/xapp/xapp058.pdf
 [XAPP290]: ./xilinx/xapp/xapp290.pdf
