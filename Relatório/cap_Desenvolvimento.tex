@@ -412,16 +412,20 @@ Tanto o programa quando o processador gerarão arquivos binários que serão car
 
 \section{MicroBlaze}
 O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
-Ele possui 32 registrados genéricos de 32 bits.
-\todo{Escrever sobre o MicroBlaze e suas funcionalidades}
+Ele possui 32 registrados genéricos de 32 bits, instruções de 32 bits e endereços de 32 bits.
+Seu \textit{pipeline} possui 3 ou 5 estágios e é construido em torno da arquitetura Harvard, como pode ser observado na figura \ref{fig:ex3:microblazecore}.
+Todas as outras configurações, tais como o uso de \textit{Big Endian} ou \textit{Little Endian}, por exemplo, são opcionais \cite{ug081}.
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex3/MicroBlaze_Core.pdf}
 \caption{Diagrama de blocos do MicroBlaze.}
 \label{fig:ex3:microblazecore}
 \end{figure}
+
+O MicroBlaze permite o uso de diversas interfaces para comunicação com seus diversos periféricos.
+A interface mais atual suportada é a AXI4.
 \todo{Escrever sobre o AXI}
-\todo{Escrever sobre o }
 
 \section{Teste}
 \begin{figure}[h]
