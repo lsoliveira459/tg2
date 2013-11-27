@@ -7,6 +7,7 @@
 4. [DS182] **Kintex-7 FPGAs Data Sheet: DC and AC Switching Characteristics** (v2.05): Descreve condições das entradas e saídas, inclusive de PLL.
 5. [DS575] **LogiCORE IP XPS Multi-channel External Memory Controller (XPS MCH EMC)** (v3.1a): Descreve um IP de controlador para as interfaces MCH e PLB.
 6. [DS583] **XPS SYSACE (System ACE) Interface Controller** (v1.1a): Explica o SysACE.
+6. [DS765] **LogiCORE IP AXI4-Lite IPIF** (v1.1a): Explica como acessar o AXI Interconnect através do AXI4-Lite IPIF.
 7. [DS817] **LogiCORE IP AXI HWICAP** (v2.3a): Explica como funciona o ICAP e ICAPE2 através da AXI4-Lite.
 8. [DS843] **LogiCORE IP AXI Quad Serial Peripheral Interface (AXI Quad SPI)** (v2.0a): Explica como funciona o acesso a QSPI Flash através da AXI4-Lite.
 
@@ -16,6 +17,7 @@
 2. [WP377] **Xilinx 7 Series FPGAs Embedded Memory Advantages** (v1.01): Explica vantagens de se usar FPGAs.
 2. [WP383] **Achieving High Performance DDR3 Data Rates** (v1.02): Descreve a implementação de um controlador DDR3 de alta performance.
 2. [WP394] **Advancing the Use of FPGA Co-Processors through Platforms and High-Level Design Flows** (v1.00): Descreve as vantagens da aceleração de sistemas por FPGAs.
+3. [WP417] **Maximize System Performance Using Xilinx Based AXI4 Interconnects** (v1.01): Como otimizar a AXI4.
 
 ## Application Note (XAPP)
 1. [XAPP058] **Xilinx In-System Programming Using an Embedded Microcontroller** (v4.01): Explica o processo de programar a FPGA usando um microcontrolador embarcado.
@@ -51,6 +53,7 @@
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
 4. [UG744] **Partial Reconfiguration of a Processor Tutorial** (v14.6): Tutorial mostrando como fazer um processador com um periférico reconfigurável.
 3. [UG748] **Hierarchical Design Methodology Guide** (v14.5): Explica porque usar "-iobuf NO". Também apresenta muitas informações sobre partições e 
+4. [UG761] **** (v14.3): Explica a interface AXI.
 5. [UG768] **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs** (v14.6): Contém todos os macros e primitivas, inclusive o ICAP.
 6. [UG810] **KC705 Evaluation Board for the Kintex-7 FPGA User Guide** (v1.04): Explica os diversos componentes da KC705, inclusive os clocks, dando informação sobre os pinos e etc.
  
@@ -58,6 +61,9 @@
 1. [01_PR_Intro] **Introduction to Partial Reconfiguration Methodology**
 2. [04_PR_Design] **Partial Reconfiguration Design Considerations**
 3. [10_Driving] **Driving ICAP Resource**
+
+## Release Note Tables
+1. [XTP025] **IP Release Notes Guide** (v4.03): Release note dos diferente IP Cores.
 
 # Artigos
 1. [fpt09lai] **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**
@@ -77,6 +83,7 @@
 [DS182]: ./xilinx/ds/ds182.pdf
 [DS575]: ./xilinx/ds/ds575.pdf
 [DS583]: ./xilinx/ds/ds583.pdf
+[DS765]: ./xilinx/ds/ds765.pdf
 [DS817]: ./xilinx/ds/ds817.pdf
 [DS843]: ./xilinx/ds/ds843.pdf
 
@@ -116,12 +123,15 @@
 [UG743]: ./xilinx/ug/ug743.pdf
 [UG748]: ./xilinx/ug/ug748.pdf
 [UG744]: ./xilinx/ug/ug744.pdf
+[UG761]: ./xilinx/ug/ug761.pdf
 [UG768]: ./xilinx/ug/ug768.pdf
 [UG810]: ./xilinx/ug/ug810.pdf
 
 [01_PR_Intro]: 	./xilinx/others/01_PR_Intro.pdf
 [04_PR_Design]: ./xilinx/others/04_PR_Design.pdf
 [10_Driving]: 	./xilinx/others/10_Driving.pdf
+
+[XTP025]: ./xilinx/xtp/xtp025.pdf
 
 [fpt09lai]: 	./Artigos/fpt09lai.pdf
 [fpt12vipin]: 	./Artigos/fpt12vipin.pdf
@@ -130,3 +140,4 @@
 [Bootloader]: 			./Tutoriais/Bootloader.pdf
 
 [N25Q128]:		./Datasheet/N25Q128.pdf
+
