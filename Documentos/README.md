@@ -105,6 +105,7 @@
 [UG258]: ./xilinx/ug/ug258.pdf
 [UG470]: ./xilinx/ug/ug470.pdf
 [UG473]: ./xilinx/ug/ug473.pdf
+[UG586]: ./xilinx/ug/ug586.pdf
 [UG625]: ./xilinx/ug/ug625.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
 [UG743]: ./xilinx/ug/ug743.pdf
