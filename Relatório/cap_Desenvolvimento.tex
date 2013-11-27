@@ -86,8 +86,8 @@ De forma a dar validade a todo o projeto, foi preciso desenvolver um experimento
 \subsection{Fluxo de Ferramentas}
 A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
 Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
-Como pode-se ver da figura \ref{fig:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
-No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
+Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
+No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
 Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.
 
 \begin{figure}[h]
@@ -96,16 +96,16 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
        		\centering
 		\includegraphics[height=100px]{figs/ex1/softwareflow}
 		\caption{Foto ilustrativa do fluxo de ferramentas tradicional. Note que o uso do microcontrolador MicroBlaze é opcional, tornando os primeiros blocos, SDK e XPS, também opcionais.}
-		\label{fig:softwareflow}
+		\label{fig:ex1:softwareflow}
 	\end{subfigure}\\
 	\begin{subfigure}[b]{\textwidth}
 		\centering
 		\includegraphics[height=100px]{figs/ex1/prsoftwareflow}
 		\caption{Foto ilustrativa do fluxo de ferramentas para a reconfiguração dinâmica. Assim como no caso tradicional, o uso do SDK e do XPS são opcionais. Note que o bloco em amarelo indica a configuração padrão, que será programada inicialmente. A escolha da configuração padrão é arbitrária.}
-		\label{fig:prsoftwareflow}
+		\label{fig:ex1:prsoftwareflow}
 	\end{subfigure}
 	\caption{Comparação dos fluxos de ferramentas. Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.}
-	\label{fig:softwareflow:comparacao}
+	\label{fig:ex1:softwareflow:comparacao}
 \end{figure}
 
 Reconfiguração parcial pede uma síntese utilizando o método \dlq de baixo para cima\drq{} (\textit{bottom-up}), mas uma implementação \dlq de cima para baixo\drq{} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
@@ -120,7 +120,7 @@ Diferentemente das FPGAs comuns, a que está presente neste kit contém um reló
 A razão para tal é a presença de circuitos sensíveis a interferência, tais como \textit{transceivers}, que são muito menores em sinais diferenciais.
 O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
 O primeiro possui uma frequência fixa de oscilação de 200 MHz.
-O segundo possui uma frequência original de 156.250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
+O segundo possui uma frequência original de 156,250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
 Por motivos de simplicidade, utilizou-se o SYSCLK.
 Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
 Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
@@ -154,7 +154,7 @@ Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvo
 Como explicado anteriormente, o projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
 Seguindo essa lógica, dois projetos com comportamentos diferentes foram construídos usando como base a figura \ref{fig:ex1:componentes}.
 O comportamento individual de cada módulo ou componente será descrito a seguir.
-Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:prsoftwareflow} como ISE.
+Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como ISE.
 
 O componente \dlq{}Static\drq{} possui uma entrada para um relógio pulsando a 2 Hz e uma saída para um LED.
 Seu comportamento apenas faz com que o LED pisque a uma frequência de 2 Hz, o que permite observar seu funcionamento durante a reconfiguração do componente \dlq{}Dynamic\drq{}.
@@ -184,7 +184,7 @@ O módulo \dlq{}Top\drq{} possui também um divisor de frequência para reduzir 
 Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese.
 Este passo é necessário uma vez que o próximo passo, referente ao PlanAhead, não aceita como entrada códigos-fonte.
 Os códigos-fonte precisam passar por uma etapa de síntese separada para poderem ser importados no PlanAhead.
-Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:prsoftwareflow} como XST.
+Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como XST.
 
 O comando XST recebe tipicamente um \textit{script} contendo o endereço dos códigos-fonte, o nome do arquivo de saída, o tipo do arquivo de saida, o modelo da FPGA utilizada e uma indicação do código-fonte principal.
 O comando para iniciar o processo é o seguinte.
@@ -348,7 +348,7 @@ Este experimento foi dedicado à compreenção do funcionamento dos diversos tip
 A memória do tipo \textit{Block RAM} é construída usando-se os blocos de memória RAM restantes da FPGA.
 Esta memória consegue alcançar velocidades de leitura na ordem de várias centenas de hertz, mas possui uma capacidade de armazenamento bem reduzida, de apenas 445 blocos de 36 Kb para este kit, totalizando um máximo de aproximadamente 2 MB \cite{ug473, wp377}.
 Note que a configuração total da FPGA necessita de aproximadamente 11 MB, ou exatamente 91.548.896 bits, para sua programação total \cite{ug470}.
-Pode-se programá-la através do iMPACT, dentre outras formas.
+Pode-se programá-la através do iMPACT, dentre outras formas \footnote{\textit{Memory Initialization Methods}, escrito por Jim Wu em 31 de dezembro de 2011. Dísponível em \url{http://myfpgablog.blogspot.com.br/2011/12/memory-initialization-methods.html}}.
 
 \subsection{Memória \textit{Distributed RAM}}
 A memória \textit{Distributed RAM} é construida utilizando-se das LUTs disponíveis nas célula lógicas \cite{ug473, wp377}.
@@ -399,6 +399,7 @@ Usou-se um microcontrolador MicroBlaze com controladores para a memória QSPI Fl
 Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
 
 O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
+A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
 
 \begin{figure}[h]
 \centering
@@ -407,7 +408,19 @@ O procedimento para a construção de um projeto com MicroBlaze segue o fluxo de
 \label{fig:ex3:softwareflow}
 \end{figure}
 
-\todo{Descrever o experimento 3}
+\section{MicroBlaze}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figs/ex3/XPS}
+\caption{Imagem do XPS logo que aberto.}
+\label{fig:ex1:planahead}
+\end{figure}
+\todo{Escrever sobre o MicroBlaze e suas funcionalidades}
+\todo{Escrever sobre o AXI}
+\todo{Escrever sobre o }
+
+\section{Teste}
+\todo{Passo a passo do experimento 3}
 
 \subsection{Conclusão}
 \todo{Explicar como fui para o próximo experimento}
