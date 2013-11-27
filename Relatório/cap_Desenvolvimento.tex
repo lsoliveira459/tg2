@@ -319,7 +319,7 @@ A melhor forma de previní-lo é através da construção dos diversos comportam
 Para acelerar o processo, realiza-se apenas a síntese.
 
 \paragraph{Erros no na alocação de partições}
-Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\url{http://www.xilinx.com/support/answers/53290.htm}}.
+Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\textit{AR\# 53290: Partial Reconfiguration - 7 series device layout of tiles (CLB, DSP, BRAM, INT) and a shared clocking structure of vertical clock spines between interconnect (routing) tiles}. Disponível em \url{http://www.xilinx.com/support/answers/53290.htm}}.
 Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições UCF ou alterando a região da partição.
 A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \dlq{}INCLUSIVE=ROUTE\drq{} na linha que contém \dlq{}INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"\drq{}.
 A segunda forma é simplemente mudando a posição da região da partição para a direita, para a esquerda ou sua largura, de acordo com a mensagem de erro retornada.
@@ -333,32 +333,65 @@ Esquecer de promover esta partição pode fazer com que erros sejam gerados na e
 Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
 A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
 
-\section{Experimento 2 - Teste de Memórias}
+\subsection{Conclusão}
+O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
+Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto.
+
+\section{Experimento 2 - Pesquisa de Memórias Disponíveis}
 Seguindo o raciocínio apresentado no início do capítulo, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os \textit{bitfiles} de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
 
 No kit utilizado existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades \cite{ug810}.
-A seguir cometará-se cada um dos tipos.
+Este experimento foi dedicado à compreenção do funcionamento dos diversos tipos de memórias e à escolha da solução mais adequada.
 
 \subsection{Memória \textit{Block RAM}}
-A memória do tipo 
+A memória do tipo \textit{Block RAM} é construída usando-se os blocos de memória RAM restantes da FPGA.
+Esta memória consegue alcançar velocidades de leitura na ordem de várias centenas de hertz, mas possui uma capacidade de armazenamento bem reduzida, de apenas 445 blocos de 36 Kb para este kit, totalizando um máximo de aproximadamente 2 MB \cite{ug473, wp377}.
+Note que a configuração total da FPGA necessita de aproximadamente 11 MB, ou exatamente 91.548.896 bits, para sua programação total \cite{ug470}.
+Pode-se programá-la através do iMPACT, dentre outras formas.
 
-\subsection{Memória\textit{ Distributed RAM}}
+\subsection{Memória \textit{Distributed RAM}}
+A memória \textit{Distributed RAM} é construida utilizando-se das LUTs disponíveis nas célula lógicas \cite{ug473, wp377}.
+Também são muito rápidas, apesar de síncronas, e também possuem pouca capacidade de armazenamento.
+Pode-se programá-la através do iMPACT, dentre outras formas.
 
-\subsection{Memória \textit{Linear Flash}}
+\subsection{Memória \textit{Linear BPI Flash}}
+A memória \textit{Linear BPI Flash} disponibiliza 128 Mb de memória não-volátil \cite{ug810}, acessadas em palavras de 16 bits.
+Apesar disso, sua velocidade de leitura máxima é de 33 MHz.
+Convertendo tal velocidade para a leitura de 32 bits, tem-se uma velocidade de leitura de aproximadamente 16 MHz.
+Pode-se programá-la através do iMPACT.
 
 \subsection{Memória \textit{SPI Flash}}
 A memória SPI Flash é diferente na sua forma de acesso, que acontece através da interface SPI.
+Esta memória fornece 128 Mb de memória não volátil \cite{ug810}.
+Ela aceita três modos de operação, x1, x2 e x4, que corresponde a largura da palavra lida/escrita a cada pulso de relógio \cite{N25Q128}.
+A frequência de operação é de no máximo 50 MHz \cite{xapp586}.
+Pode-se programá-la através do iMPACT.
 
+\subsection{Leitor de Cartão de Memória SD}
+O cartão de memória SD dá acesso a uma memória não-volátil de tamanho arbitrário.
+Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4 bits a frequências de até 50 MHz \cite{ug810}.
+A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
+Note que também não existe a possibilidade de programação do cartão através do iMPACT, o que resolveria o problema do sistema de arquivos.
 
 \subsection{Memória DDR3}
+A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
+Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
 
 \subsection{Conclusão}
+Notou-se no primeiro experimento que os \textit{bitfiles} parciais gerados possuem 645 KB, totalizando 1935 KB, ou 1,89 MB.
+Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
+Caso se escolha esta opção, apenas os \textit{bitfiles} parciais poderiam ser armazenados, necessitando da ajuda do computador para a programação inicial.
+Este típo de memória é mais útil como memória de dados e de programa em microcontroladores embarcados na FPGA, devido a sua altíssima velocidade de acesso e capacidade de acesso de vários canais em paralelo.
 
-\todo{Descrever o experimento 2}
-\todo{Descrever os tipos de memória disponíveis e o porque de escolher a DDR3}
-\todo{Explicar porque não deu certo e como fui para o próximo experimento}
+Observa-se que a interface de reprogramação dinâmica, ICAPE2, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s.
+Por causa disso, todas as interfaces não-voláteis apresentadas acima acabariam por ser o gargalo do tempo da programação.
+Uma solução é a implementação de um sistema que carregue as informações de uma memória não-volátil para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica.
+A forma mais fácil de implementar tal funcionalidade é através do uso de um microcontrolador MicroBlaze funcionando como \textit{bootloader}.
+
 \section{Experimento 3 - Teste do \textit{Bootloader}}
+O \textit{bootloader}, como mencionado acima, é um sistema que carregará as informações de uma memória lenta, a QSPI Flash foi escolhida, para uma memória rápida.
+
 \todo{Descrever o experimento 3}
 \todo{Explicar como fui para o próximo experimento}
 \section{Experimento 4 - Teste da Autoreconfiguração com \textit{Bootloader} Dedicado}
@@ -370,8 +403,8 @@ A memória SPI Flash é diferente na sua forma de acesso, que acontece através 
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{plain} 
-	\bibliography{bibliografia.bib}
-	%\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
+	%\bibliography{bibliografia.bib}
+	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
 
 	\end{document}
 \fi
