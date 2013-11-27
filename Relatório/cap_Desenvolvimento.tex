@@ -69,7 +69,7 @@ Para cada um destes experimentos foi proposto um teste que validasse o completo 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{figs/kintex-7_kc705}
+\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/intro/kintex-7_kc705}
 \caption{Foto ilustrativa do kit de desenvolvimento Kintex-7 KC705 extraida do site da Xilinx.}
 \label{fig:kc705}
 \end{figure}
@@ -94,13 +94,13 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 	\centering
        	\begin{subfigure}[b]{\textwidth}
        		\centering
-		\includegraphics[height=100px]{figs/ex1/softwareflow}
+		\includegraphics[height=100px]{fig/c3_desenvolvimento/ex1/softwareflow.pdf}
 		\caption{Foto ilustrativa do fluxo de ferramentas tradicional. Note que o uso do microcontrolador MicroBlaze é opcional, tornando os primeiros blocos, SDK e XPS, também opcionais.}
 		\label{fig:ex1:softwareflow}
 	\end{subfigure}\\
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\includegraphics[height=100px]{figs/ex1/prsoftwareflow}
+		\includegraphics[height=100px]{fig/c3_desenvolvimento/ex1/prsoftwareflow.pdf}
 		\caption{Foto ilustrativa do fluxo de ferramentas para a reconfiguração dinâmica. Assim como no caso tradicional, o uso do SDK e do XPS são opcionais. Note que o bloco em amarelo indica a configuração padrão, que será programada inicialmente. A escolha da configuração padrão é arbitrária.}
 		\label{fig:ex1:prsoftwareflow}
 	\end{subfigure}
@@ -132,7 +132,7 @@ Este sistema contém o \dlq{}Top\drq{} para interfaceamento com a FPGA, o \dlq{}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{figs/ex1/componentes}
+\includegraphics[width=0.5\textwidth]{fig/c3_desenvolvimento/ex1/componentes.pdf}
 \caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos e os em azul são dinâmicos.}
 \label{fig:ex1:componentes}
 \end{figure}
@@ -244,7 +244,7 @@ Indicamos também que o projeto é do tipo \dlq{}\textit{Post-synthesis Project}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{figs/ex1/PlanAhead}
+\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex1/PlanAhead}
 \caption{Imagem do PlanAhead logo que aberto.}
 \label{fig:ex1:planahead}
 \end{figure}
@@ -254,7 +254,7 @@ Duas janelas de avisos aparecem, informando que existe uma partição não imple
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=173px]{figs/ex1/planahead_open_synthesized_design}
+\includegraphics[width=173px]{fig/c3_desenvolvimento/ex1/planahead_open_synthesized_design}
 \caption{Imagem do menu \dlq{}\textit{Open Synthesized Design}\drq{}.}
 \label{fig:ex1:planahead_open_synthesized_design}
 \end{figure}
@@ -395,31 +395,41 @@ A forma mais fácil de implementar tal funcionalidade é através do uso de um m
 
 \section{Experimento 3 - Teste do \textit{Bootloader}}
 O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a QSPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
-Usou-se um microcontrolador MicroBlaze com controladores para a memória QSPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
+Usou-se um microcontrolador MicroBlaze com controladores para a memória SPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
 Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
 
-O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
-A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
-
-\begin{figure}[h]
+\begin{figure}[htp]
 \centering
-\includegraphics[height=100px]{figs/ex3/softwareflow}
-\caption{Foto ilustrativa do fluxo de ferramentas para o desenvolvimento de sistemas com MicroBlaze.}
+\includegraphics[height=100px]{fig/c3_desenvolvimento/ex3/softwareflow.pdf}
+\caption{Foto ilustrativa do fluxo de ferramentas para o desenvolvimento de sistemas com MicroBlaze, extraído de \cite{ug081}.}
 \label{fig:ex3:softwareflow}
 \end{figure}
 
+O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
+A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
+Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
+Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT.
+
 \section{MicroBlaze}
+O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
+Ele possui 32 registrados genéricos de 32 bits.
+\todo{Escrever sobre o MicroBlaze e suas funcionalidades}
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{figs/ex3/XPS}
-\caption{Imagem do XPS logo que aberto.}
-\label{fig:ex1:planahead}
+\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex3/MicroBlaze_Core.pdf}
+\caption{Diagrama de blocos do MicroBlaze.}
+\label{fig:ex3:microblazecore}
 \end{figure}
-\todo{Escrever sobre o MicroBlaze e suas funcionalidades}
 \todo{Escrever sobre o AXI}
 \todo{Escrever sobre o }
 
 \section{Teste}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/XPS}
+\caption{Imagem do XPS logo que aberto.}
+\label{fig:ex3:xps}
+\end{figure}
 \todo{Passo a passo do experimento 3}
 
 \subsection{Conclusão}
