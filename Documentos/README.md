@@ -39,6 +39,7 @@
 2. [PG134] **LogiCORE IP AXI HWICAP v3.0 - Product Guide for Vivado Design Suite** (v3.0)
 
 ## User Guide (UG)
+1. [UG081] **MicroBlaze Processor Reference Guide - Embedded Development Kit EDK 14.6** (v14.6)
 1. [UG111] **Embedded System Tools Reference Manual (EDK)** (v14.6): Explica os comandos e programas auxiliares do EDK.
 2. [UG257] **MicroBlaze Development Kit Spartan-3E 1600E Edition User Guide** (v1.01): Mostra os recursos e configurações da Spartan-3E 1600E.
 3. [UG258] **Getting Started with the MicroBlaze Development Kit - Spartan-3E 1600E Edition** (v1.03)
@@ -69,6 +70,7 @@
 # Datasheets
 1. [N25Q128] **N25Q128: 128-Mbit 3 V, multiple I/O, 4-Kbyte subsector erase on boot sectors, XiP enabled, serial flash memory with 108 MHz SPI bus interface**: Datasheet da memória SPI Flash.
 
+[DS080]: ./xilinx/ds/ds080.pdf
 [DS123]: ./xilinx/ds/ds123.pdf
 [DS176]: ./xilinx/ds/ds176.pdf
 [DS180]: ./xilinx/ds/ds180.pdf
@@ -102,6 +104,7 @@
 [PG100]: ./xilinx/pg/pg100.pdf
 [PG134]: ./xilinx/pg/pg134.pdf
 
+[UG081]: ./xilinx/ug/ug081.pdf
 [UG111]: ./xilinx/ug/ug111.pdf
 [UG257]: ./xilinx/ug/ug257.pdf
 [UG258]: ./xilinx/ug/ug258.pdf
