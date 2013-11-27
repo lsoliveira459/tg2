@@ -94,6 +94,7 @@
 [WP394]: ./xilinx/wp/wp394.pdf
 
 [XAPP058]: ./xilinx/xapp/xapp058.pdf
+[XAPP290]: ./xilinx/xapp/xapp290.pdf
 [XAPP463]: ./xilinx/xapp/xapp463.pdf
 [XAPP482]: ./xilinx/xapp/xapp482.pdf
 [XAPP501]: ./xilinx/xapp/xapp501.pdf

@@ -410,7 +410,7 @@ A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este c
 Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
 Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT.
 
-\section{MicroBlaze}
+\subsection{MicroBlaze}
 O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
 Ele possui 32 registrados genéricos de 32 bits, instruções de 32 bits e endereços de 32 bits.
 Seu \textit{pipeline} possui 3 ou 5 estágios e é construido em torno da arquitetura Harvard, como pode ser observado na figura \ref{fig:ex3:microblazecore}.
@@ -428,16 +428,23 @@ A interface mais atual suportada, e que foi utilizada neste experimento, é a Ad
 A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibilidade e disponibilidade.
 Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
 
-\section{Teste}
+\subsection{Teste}
 O teste deste experimento compreende a construção de um subsistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3 e indique para o resto do sistema o final do processo.
 Este subsistema, que aqui é mestre, será escravo quando incluido no sistema principal.
 Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
 
+\subsubsection{XPS}
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/XPS}
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/XPS.pdf}
 \caption{Imagem do XPS logo que aberto.}
 \label{fig:ex3:xps}
+\end{figure}
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex3/BSB_AXI_flow.pdf}
+\caption{Escolha dos periféricos no BSB do XPS.}
+\label{fig:ex3:bsb_prerifericos}
 \end{figure}
 
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da figura \ref{fig:ex3:xps}.
@@ -446,10 +453,26 @@ Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \re
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.81\textwidth]{fig/c3_desenvolvimento/ex3/BSB_AXI_flow}
-\caption{Escolha dos periféricos no BSB do XPS.}
-\label{fig:ex3:bsb_prerifericos}
+\includegraphics[width=439px]{fig/c3_desenvolvimento/ex3/xps_address.pdf}
+\caption{Aba \textit{Addresses} do \textit{System Assembly View} indicando os ajustes dos endereços e tamanhos das memórias.}
+\label{fig:ex3:xps_enderecos}
 \end{figure}
+
+Antes de concluir o a construção do sistema, precisa-se ajustar os tamanhos das memórias e seus endereços, de forma que estes novos tamanhos possam ser corretamente acessados.
+Isto pode ser feito na aba \textit{Addresses} do painel \textit{System Assembly View}.
+Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x70000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex3:xps_enderecos}.
+Note que o endereço da memória SPI Flash pode ser alterado, tendo como única restrição de ter os 28 bits menos significativos iguais a zero.
+O endereço base da memória DDR3, porém, não pode ser alterado visto que o endereço de 0xC0000000 a 00xC7FFFFFF é utilizado como memória \textit{cache} pela interface AXI4.
+
+O projeto pode ser sintetizado através do botão \dlq{}\textit{Generate Netlist}\drq{} localizado no menu a esquerda e no menu \dlq{}\textit{Hardware}\drq{} da barra de menus.
+Este processo é demorado.
+Quando terminado, pode-se exportar o projeto através do botão \dlq{}\textit{Export Design}\drq{} para abrir o SDK com as informações deste processador.
+Na janela que aparecer, marque \dlq{}\textit{Include bitstream and BMM file}\drq{} e clique em \dlq{}\textit{Export \& Launch SDK}\drq{}.
+Após a implementação do arquivo binário, a ferramenta SDK será aberta.
+
+\subsubsection{SDK}
+Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{workspace}.
+Seleciona-se a pasta SDK, criada dentro da pasta do projeto do sistema durante sua exportação.
 
 \todo{Passo a passo do experimento 3}
 
