@@ -394,7 +394,7 @@ Uma solução é a implementação de um sistema que carregue as informações d
 A forma mais fácil de implementar tal funcionalidade é através do uso de um microcontrolador MicroBlaze funcionando como \textit{bootloader}.
 
 \section{Experimento 3 - Teste do \textit{Bootloader}}
-O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a QSPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
+O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
 Usou-se um microcontrolador MicroBlaze com controladores para a memória SPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
 Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
 
@@ -423,17 +423,34 @@ Todas as outras configurações, tais como o uso de \textit{Big Endian} ou \text
 \label{fig:ex3:microblazecore}
 \end{figure}
 
-O MicroBlaze permite o uso de diversas interfaces para comunicação com seus diversos periféricos.
-A interface mais atual suportada é a AXI4.
-\todo{Escrever sobre o AXI}
+O MicroBlaze permite o uso de diversas interfaces para comunicação com seus diversos periféricos, dentre elas a PLB, a LMB, a AXI e a ACE \cite{ug081}.
+A interface mais atual suportada, e que foi utilizada neste experimento, é a Advanced eXtensible Interface 4 (AXI4) \cite{ug081, ug761}.
+A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibilidade e disponibilidade.
+Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
 
 \section{Teste}
-\begin{figure}[h]
+O teste deste experimento compreende a construção de um subsistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3 e indique para o resto do sistema o final do processo.
+Este subsistema, que aqui é mestre, será escravo quando incluido no sistema principal.
+Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
+
+\begin{figure}[htp]
 \centering
 \includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/XPS}
 \caption{Imagem do XPS logo que aberto.}
 \label{fig:ex3:xps}
 \end{figure}
+
+Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da figura \ref{fig:ex3:xps}.
+Na janela que aparece, escolheu-se a placa de desenvolvimento que se escolheu utilizar e a opção de um só processador no sistema, para simplificar o projeto.
+Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex3:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.81\textwidth]{fig/c3_desenvolvimento/ex3/BSB_AXI_flow}
+\caption{Escolha dos periféricos no BSB do XPS.}
+\label{fig:ex3:bsb_prerifericos}
+\end{figure}
+
 \todo{Passo a passo do experimento 3}
 
 \subsection{Conclusão}
