@@ -111,8 +111,6 @@ Atualmente, nossos modernos computadores multiprocessados utilizam a arquitetura
 A sua capacidade de processamento atinge n\'i­veis extraordin\'arios, ultrapassando 20 GFlops em computadores comuns \cite{MaxxPI2013} e 54 PFlops em supercomputadores \cite{Top5002013}.
 Apesar disso, a arquitetura Harvard original ainda \'e muito usada em microcontroladores e processadores digitais de sinal (\textit{Digital Signal Processors} ou DSPs).
 
-\todo{Comentar benchmarking e como eles perdem um pouco do sentido com a configuração de hardware (Patterson \url{file:///E:/resources/Chapters/CD1.10-P374493.pdf}).}
-
 \subsection{Computa\c{c}\~ao Reconfigur\'avel}
 \label{ss:computacao_reconfiguravel}
 
@@ -178,6 +176,12 @@ Cada um possui suas vantagens e desvantagens segundo a forma de implementa\c{c}\
 \end{figure}
 
 \todo{Descrever o fluxo de "compilação" de um projeto de hardware para FPGA.}
+
+Note que a avaliação de desempenho de sistemas reconfiguráveis não pode mais ser dada com base em quantidade de operações em ponto flutuante (FLOPS) como é feita em computadores e similares \cite{patterson2005coa, cullinan2012computing}.
+A melhor forma de se comparar dispositivos é através de do uso de uma mesma aplicação sintetizada com as ferramentas específicas de cada empresa.
+Neste caso, pórem, a comparação também leva em consideração o desempenho das ferramentas, especialmente em sua capacidade de otimizar as funções implementadas.
+Outra forma comum de se comparar desempenho é específico através de uma análise de aplicações específicas.
+Um exemplo para uma aplicação de filtragem de imagens é a quantidade de quadros ela consegue processar em um determinado periodo de tempo.
 
 \begin{figure}[h]
 \centering
