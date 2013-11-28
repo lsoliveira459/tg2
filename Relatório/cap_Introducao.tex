@@ -177,6 +177,15 @@ Cada um possui suas vantagens e desvantagens segundo a forma de implementa\c{c}\
 \label{fig:pal}
 \end{figure}
 
+\todo{Descrever o fluxo de "compilação" de um projeto de hardware para FPGA.}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/c1_introducao/fluxo.pdf}
+\caption{Imagem ilustrativa do fluxo de síntese de um projeto de \textit{hardware}.}
+\label{fig:fluxo}
+\end{figure}
+
 \paragraph{\textit{Programmable Array Logic}}
 Os \textit{Programmable Array Logics} (PALs) foram os primeiros dispositivos program\'aveis, desenvolvidos por volta de 1970.
 Os PALs podem ser configurados para desempenhar diversas fun\c{c}\~oes l\'ogicas com possibilidade de cascateamento.
@@ -380,21 +389,21 @@ Apesar da sua variada linha de dispositivos, sintetizada na tabela \ref{tab:alte
 \hline
 Tipo & Fam\'i­lia & Breve Descri\c{c}\~ao \\ \hline
 CPLD & MAX\textsuperscript{\textregistered} II & Tecnologia com numerosos blocos similares aos PALs. \\ \hline
-FPGA & Cyclone & Baixo custo, repleto de elementos de mem\'oria \\ \hline
+FPGA & Cyclone\textsuperscript{\textregistered} & Baixo custo, repleto de elementos de mem\'oria \\ \hline
 FPGA & Arria\textsuperscript{\textregistered} & Série \textit{midrange}, com desempenho superior a Cyclone e inferior a Stratix. Pode ter \textit{transceivers}. \\ \hline
 FPGA & Stratix\textsuperscript{\textregistered} & Alta performance, baixa pot\^encia. \\ \hline
 FPGA & Stratix\textsuperscript{\textregistered} GX & S\'erie com \textit{transceivers} seriais e \textit{arrays} de alta performance escal\'aveis. \\ \hline
 ASIC & HardCopy\textsuperscript{\textregistered} & S\'erie de ASICs estruturados de baixo custo e alta performance.\\ \hline
 \end{tabular}
-\caption{Fam\'i­lias de produtos da Altera, como apresentado em \cite{Woods2008}.}
+\caption{Fam\'i­lias de produtos da Altera, extraído de \cite{Woods2008} e do site da empresa.}
 \label{tab:altera}
 \end{table}
-
-\todo{Descrever melhor os produtos da Altera, atualizando tabela}
 
 O sistema de desenvolvimento da Altera, chamado Quartus, dá suporte a todos os dispositivos da empresa a partir da instalação de pacotes com informações dos mesmos.
 Apesar de muito robusto, este programa dá suporte a tecnologias mais atuais, como reconfiguração parcial ou dinâmica, através de extensões e componentes de propriedade intelectual (IP).
 Estas tecnologias, pórem, só estão disponíveis para alguns dispositivos mais avançados e caros, tipicamente com \textit{transceivers}, do portfolio da companhia.
+A Altera possui também tecnologias de propriedade intelectual genéricas, tais como macros e componentes.
+O mais famoso deles é o \textit{soft processor} Nios.
 
 \subsubsection{Xilinx}
 A Xilinx foi a respons\'avel pela inven\c{c}\~ao do FPGA.
@@ -412,15 +421,19 @@ Esta fun\c{c}\~ao permite que o projeto seja sintetizado e passado para uma FPGA
 Tipo & Fam\'i­lia & Breve Descri\c{c}\~ao \\ \hline
 CPLD & XC9500XL & Tecnologia CPLD antiga. \\ \hline
 CPLD & CoolRunner & CPLD de alta performance e baixo consumo. \\ \hline
-FPGA & Virtex/E/EM & Fam\'i­lia principal da Xilinx, FPGAs de alta performance. \\ \hline
+FPGA & Virtex & Fam\'i­lia principal da Xilinx, FPGAs de alta performance. \\ \hline
+FPGA & Kintex & FPGA de bom desempenho e custo. \\ \hline
+FPGA & Artix & Nova família de FPGAs de baixo custo e alto volume de vendas. \\ \hline
 FPGA & Spartan & FPGA de baixo custo e alto volume de vendas. \\ \hline
+SoC & Zynq & Dispositivo com ARM e diversos periféricos programáveis. \\ \hline
 \end{tabular}
-\caption{Fam\'i­lias de produtos da Xilinx, como apresentado em \cite{Woods2008}.}
+\caption{Fam\'i­lias de produtos da Xilinx, como apresentado em \cite{Woods2008} e no site da empresa.}
 \label{tab:xilinx}
 \end{table}
 
-\todo{Descrever melhor os produtos da Xilnx, atualizando tabela}
-\todo{Falar do ISE e do Vivado}
+A ferramenta de desenvolvimento principal da Xilinx, o ISE, é equivalente ao Quartus da Altera.
+Ela é responsável pela síntese dos esquemáticos e conta com programas como iMPACT e XPS, dentre outros, para formar uma solução de desenvolvimento de \textit{hardware} completa.
+Recentemente, a companhia começou um processo de substituição da ferramenta ISE pelo Vivado, que possui um desempenho superior.
 
 \section{Projeto}
 \label{sec:projeto}
