@@ -321,9 +321,7 @@ A reconfigura\c{c}\~ao parcial, ao contr\'ario da reconfigura\c{c}\~ao total, di
 Para tal, faz-se necess\'ario a divis\~ao do dispositivo nas chamadas parti\c{c}\~oes, cada uma com sua configura\c{c}\~ao individual.
 Desta forma, mudan\c{c}as feitas em uma parti\c{c}\~ao n\~ao afetam as outras, acelerando o processo de s\'i­ntese e programa\c{c}\~ao.
 Outro processo que \'e acelerado \'e o de roteamento, uma vez que o particionamento introduz limita\c{c}\~oes no mapeamento das fun\c{c}\~oes.
-Nem todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao, que pode ser realizado tanto de forma dinâmica \ref{sss:dinamica} quando estática \ref{sss:estatica}.
-
-\todo{Me prolongar mais em reconfiguração dinâmica (Hauck2007 p.70)}
+Nem todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao, que pode ser realizado tanto de forma dinâmica (\ref{sss:dinamica}) quando estática (\ref{sss:estatica}).
 
 \subsubsection{Reconfigura\c{c}\~ao Est\'atica}
 \label{sss:estatica}
@@ -335,32 +333,34 @@ Por ser mais f\'acil de ser implementada e n\~ao necessita de circuitos adiciona
 \label{sss:dinamica}
 A reconfigura\c{c}\~ao din\^amica acontece frente \`a necessidade de reprograma\c{c}\~ao parcial do dispositivo sem que ele pare de funcionar.
 As funcionalidades modificadas s\~ao interrompidas e substituidas sem afetar o funcionamento do todo.
-Normalmente este processo, quando n\~ao associado a autoreconfigura\c{c}\~ao, \'e realizado atrav\'es de um circuito externo à FPGA, tal como um controlador, um microcontrolador, ou mesmo um computador, como apresentado na figura \ref{fig:rexterna}.
+Normalmente este processo, quando n\~ao associado a autorreconfigura\c{c}\~ao, \'e realizado atrav\'es de um circuito externo à FPGA, tal como um controlador, um microcontrolador, ou mesmo um computador, como apresentado na figura \ref{fig:rexterna}.
 Quase todos os FPGAs modernos d\~ao suporte a esta tecnologia.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=0.8\textwidth]{fig/c1_introducao/reconf_externa.pdf}
-\caption{Imagem ilustrativa para diferenciação entre autoreconfiguração e reconfiguração externa, extraido de \cite{wp374}.}
+\caption{Imagem ilustrativa para diferenciação entre autorreconfiguração e reconfiguração externa, extraido de \cite{wp374}.}
 \label{fig:rexterna}
 \end{figure}
 
-Este tipo de reconfigura\c{c}\~ao n\~ao pode ser realizado em conjunto com a reconfigura\c{c}\~ao total.
-Isto porque sistema reconfigur\'aveis dinamicamente necessitam de uma parte permanentemente est\'atica, para interfacear com o circuito controlador.
+É implicito o uso da reconfiguração parcial com a reconfiguração dinâmica, uma vez que faz pouco sentido reconfigurar todo o FPGA enquanto ela ainda está em execução.
+Note que este tipo de reconfiguração em geral também necessita de uma parte permanentemente est\'atica, para interfacear com o circuito controlador.
 Esta parti\c{c}\~ao est\'atica \'e respons\'avel pelo menos por controlar a comunica\c{c}\~ao com o circuito controlador.
 
-\subsubsection{Auto-reconfigura\c{c}\~ao}
-Modalidade de reconfigura\c{c}\~ao din\^amica parcial onde a reconfigura\c{c}\~ao do dispositivo \'e decidida por uma l\'ogica pertencente a ele mesmo.
-Normalmente usa-se um microcontrolador ou uma m\'aquina de estados finitos para controlar a mudan\c{c}a de configura\c{c}\~oes das parti\c{c}\~oes.
-Este tecnologia \'e nova e ainda representa uma forte \'area de pesquisa.
-N\~ao s\~ao todos os FPGAs que d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
+Vale lembrar que a este tipo de reconfiguração, apesar de abrir muitas possibilidades, introduz uma necessidade de preocupação com \textit{overheads} de reconfiguração \cite{Hauck2007}.
+Este \textit{overhead} é proporcional ao tamanho da partição que se deseja modificar e inversamente proporcional às velocidades das interfaces de reconfiguração.
+Tal fator pode se tornar crucial na escolha entre o uso desta tecnologia ou alguma outra alternativa, possivelmente multiplexada.
+Note que existem outros fatores que influenciam na opção por reconfiguração dinâmica, tais como preço, capacidade e potência, dentre outros, que não serão considerados aqui.
 
-Para que a auto-reconfigura\c{c}\~ao aconte\c{c}a, os \textit{bitstreams}, resultado da sintetiza\c{c}\~ao, devem ser passados para uma mem\'oria acess\'i­vel ao FPGA durante a execu\c{c}\~ao do mesmo.
+\subsubsection{Autorreconfigura\c{c}\~ao}
+Modalidade de reconfigura\c{c}\~ao din\^amica parcial onde a reconfigura\c{c}\~ao do dispositivo \'e decidida por uma l\'ogica pertencente a ele mesmo.
+Normalmente usa-se um microcontrolador ou uma m\'aquina de estados finitos para controlar a mudan\c{c}a de configura\c{c}\~oes.
+Este tecnologia \'e nova e ainda representa uma forte \'area de pesquisa.
+Por isso n\~ao s\~ao todos os FPGAs que d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
+
+Para que a autorreconfigura\c{c}\~ao aconte\c{c}a, os \textit{bitstreams}, resultado da sintetiza\c{c}\~ao, devem ser passados para uma mem\'oria acess\'i­vel ao FPGA durante a execu\c{c}\~ao do mesmo.
 O circuito controlador identifica ent\~ao um padr\~ao que defina a necessidade de reconfigura\c{c}\~ao e transfere o \textit{bitstream} correspondente a esta nova necessidade para a parti\c{c}\~ao destino, que assim muda seu comportamento.
 Note que para tal, as entradas e sa\'i­das das parti\c{c}\~oes tem que ser fixas, para que a mudan\c{c}a nas configura\c{c}\~oes das parti\c{c}\~oes n\~ao danifique o FPGA em si.
-
-\todo{Diferenciar autoreconfiguração de reconfiguração externa.}
-\todo{Incluir figura sobre autoreconfiguraçao do manual da Xilinx (ver Evernote).}
 
 \subsection{Dispositivos e Ferramentas}
 As duas maiores fabricantes de FPGAs s\~ao as empresas Altera e Xilinx.
@@ -372,7 +372,7 @@ Eles ser\~ao descritos abaixo.
 A Altera possui diversas linhas de FPGAs, dentre elas uma de baixo custo, chamada Cyclone, uma de m\'edio custo, chamada Aria, e uma de alto, chamada Stratix, CPLDs, chamada Max, e uma s\'erie de ASICs, chamada \textit{HardCopy}.
 Todos os seus dispositivos s\~ao programados a partir de um programa chamado Quartus, hoje na sua segunda vers\~ao.
 O Quartus possui ferramentas para a programa\c{c}\~ao do comportamento do sistema, simula\c{c}\~ao, s\'i­ntese, programa\c{c}\~ao do \textit{bitstream} do FPGA, constru\c{c}\~ao de \textit{System-on-Chips} (SoCs), IDE para programa\c{c}\~ao destes SoCs e ferramentas para a verifica\c{c}\~ao de projetos.
-Apesar da sua variada linha de dispositivos, sintetizada na tabela \ref{tab:altera} e poderosa ferramenta de programa\c{c}\~ao, a Altera apresenta poucas s\'eries com possibilidade de reconfigura\c{c}\~ao parcial e auto-reconfigura\c{c}\~ao.
+Apesar da sua variada linha de dispositivos, sintetizada na tabela \ref{tab:altera} e poderosa ferramenta de programa\c{c}\~ao, a Altera apresenta poucas s\'eries com possibilidade de reconfigura\c{c}\~ao parcial e autorreconfigura\c{c}\~ao.
 
 \begin{table}[h]
 \centering
@@ -381,6 +381,7 @@ Apesar da sua variada linha de dispositivos, sintetizada na tabela \ref{tab:alte
 Tipo & Fam\'i­lia & Breve Descri\c{c}\~ao \\ \hline
 CPLD & MAX\textsuperscript{\textregistered} II & Tecnologia com numerosos blocos similares aos PALs. \\ \hline
 FPGA & Cyclone & Baixo custo, repleto de elementos de mem\'oria \\ \hline
+FPGA & Arria\textsuperscript{\textregistered} & Série \textit{midrange}, com desempenho superior a Cyclone e inferior a Stratix. Pode ter \textit{transceivers}. \\ \hline
 FPGA & Stratix\textsuperscript{\textregistered} & Alta performance, baixa pot\^encia. \\ \hline
 FPGA & Stratix\textsuperscript{\textregistered} GX & S\'erie com \textit{transceivers} seriais e \textit{arrays} de alta performance escal\'aveis. \\ \hline
 ASIC & HardCopy\textsuperscript{\textregistered} & S\'erie de ASICs estruturados de baixo custo e alta performance.\\ \hline
@@ -390,7 +391,10 @@ ASIC & HardCopy\textsuperscript{\textregistered} & S\'erie de ASICs estruturados
 \end{table}
 
 \todo{Descrever melhor os produtos da Altera, atualizando tabela}
-\todo{Falar do Quartus}
+
+O sistema de desenvolvimento da Altera, chamado Quartus, dá suporte a todos os dispositivos da empresa a partir da instalação de pacotes com informações dos mesmos.
+Apesar de muito robusto, este programa dá suporte a tecnologias mais atuais, como reconfiguração parcial ou dinâmica, através de extensões e componentes de propriedade intelectual (IP).
+Estas tecnologias, pórem, só estão disponíveis para alguns dispositivos mais avançados e caros, tipicamente com \textit{transceivers}, do portfolio da companhia.
 
 \subsubsection{Xilinx}
 A Xilinx foi a respons\'avel pela inven\c{c}\~ao do FPGA.
