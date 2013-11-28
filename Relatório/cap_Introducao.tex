@@ -57,7 +57,7 @@ A partir de 1970, a lei foi adaptada para a duplica\c{c}\~ao a cada 18 meses.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{figs/moores_law}
+	\includegraphics[width=0.7\textwidth]{fig/c1_introducao/moores_law.pdf}
 	\caption{Visualização da Lei de Moore. Eixos em escala logarítmica. Gráficos extraidos do Wikipedia sob licença \textit{Creative Commons}.}
 	\label{fig:moores_law}
 \end{figure}
@@ -75,7 +75,7 @@ Ambas arquiteturas são muito utilizadas nos dias de hoje, sendo as RISC mais co
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\textwidth]{figs/history_risc}
+\includegraphics[width=0.7\textwidth]{fig/c1_introducao/history_risc.pdf}
 \caption{Linha do tempo das arquiteturas RISC, extraido de \cite{Hennessy2011}. Em negrito estão as iniciativas de pesquisa, em contraste às comerciais.}
 \label{fig:history_risc}
 \end{figure}
@@ -129,7 +129,7 @@ Tal sistema distribu\'i­do \'e composto de c\'elulas l\'ogicas e suas conex\~oe
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\textwidth]{figs/model_f+v}
+\includegraphics[width=0.7\textwidth]{fig/c1_introducao/model_f+v.pdf}
 \caption{Esquem\'atico com o F+V, extraido de \cite{Estrin2002}.}
 \label{fig:model_f+v}
 \end{figure}
@@ -172,7 +172,7 @@ Cada um possui suas vantagens e desvantagens segundo a forma de implementa\c{c}\
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\textwidth]{figs/model_pal}
+\includegraphics[width=0.7\textwidth]{fig/c1_introducao/model_pal.pdf}
 \caption{Circuito interno de um dispositivo do tipo PAL, extraido de \cite{Ashenden2008}.}
 \label{fig:pal}
 \end{figure}
@@ -192,7 +192,7 @@ Sua programa\c{c}\~ao \'e feita atrav\'es de conex\~oes compostas por pequenos f
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{figs/model_cpld}
+\includegraphics[width=0.5\textwidth]{fig/c1_introducao/model_cpld.pdf}
 \caption{Representa\c{c}\~ao de dispositivos do tipo CPLD, extraido de \cite{Ashenden2008}.}
 \label{fig:cpld}
 \end{figure}
@@ -213,7 +213,7 @@ O mais famoso destes dispositivos, conhecido por Max, \'e desenvolvido pela Alte
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.65\textwidth]{figs/model_fpga}
+\includegraphics[width=0.65\textwidth]{fig/c1_introducao/model_fpga.pdf}
 \caption{Representa\c{c}\~ao de dispositivos do tipo FPGA, extraido de \cite{Ashenden2008}.}
 \label{fig:fpga}
 \end{figure}
@@ -255,7 +255,7 @@ A tabela \ref{tab:comparacao} apresenta uma compara\c{c}\~ao ligeiramente grosse
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{figs/model_rdpa}
+\includegraphics[width=0.5\textwidth]{fig/c1_introducao/model_rdpa.pdf}
 \caption{Modelo de rDPA do tipo KressArray-I, extraido de \cite{Hartenstein1995}.}
 \label{fig:kressarray}
 \end{figure}
@@ -321,20 +321,29 @@ A reconfigura\c{c}\~ao parcial, ao contr\'ario da reconfigura\c{c}\~ao total, di
 Para tal, faz-se necess\'ario a divis\~ao do dispositivo nas chamadas parti\c{c}\~oes, cada uma com sua configura\c{c}\~ao individual.
 Desta forma, mudan\c{c}as feitas em uma parti\c{c}\~ao n\~ao afetam as outras, acelerando o processo de s\'i­ntese e programa\c{c}\~ao.
 Outro processo que \'e acelerado \'e o de roteamento, uma vez que o particionamento introduz limita\c{c}\~oes no mapeamento das fun\c{c}\~oes.
-Nem todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
+Nem todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao, que pode ser realizado tanto de forma dinâmica \ref{sss:dinamica} quando estática \ref{sss:estatica}.
 
 \todo{Me prolongar mais em reconfiguração dinâmica (Hauck2007 p.70)}
 
 \subsubsection{Reconfigura\c{c}\~ao Est\'atica}
+\label{sss:estatica}
 O termo reconfigura\c{c}\~ao est\'atica se refere a programa\c{c}\~ao de um dispositivo reconfigur\'avel enquanto ele n\~ao estiver executando.
 No caso em que alguma programa\c{c}\~ao j\'a tenha sido transferida para ele e ele a esteja executando, esta \'e parada para que o dispositivo seja configurado novamente.
 Por ser mais f\'acil de ser implementada e n\~ao necessita de circuitos adicionais, todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
 
 \subsubsection{Reconfigura\c{c}\~ao Din\^amica}
+\label{sss:dinamica}
 A reconfigura\c{c}\~ao din\^amica acontece frente \`a necessidade de reprograma\c{c}\~ao parcial do dispositivo sem que ele pare de funcionar.
 As funcionalidades modificadas s\~ao interrompidas e substituidas sem afetar o funcionamento do todo.
-Normalmente este processo, quando n\~ao \'e auto-reconfigura\c{c}\~ao, \'e realizado atrav\'es de um circuito controlador, em geral um microcontrolador, presente no sistema, mas externo ao FPGA.
+Normalmente este processo, quando n\~ao associado a autoreconfigura\c{c}\~ao, \'e realizado atrav\'es de um circuito externo à FPGA, tal como um controlador, um microcontrolador, ou mesmo um computador, como apresentado na figura \ref{fig:rexterna}.
 Quase todos os FPGAs modernos d\~ao suporte a esta tecnologia.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c1_introducao/reconf_externa.pdf}
+\caption{Imagem ilustrativa para diferenciação entre autoreconfiguração e reconfiguração externa, extraido de \cite{wp374}.}
+\label{fig:rexterna}
+\end{figure}
 
 Este tipo de reconfigura\c{c}\~ao n\~ao pode ser realizado em conjunto com a reconfigura\c{c}\~ao total.
 Isto porque sistema reconfigur\'aveis dinamicamente necessitam de uma parte permanentemente est\'atica, para interfacear com o circuito controlador.
