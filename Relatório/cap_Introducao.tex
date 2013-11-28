@@ -69,9 +69,9 @@ A integra\c{c}\~ao tamb\'em reduziu a pot\^encia dissipada por transistor, permi
 Com o aumento da complexidade das instruções, passou-se a adotar duas nomenclaturas diferentes para processadores: \textit{Reduced Instruction Set Computer} (RISC) e \textit{Complex Instruction Set Computer} (CISC) \cite{Fedeli2003}.
 A arquitetura RISC possui um conjunto pequeno e muito otimizado de funções, comandos exclusivos para acesso a memória (arquitetura \textit{load/store}) e uma média de uma instrução completada por ciclo, quando desconsidera-se as instruções de acesso a memória.
 A arquitetura CISC possui várias funções para tarefas mais específicas, que por vezes demandam vários ciclos de relógio, e funções que realizam operações com informações lendo e/ou salvando direto na/para a memória.
-Ambas arquiteturas são muito utilizadas nos dias de hoje, sendo as RISC mais comum em dispositivos com restrições de consumo de energia e as CISC mais comuns em dispositivos de computação mais genérica.
-
-\todo{Falar mais sobre RISC e CISC (Patterson \url{file:///E:/resources/Chapters/CD2.20-P374493.pdf}.}
+A arquitetura RISC, que possui em seu portfolio dispositivos como ARM, IBM PowerPC, Sun SPARK e MIPS, dentre outros, é muito mais utilizada nos dias de hoje.
+Até empresas como a Intel, que ficaram populares com seus processadores CISC, tem se curvado a arquitetura RISC devido a seu uso mais eficiente de potência.
+Eles vem utilizando uma arquitetura conhecida como núcleo de RISC (\textit{RISC core}), onde as instruções são recebidas em formato CISC e decodificadas para uma arquitetura interna RISC.
 
 \begin{figure}[h]
 \centering
@@ -165,19 +165,15 @@ Nas arquiteturas com granularidade fina, como os \textit{Field-Programmable Gate
 Nas arquiteturas com granularidade grossa, os \textit{bits} s\~ao agrupados em palavras de tamanhos fixos, reduzindo assim o espa\c{c}o gasto com roteamento e melhorando a roteabilidade \cite{Hartenstein2001}.
 No \'ultimo tipo de arquiteturas, a h\'i­brida, parte das conex\~oes s\~ao grossas e partes s\~ao finas, combinando os benef\'i­cios das duas classes.
 
-As formas mais comuns de dispositivos reconfigur\'aveis s\~ao o \textit{Programmable Array Logic} (PAL), o \textit{Complex Programmable Logic Device} (CPLD), o \textit{Field-Programmable Gate Array} e o \textit{Reconfigurable Datapath Array} (rDPA).
-Cada um possui suas vantagens e desvantagens segundo a forma de implementa\c{c}\~ao, comentadas a seguir.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.7\textwidth]{fig/c1_introducao/model_pal.pdf}
-\caption{Circuito interno de um dispositivo do tipo PAL, extraido de \cite{Ashenden2008}.}
-\label{fig:pal}
-\end{figure}
+
+
 
 \todo{Descrever o fluxo de "compilação" de um projeto de hardware para FPGA.}
 
-Note que a avaliação de desempenho de sistemas reconfiguráveis não pode mais ser dada com base em quantidade de operações em ponto flutuante (FLOPS) como é feita em computadores e similares \cite{patterson2005coa, cullinan2012computing}.
+\section{\textit{}}
+
+A avaliação de desempenho de sistemas reconfiguráveis não pode mais ser dada com base em quantidade de operações em ponto flutuante (FLOPS) como é feita em computadores e similares \cite{patterson2005coa, cullinan2012computing}.
 A melhor forma de se comparar dispositivos é através de do uso de uma mesma aplicação sintetizada com as ferramentas específicas de cada empresa.
 Neste caso, pórem, a comparação também leva em consideração o desempenho das ferramentas, especialmente em sua capacidade de otimizar as funções implementadas.
 Outra forma comum de se comparar desempenho é específico através de uma análise de aplicações específicas.
@@ -188,6 +184,17 @@ Um exemplo para uma aplicação de filtragem de imagens é a quantidade de quadr
 \includegraphics[width=0.5\textwidth]{fig/c1_introducao/fluxo.pdf}
 \caption{Imagem ilustrativa do fluxo de síntese de um projeto de \textit{hardware}.}
 \label{fig:fluxo}
+\end{figure}
+
+\section{Dispositivos}
+As formas mais comuns de dispositivos reconfigur\'aveis s\~ao o \textit{Programmable Array Logic} (PAL), o \textit{Complex Programmable Logic Device} (CPLD), o \textit{Field-Programmable Gate Array} e o \textit{Reconfigurable Datapath Array} (rDPA).
+Cada um possui suas vantagens e desvantagens segundo a forma de implementa\c{c}\~ao, comentadas a seguir.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{fig/c1_introducao/model_pal.pdf}
+\caption{Circuito interno de um dispositivo do tipo PAL, extraido de \cite{Ashenden2008}.}
+\label{fig:pal}
 \end{figure}
 
 \paragraph{\textit{Programmable Array Logic}}
@@ -319,63 +326,7 @@ Ela \'e basicamente um conjunto de classes e macros para "C++" que disponibiliza
 Essas ferramentas permitem que o projetista simule processos concorrentes, mas nos \'ultimos tempos tamb\'em foi adaptada para o desenvolvimento de sistemas reconfigur\'aveis.
 Uma vez que n\~ao foi desenvolvida com o prop\'osito principal de descric\~ao de \text{hardware}, possui um chamado "\textit{overhead} sint\'atico" com rela\c{c}\~ao a Verilog e VHDL, onde mais texto tem que ser escrito para descrever um mesmo comportamento.
 
-\subsection{Classes de Reconfigura\c{c}\~ao}
-Com a chegada de CPLDs e FPGAs, requisitos cada vez mais complexos foram sendo introduzidos ao projeto de sistemas digitais.
-Tais requisitos for\c{c}aram as ferramentas de s\'i­ntese a suportar diferentes classes de reconfigura\c{c}\~ao.
-Note que reconfigura\c{c}\~ao diz respeito, como dito anteriormente, a modifica\c{c}\~ao do comportamento, ou configura\c{c}\~ao, de um dispositivo reconfigur\'avel.
-
-\subsubsection{Reconfigura\c{c}\~ao Total}
-A reconfigura\c{c}\~ao total, herdada da tecnologia tradicional, compreende a mudan\c{c}a do comportamento de todo o dispositivo reconfigur\'avel, sem exce\c{c}\~ao de blocos l\'ogicos.
-Tal reconfigura\c{c}\~ao \'e bastante dispendiosa, visto que maior parte das alterações realizadas são incrementais e dizem respeito \`a apenas uma pequena parte do dispositivo.
-Apesar disto, todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
-
-\subsubsection{Reconfigura\c{c}\~ao Parcial}
-A reconfigura\c{c}\~ao parcial, ao contr\'ario da reconfigura\c{c}\~ao total, diz respeito \`a programa\c{c}\~ao de apenas parte de um dispositivo reconfigur\'avel \cite{Hauck2007}.
-Para tal, faz-se necess\'ario a divis\~ao do dispositivo nas chamadas parti\c{c}\~oes, cada uma com sua configura\c{c}\~ao individual.
-Desta forma, mudan\c{c}as feitas em uma parti\c{c}\~ao n\~ao afetam as outras, acelerando o processo de s\'i­ntese e programa\c{c}\~ao.
-Outro processo que \'e acelerado \'e o de roteamento, uma vez que o particionamento introduz limita\c{c}\~oes no mapeamento das fun\c{c}\~oes.
-Nem todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao, que pode ser realizado tanto de forma dinâmica (\ref{sss:dinamica}) quando estática (\ref{sss:estatica}).
-
-\subsubsection{Reconfigura\c{c}\~ao Est\'atica}
-\label{sss:estatica}
-O termo reconfigura\c{c}\~ao est\'atica se refere a programa\c{c}\~ao de um dispositivo reconfigur\'avel enquanto ele n\~ao estiver executando.
-No caso em que alguma programa\c{c}\~ao j\'a tenha sido transferida para ele e ele a esteja executando, esta \'e parada para que o dispositivo seja configurado novamente.
-Por ser mais f\'acil de ser implementada e n\~ao necessita de circuitos adicionais, todos os FPGAs d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
-
-\subsubsection{Reconfigura\c{c}\~ao Din\^amica}
-\label{sss:dinamica}
-A reconfigura\c{c}\~ao din\^amica acontece frente \`a necessidade de reprograma\c{c}\~ao parcial do dispositivo sem que ele pare de funcionar.
-As funcionalidades modificadas s\~ao interrompidas e substituidas sem afetar o funcionamento do todo.
-Normalmente este processo, quando n\~ao associado a autorreconfigura\c{c}\~ao, \'e realizado atrav\'es de um circuito externo à FPGA, tal como um controlador, um microcontrolador, ou mesmo um computador, como apresentado na figura \ref{fig:rexterna}.
-Quase todos os FPGAs modernos d\~ao suporte a esta tecnologia.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.8\textwidth]{fig/c1_introducao/reconf_externa.pdf}
-\caption{Imagem ilustrativa para diferenciação entre autorreconfiguração e reconfiguração externa, extraido de \cite{wp374}.}
-\label{fig:rexterna}
-\end{figure}
-
-É implicito o uso da reconfiguração parcial com a reconfiguração dinâmica, uma vez que faz pouco sentido reconfigurar todo o FPGA enquanto ela ainda está em execução.
-Note que este tipo de reconfiguração em geral também necessita de uma parte permanentemente est\'atica, para interfacear com o circuito controlador.
-Esta parti\c{c}\~ao est\'atica \'e respons\'avel pelo menos por controlar a comunica\c{c}\~ao com o circuito controlador.
-
-Vale lembrar que a este tipo de reconfiguração, apesar de abrir muitas possibilidades, introduz uma necessidade de preocupação com \textit{overheads} de reconfiguração \cite{Hauck2007}.
-Este \textit{overhead} é proporcional ao tamanho da partição que se deseja modificar e inversamente proporcional às velocidades das interfaces de reconfiguração.
-Tal fator pode se tornar crucial na escolha entre o uso desta tecnologia ou alguma outra alternativa, possivelmente multiplexada.
-Note que existem outros fatores que influenciam na opção por reconfiguração dinâmica, tais como preço, capacidade e potência, dentre outros, que não serão considerados aqui.
-
-\subsubsection{Autorreconfigura\c{c}\~ao}
-Modalidade de reconfigura\c{c}\~ao din\^amica parcial onde a reconfigura\c{c}\~ao do dispositivo \'e decidida por uma l\'ogica pertencente a ele mesmo.
-Normalmente usa-se um microcontrolador ou uma m\'aquina de estados finitos para controlar a mudan\c{c}a de configura\c{c}\~oes.
-Este tecnologia \'e nova e ainda representa uma forte \'area de pesquisa.
-Por isso n\~ao s\~ao todos os FPGAs que d\~ao suporte a este tipo de reconfigura\c{c}\~ao.
-
-Para que a autorreconfigura\c{c}\~ao aconte\c{c}a, os \textit{bitstreams}, resultado da sintetiza\c{c}\~ao, devem ser passados para uma mem\'oria acess\'i­vel ao FPGA durante a execu\c{c}\~ao do mesmo.
-O circuito controlador identifica ent\~ao um padr\~ao que defina a necessidade de reconfigura\c{c}\~ao e transfere o \textit{bitstream} correspondente a esta nova necessidade para a parti\c{c}\~ao destino, que assim muda seu comportamento.
-Note que para tal, as entradas e sa\'i­das das parti\c{c}\~oes tem que ser fixas, para que a mudan\c{c}a nas configura\c{c}\~oes das parti\c{c}\~oes n\~ao danifique o FPGA em si.
-
-\subsection{Dispositivos e Ferramentas}
+\subsection{Dispositivos}
 As duas maiores fabricantes de FPGAs s\~ao as empresas Altera e Xilinx.
 A Xilinx foi a primeira fabricante de FPGAs do mundo e det\'em aproximadamente 51\% do mercado de FPGAs, enquanto a Altera, sua maior competitora, possui aproximadamente 34\% do mercado.
 Ambas possuem uma ampla linha de FPGAs e CPLDs.
