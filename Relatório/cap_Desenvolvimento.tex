@@ -232,7 +232,7 @@ Existe também a possibilidade de construção de um \textit{script} para a sín
 Utilizou-se aqui uma adaptação do arquivo em linguagem TCL usado pela Xilinx em seus manuais \cite{ug702, ug743, ug744}.
 A única coisa que se faz neste \textit{script} é a construção dinâmica dos comandos com base em listas de arquivos pré-informados.
 
-\subsection{PlanAhead}
+\subsubsection{PlanAhead}
 Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
 Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, criaremos configurações alternativas, promoremos tais configurações e geraremos os \textit{bitfiles} para a programação do dispositivo.
 Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial.
@@ -307,7 +307,7 @@ Esta etapa precisa ser realizada com cada uma das configurações realizadas, ou
 Tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta *.runs.
 Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que contém a configuração completa, e outro menor que possui a configuração parcial.
 
-\subsection{iMPACT}
+\subsubsection{iMPACT}
 Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através auxilio da ferramenta iMPACT. 
 
 A primeira coisa a se fazer é inicializar a cadeia de dispositivos, fazendo com que um símbolo representando a FPGA apareça na tela.
@@ -337,52 +337,54 @@ A melhor solução é o reinício do computador, visto que o programa bloqueia a
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto.
 
-\section{Experimento 2 - Pesquisa de Memórias Disponíveis}
+\section{Experimento 2 - Teste de Memórias}
 Seguindo o raciocínio apresentado no início do capítulo, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os \textit{bitfiles} de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
+
+\subsection{Tipos de Mémoria}
 
 No kit utilizado existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades \cite{ug810}.
 Este experimento foi dedicado à compreenção do funcionamento dos diversos tipos de memórias e à escolha da solução mais adequada.
 
-\subsection{Memória \textit{Block RAM}}
+\subsubsection{Memória \textit{Block RAM}}
 A memória do tipo \textit{Block RAM} é construída usando-se os blocos de memória RAM restantes da FPGA.
 Esta memória consegue alcançar velocidades de leitura na ordem de várias centenas de hertz, mas possui uma capacidade de armazenamento bem reduzida, de apenas 445 blocos de 36 Kb para este kit, totalizando um máximo de aproximadamente 2 MB \cite{ug473, wp377}.
 Note que a configuração total da FPGA necessita de aproximadamente 11 MB, ou exatamente 91.548.896 bits, para sua programação total \cite{ug470}.
 Pode-se programá-la através do iMPACT, dentre outras formas \footnote{\textit{Memory Initialization Methods}, escrito por Jim Wu em 31 de dezembro de 2011. Dísponível em \url{http://myfpgablog.blogspot.com.br/2011/12/memory-initialization-methods.html}}.
 
-\subsection{Memória \textit{Distributed RAM}}
+\subsubsection{Memória \textit{Distributed RAM}}
 A memória \textit{Distributed RAM} é construida utilizando-se das LUTs disponíveis nas célula lógicas \cite{ug473, wp377}.
 Também são muito rápidas, apesar de síncronas, e também possuem pouca capacidade de armazenamento.
 Pode-se programá-la através do iMPACT, dentre outras formas.
 
-\subsection{Memória \textit{Linear BPI Flash}}
+\subsubsection{Memória \textit{Linear BPI Flash}}
 A memória \textit{Linear BPI Flash} disponibiliza 128 Mb de memória não-volátil \cite{ug810}, acessadas em palavras de 16 bits.
 Apesar disso, sua velocidade de leitura máxima é de 33 MHz.
 Convertendo tal velocidade para a leitura de 32 bits, tem-se uma velocidade de leitura de aproximadamente 16 MHz.
 Pode-se programá-la através do iMPACT.
 
-\subsection{Memória \textit{SPI Flash}}
+\subsubsection{Memória \textit{SPI Flash}}
 A memória SPI Flash é diferente na sua forma de acesso, que acontece através da interface SPI.
 Esta memória fornece 128 Mb de memória não volátil \cite{ug810}.
 Ela aceita três modos de operação, x1, x2 e x4, que corresponde a largura da palavra lida/escrita a cada pulso de relógio \cite{N25Q128}.
 A frequência de operação é de no máximo 50 MHz \cite{xapp586}.
 Pode-se programá-la através do iMPACT.
 
-\subsection{Cartão de Memória SD}
+\subsubsection{Cartão de Memória SD}
 O cartão de memória SD dá acesso a uma memória não-volátil de tamanho arbitrário.
 Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4 bits a frequências de até 50 MHz \cite{ug810}.
 A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
 Note que também não existe a possibilidade de programação do cartão através do iMPACT, o que resolveria o problema do sistema de arquivos.
 
-\subsubsection{\textit{CompactFlash} e o \textit{System ACE}}
+\paragraph{\textit{CompactFlash} e o \textit{System ACE}}
 \textit{SystemAce} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
 Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão.
 
-\subsection{Memória DDR3}
+\subsubsection{Memória DDR3}
 A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
 Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
 
-\subsection{Conclusão}
+\subsection{Teste}
 Notou-se no primeiro experimento que os \textit{bitfiles} parciais gerados possuem 645 KB, totalizando 1935 KB, ou 1,89 MB.
 Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
 Caso se escolha esta opção, apenas os \textit{bitfiles} parciais poderiam ser armazenados, necessitando da ajuda do computador para a programação inicial.
@@ -393,10 +395,14 @@ Por causa disso, todas as interfaces não-voláteis apresentadas acima acabariam
 Uma solução é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica.
 A forma mais fácil de implementar tal funcionalidade é através do uso de um microcontrolador MicroBlaze funcionando como \textit{bootloader}.
 
-\section{Experimento 3 - Teste do \textit{Bootloader}}
-O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
-Usou-se um microcontrolador MicroBlaze com controladores para a memória SPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
-Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
+Antes de implementar o \textit{bootloader}, precisamos entender como funcionam as memórias do escolhidas.
+Este teste, então, tem por objetivo entender o fluxo de projeto para o uso do MicroBlaze, o funcionamento deste microcontrolador e as formas corretas de se acessar as memórias do sistema.
+
+\subsubsection{Fluxo de Projeto}
+O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
+A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
+Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
+Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT através do SDK.
 
 \begin{figure}[htp]
 \centering
@@ -405,12 +411,7 @@ Note que é interessante que este subsistema possa sinalizar para os demais que 
 \label{fig:ex3:softwareflow}
 \end{figure}
 
-O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
-A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
-Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
-Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT.
-
-\subsection{MicroBlaze}
+\subsubsection{MicroBlaze}
 O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
 Ele possui 32 registrados genéricos de 32 bits, instruções de 32 bits e endereços de 32 bits.
 Seu \textit{pipeline} possui 3 ou 5 estágios e é construido em torno da arquitetura Harvard, como pode ser observado na figura \ref{fig:ex3:microblazecore}.
@@ -427,11 +428,6 @@ O MicroBlaze permite o uso de diversas interfaces para comunicação com seus di
 A interface mais atual suportada, e que foi utilizada neste experimento, é a Advanced eXtensible Interface 4 (AXI4) \cite{ug081, ug761}.
 A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibilidade e disponibilidade.
 Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
-
-\subsection{Teste}
-O teste deste experimento compreende a construção de um subsistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3 e indique para o resto do sistema o final do processo.
-Este subsistema, que aqui é mestre, será escravo quando incluido no sistema principal.
-Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
 
 \subsubsection{XPS}
 \begin{figure}[htp]
@@ -473,6 +469,19 @@ Após a implementação do arquivo binário, a ferramenta SDK será aberta.
 \subsubsection{SDK}
 Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{workspace}.
 Seleciona-se a pasta SDK, criada dentro da pasta do projeto do sistema durante sua exportação.
+
+\subsection{Conclusão}
+
+\section{Experimento 3 - Teste do \textit{Bootloader}}
+O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
+Usou-se um microcontrolador MicroBlaze com controladores para a memória SPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
+Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
+
+
+\subsection{Teste}
+O teste deste experimento compreende a construção de um subsistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3 e indique para o resto do sistema o final do processo.
+Este subsistema, que aqui é mestre, será escravo quando incluido no sistema principal.
+Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
 
 \todo{Passo a passo do experimento 3}
 
