@@ -442,10 +442,11 @@ Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o
 \label{fig:ex2:bsb_prerifericos}
 \end{figure}
 
-Precisa-se agora modificar as posições de memória cobertas pela memória \textit{cache}.
-Isto é feito clicando-se duas vezes sobre \dlq{}microblaze\_0\drq{} na aba \dlq{}\textit{Bus Interfaces}\drq{} do painel \dlq{}\textit{System Assembly View}\drq{}.
-Na janela que se abre, clica-se  \dlq{}\textit{Next}\drq{} 3 vezes para chegar página sobre \textit{caches}.
-Modifique os endereços da primeira coluna para 0xc0000000 e 0xffffffff e os da segunda para 0x80000000 e 0xffffffff, indicando que a memória de instruções pode acessar apenas os endereços da memória DDR3, mas que a memória de dados pode acessar toda a faixa de endereços entre 0x80000000 e 0xffffffff, que engloba as memórias DDR3 e SPI Flash.
+Antes de concluir o a construção do sistema, precisa-se ajustar os tamanhos das memórias e seus endereços, de forma que estes novos tamanhos possam ser corretamente acessados.
+Isto pode ser feito na aba \textit{Addresses} do painel \textit{System Assembly View}.
+Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x80000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex2:xps_enderecos}.
+Note que o endereço-base da memória SPI Flash tem como única restrição de os 28 bits menos significativos iguais a zero e que o endereço-base da memória DDR3 tem esta mesma restrição para os 30 bits menos significativos.
+Estas restrições são devido aos tamanhos das memórias e o alinhamento dos espaços de dados na memória.
 
 \begin{figure}[htp]
 \centering
@@ -454,11 +455,13 @@ Modifique os endereços da primeira coluna para 0xc0000000 e 0xffffffff e os da 
 \label{fig:ex2:xps_enderecos}
 \end{figure}
 
-Antes de concluir o a construção do sistema, precisa-se ajustar os tamanhos das memórias e seus endereços, de forma que estes novos tamanhos possam ser corretamente acessados.
-Isto pode ser feito na aba \textit{Addresses} do painel \textit{System Assembly View}.
-Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x80000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex2:xps_enderecos}.
-Note que o endereço da memória SPI Flash pode ser alterado, tendo como única restrição de ter os 28 bits menos significativos iguais a zero.
-O endereço base da memória DDR3, porém, não pode ser alterado visto que o endereço de 0xC0000000 a 00xC7FFFFFF é utilizado como memória \textit{cache} pela interface AXI4.
+Precisa-se agora modificar as posições de memória cobertas pela memória \textit{cache}.
+Isto é feito clicando-se duas vezes sobre \dlq{}microblaze\_0\drq{} na aba \dlq{}\textit{Bus Interfaces}\drq{} do painel \dlq{}\textit{System Assembly View}\drq{}.
+Na janela que se abre, clica-se  \dlq{}\textit{Next}\drq{} 3 vezes para chegar página sobre \textit{caches}.
+Modifique os endereços da primeira coluna para 0xc0000000 e 0xffffffff e os da segunda para 0x80000000 e 0xffffffff, indicando que a memória de instruções pode acessar apenas os endereços da memória DDR3, mas que a memória de dados pode acessar toda a faixa de endereços entre 0x80000000 e 0xffffffff, que engloba as memórias SPI Flash e DDR3.
+Apenas os endereços contidos neste intervalo da memória de dados podem ser escritos.
+Note que o sistema reserva para uso próprio os primeiros 64K endereços das memórias, que correspondem às posições com finais entre 0x0000 a 0x3fff.
+A tentativa de uso destes endereços comprometerá o correto funcionamento do sistema.
 
 O projeto pode ser sintetizado através do botão \dlq{}\textit{Generate Netlist}\drq{} localizado no menu a esquerda e no menu \dlq{}\textit{Hardware}\drq{} da barra de menus.
 Este processo é demorado.
@@ -468,7 +471,7 @@ Após a implementação do arquivo binário, a ferramenta SDK será aberta.
 
 \subsubsection{SDK}
 Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{workspace}.
-Seleciona-se a pasta SDK, criada dentro da pasta do projeto do sistema durante sua exportação.
+Uma boa opção é a pasta SDK criada dentro da pasta do projeto do sistema durante sua exportação.
 
 \subsection{Conclusão}
 
