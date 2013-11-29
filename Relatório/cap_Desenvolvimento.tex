@@ -430,14 +430,7 @@ A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibili
 Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
 
 \subsubsection{XPS}
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex2/XPS.pdf}
-\caption{Imagem do XPS logo que aberto.}
-\label{fig:ex2:xps}
-\end{figure}
-
-Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da figura \ref{fig:ex2:xps}.
+Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
 Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
 Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
 Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o \textit{Baud Rate} da interface UART para 115200 bits/s.
@@ -449,16 +442,21 @@ Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o
 \label{fig:ex2:bsb_prerifericos}
 \end{figure}
 
+Precisa-se agora modificar as posições de memória cobertas pela memória \textit{cache}.
+Isto é feito clicando-se duas vezes sobre \dlq{}microblaze\_0\drq{} na aba \dlq{}\textit{Bus Interfaces}\drq{} do painel \dlq{}\textit{System Assembly View}\drq{}.
+Na janela que se abre, clica-se  \dlq{}\textit{Next}\drq{} 3 vezes para chegar página sobre \textit{caches}.
+Modifique os endereços da primeira coluna para 0xc0000000 e 0xffffffff e os da segunda para 0x80000000 e 0xffffffff, indicando que a memória de instruções pode acessar apenas os endereços da memória DDR3, mas que a memória de dados pode acessar toda a faixa de endereços entre 0x80000000 e 0xffffffff, que engloba as memórias DDR3 e SPI Flash.
+
 \begin{figure}[htp]
 \centering
-\includegraphics[width=439px]{fig/c3_desenvolvimento/ex2/xps_address.pdf}
+\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex2/xps_address.pdf}
 \caption{Aba \textit{Addresses} do \textit{System Assembly View} indicando os ajustes dos endereços e tamanhos das memórias.}
 \label{fig:ex2:xps_enderecos}
 \end{figure}
 
 Antes de concluir o a construção do sistema, precisa-se ajustar os tamanhos das memórias e seus endereços, de forma que estes novos tamanhos possam ser corretamente acessados.
 Isto pode ser feito na aba \textit{Addresses} do painel \textit{System Assembly View}.
-Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x70000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex2:xps_enderecos}.
+Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x80000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex2:xps_enderecos}.
 Note que o endereço da memória SPI Flash pode ser alterado, tendo como única restrição de ter os 28 bits menos significativos iguais a zero.
 O endereço base da memória DDR3, porém, não pode ser alterado visto que o endereço de 0xC0000000 a 00xC7FFFFFF é utilizado como memória \textit{cache} pela interface AXI4.
 
