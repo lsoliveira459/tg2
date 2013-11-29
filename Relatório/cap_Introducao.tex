@@ -36,6 +36,8 @@
 	%%%%%%%% Apagar coisas acima
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \fi
+\newcommand\dlq{\lq\lq{}}
+\newcommand\drq{\rq\rq{}}
 
 \chapter{Introdu\c{c}\~ao}\label{CapIntro}
 
@@ -202,13 +204,17 @@ Diversos algoritmos de otimização também são aplicados de forma a reduzir as
 A colocação, que aqui também abrange a etapa de \textit{floorplanning}, consiste em identificar onde a lógica deverá ser posicionada para satisfazer os requisitos de tempo, potência e performance, segundo as limitações do dispositivo-alvo.
 Ela recebe informações da lógica do projeto e dos recursos lógicos do dispositivo e aplica algoritmos de otimização para alcançar todos os objetivos e pré-requisitos impostos.
 
-De forma similar, a etapa de roteamento c
+A etapa de roteamento, em conjunto com a colocação, tenta conectar os elementos necessários de acordo com as limitações do FPGA.
+Para projetos grandes, com muitos elementos lógicos, pode ser muito dificil, tornando o processo lento, ou até impossível de se realizar esta etapa.
+Note que o roteamente interfere diretamente com questões relacionadas a tempo e performance.
 
 \paragraph{Análise e Simulação de \textit{Timing}}
+Durante a colocação e o roteamento, várias informações de tempo do projeto são calculados e associados ao projeto.
+Após estas etapas, uma análise estática de temporização e simulações extremamente precisas podem ser realizadas, removendo todas as dúvidas quanto ao projeto realizado e as descrições impostas.
 
-\paragraph{Geração do Arquivo Binário (\textit{Bitstream Generation})}~
-
-\todo{Descrever o fluxo de "compilação" de um projeto de hardware para FPGA.}
+\paragraph{Geração do Arquivo Binário (\textit{Bitstream Generation})}
+A etapa de geração do arquivo binário corresponde a transformação das informações geradas na síntese, na colocação e no roteamento para bits de programação da FPGA.
+Estes bits popularão, durante a fase de programação, as LUTs e RAMs da placa, definindo seu funcionamento.
 
 \subsection{\textit{Benchmark}}
 A avaliação de desempenho de sistemas reconfiguráveis não pode mais ser dada com base em quantidade de operações em ponto flutuante (FLOPS) como é feita em computadores e similares \cite{patterson2005coa, cullinan2012computing}.
@@ -333,31 +339,32 @@ Al\'em das linguagem j\'a mencionadas, outra classe de linguagens de descri\c{c}
 Estas extens\~oes acrescentam a linguagem a capacidade de trabalhar com sinais anal\'ogicos.
 Tais linguagens tem sido bastante usadas em simula\c{c}\~oes, mas deixadas de lado na etapa de s\'i­ntese pela falta de ferramentas.
 
-\todo{Comentar sobre a programação estrutural e comportamental.}
+Existem dois paradigmas principais para descrição de \textit{hardware}: estrutural e comportamental \cite{Thomas1996}.
+O paradigma estrutural constitui uma tentativa de se descrever um sistema através da conexão de elementos lógicos mais simples.
+Partindo dessas estruturas, constrói-se então elementos cada vez mais complexos.
+No paradigma comportamental, relações de mais alto nível, tais como somas, subtrações e operações lógicas, estão disponíveis para o uso do desenvolvedor, aproximando a descrição de \textit{hardware} da programação de \textit{softwares} tradicionais.
 
 \paragraph{Verilog}
 Verilog foi a primeira linguagem moderna de descri\c{c}\~ao de \textit{hardware}.
 Ela foi desenvolvida com a inten\c{c}\~ao apenas de descrever e simular/validar circuitos digitais, mas nos anos seguintes a op\c{c}\~ao de s\'i­ntese foi acrescentada.
 Padronizada pelo IEEE em 1995, o Verilog foi desenvolvido para ser similar a linguagem de programa\c{c}\~ao gen\'erica "C".
-
-\todo{Comentar a possibilidade de programação estrutural e comportamental, bem como imbutir informações de simulação e timing no Verilog \cite{Thomas1996}.}
+Permite programação estrutural e comportamental.
 
 \paragraph{VHDL}
 VHDL foi desenvolvida logo em seguida ao Verilog, em um projeto solicitado pelo Departamento de Defesa dos Estados Unidos, como uma forma de documentar o comportamento de ASICs.
-Ela possui uma sintaxe similar a linguagem "Ada".
+Ela possui uma sintaxe similar a linguagem \dlq{}Ada\drq{}.
 A linguagem logo foi padronizada pelo IEEE, em 1987.
 Ela possui algumas diferen\c{c}as b\'asicas em rela\c{c}\~ao ao Verilog que n\~ao ser\~ao mencionados aqui.
 A maior diferen\c{c}a pr\'atica por\'em \'e a presen\c{c}a de bibliotecas padronizadas pelo IEEE que disponibilizam funcionalidades muito \'uteis.
-
-\todo{Comentar sobre a programação estrutural e comportamental e dar mais importancia as bibliotecas do VHDL.}
+Permite programação estrutural e comportamental.
 
 \paragraph{SystemC}
 SystemC foi desenvolvida em meados dos anos 2000, aproximadamente 15 anos depois do Verilog e VHDL, com o intuido de aproximar as linguagens de descri\c{c}\~ao de \textit{hardware} \`as de programa\c{c}\~ao gen\'erica.
-Ela \'e basicamente um conjunto de classes e macros para "C++" que disponibiliza uma interface de simula\c{c}\~ao dirigidas por eventos.
+Ela \'e basicamente um conjunto de classes e macros para \dlq{}C++\drq{} que disponibiliza uma interface de simula\c{c}\~ao dirigidas por eventos.
 Essas ferramentas permitem que o projetista simule processos concorrentes, mas nos \'ultimos tempos tamb\'em foi adaptada para o desenvolvimento de sistemas reconfigur\'aveis.
-Uma vez que n\~ao foi desenvolvida com o prop\'osito principal de descric\~ao de \text{hardware}, possui um chamado "\textit{overhead} sint\'atico" com rela\c{c}\~ao a Verilog e VHDL, onde mais texto tem que ser escrito para descrever um mesmo comportamento.
+Uma vez que n\~ao foi desenvolvida com o prop\'osito principal de descric\~ao de \text{hardware}, possui um chamado \dlq{}\textit{overhead} sint\'atico\drq{} com rela\c{c}\~ao a Verilog e VHDL, onde mais texto tem que ser escrito para descrever um mesmo comportamento.
 
-\subsection{Dispositivos}
+\subsection{Fabricantes}
 As duas maiores fabricantes de FPGAs s\~ao as empresas Altera e Xilinx.
 A Xilinx foi a primeira fabricante de FPGAs do mundo e det\'em aproximadamente 51\% do mercado de FPGAs, enquanto a Altera, sua maior competitora, possui aproximadamente 34\% do mercado.
 Ambas possuem uma ampla linha de FPGAs e CPLDs.
@@ -421,9 +428,10 @@ A ferramenta de desenvolvimento principal da Xilinx, o ISE, é equivalente ao Qu
 Ela é responsável pela síntese dos esquemáticos e conta com programas como iMPACT e XPS, dentre outros, para formar uma solução de desenvolvimento de \textit{hardware} completa.
 Recentemente, a companhia começou um processo de substituição da ferramenta ISE pelo Vivado, que possui um desempenho superior.
 
-\section{Projeto}
+\section{Objetivo}
 \label{sec:projeto}
-\todo{Descrever objetivos do projeto}
+O projeto desenvolvido aqui tem por objetivo o estudo de autoreconfiguração parcial, incluindo as ferramentas e periféricos necessários para tal.
+Tentará-se, no decorrer dos próximos capítulos, apresentar o resultado das pesquisas bibliográficas, estudo de ferramentas, estudo de periféricos, estudo de tecnologias e análise dos resultados obtidos.
 
 %\section{Metodologia}
 %\subsection{Fluxo de Projeto}
