@@ -1,0 +1,414 @@
+% This file was created with JabRef 2.9.2.
+% Encoding: Cp1252
+
+@INPROCEEDINGS{Bossuet2004,
+  author = {Bossuet, Lilian and Gogniat, Guy and Burleson, Wayne},
+  title = {Dynamically Configurable Security for SRAM FPGA Bitstreams.},
+  booktitle = {IPDPS},
+  year = {2004},
+  publisher = {IEEE Computer Society},
+  added-at = {2004-07-01T00:00:00.000+0200},
+  biburl = {http://www.bibsonomy.org/bibtex/26debe3579f4ee89c2ae3524accfb16f7/dblp},
+  crossref = {conf/ipps/2004},
+  date = {2004-07-01},
+  description = {dblp},
+  ee = {http://csdl.computer.org/comp/proceedings/ipdps/2004/2132/04/213240146aabs.htm},
+  interhash = {e61b55acc7d1496f1626b59111ad5333},
+  intrahash = {6debe3579f4ee89c2ae3524accfb16f7},
+  isbn = {0-7695-2132-0},
+  keywords = {dblp},
+  url = {http://hal.archives-ouvertes.fr/docs/00/08/93/94/PDF/bossuet_2006ijes.pdf}
+}
+
+@INPROCEEDINGS{Hartenstein1994,
+  author = {Hartenstein, Reiner W. and Kress, Rainer and Reinig, Helmut},
+  title = {A New FPGA Architecture for Word-Oriented Datapaths.},
+  booktitle = {FPL},
+  year = {1994},
+  editor = {Hartenstein, Reiner W. and Servít, Michal},
+  volume = {849},
+  series = {Lecture Notes in Computer Science},
+  pages = {144-155},
+  publisher = {Springer},
+  added-at = {2003-11-06T00:00:00.000+0100},
+  biburl = {http://www.bibsonomy.org/bibtex/271ba59b7c3698705ecb502d5487c83a6/dblp},
+  crossref = {conf/fpl/1994},
+  date = {2003-11-06},
+  description = {dblp},
+  interhash = {cdc9a50e351ffa524d96a5cf5cf003a6},
+  intrahash = {71ba59b7c3698705ecb502d5487c83a6},
+  isbn = {3-540-58419-6},
+  keywords = {dblp},
+  timestamp = {2003-11-06T00:00:00.000+0100},
+  url = {http://dblp.uni-trier.de/db/conf/fpl/fpl1994.html#HartensteinKR94}
+}
+
+@BOOK{Ashenden2008,
+  title = {Digital design: an embedded systems approach using Verilog},
+  publisher = {Morgan Kaufmann Publishers Amsterdam ; Boston },
+  year = {2008},
+  author = {Ashenden, Peter J. },
+  pages = {xx, 557 p. : },
+  catalogue-url = { http://nla.gov.au/nla.cat-vn4551775 },
+  isbn = {9780123695277 0123695279 },
+  language = {English },
+  life-dates = {2008 - },
+  subjects = {Embedded computer systems.; Verilog (Computer hardware description
+	language); System design. },
+  type = {Book},
+  url = {http://www.loc.gov/catdir/toc/ecip0719/2007023242.html }
+}
+
+@ARTICLE{Backus1978,
+  author = {Backus, John},
+  title = {Can programming be liberated from the von Neumann style?: a functional
+	style and its algebra of programs},
+  journal = {Commun. ACM},
+  year = {1978},
+  volume = {21},
+  pages = {613--641},
+  number = {8},
+  month = aug,
+  acmid = {359579},
+  address = {New York, NY, USA},
+  doi = {10.1145/359576.359579},
+  issn = {0001-0782},
+  issue_date = {Aug. 1978},
+  keywords = {algebra of programs, applicative computing systems, applicative state
+	transition systems, combining forms, functional forms, functional
+	programming, metacomposition, models of computing systems, program
+	correctness, program termination, program transformation, programming
+	languages, von Neumann computers, von Neumann languages},
+  numpages = {29},
+  publisher = {ACM},
+  url = {http://doi.acm.org/10.1145/359576.359579}
+}
+
+@BOOK{chen2004electrical,
+  title = {The Electrical Engineering Handbook},
+  publisher = {Elsevier Science},
+  year = {2004},
+  author = {Chen, W.K.},
+  isbn = {9780080477480},
+  lccn = {2005272517},
+  url = {http://books.google.com.br/books?id=qhHsSlazGrQC}
+}
+
+@BOOKLET{cullinan2012computing,
+  title = {Computing Performance Benchmarks among CPU, GPU, and FPGA},
+  author = {Cullinan, C. and Wyant, C. and Frattesi, T. and Huang, X.},
+  year = {2012},
+  url = {http://m.wpi.edu/Pubs/E-project/Available/E-project-030212-123508/unrestricted/Benchmarking_Final.pdf}
+}
+
+@ARTICLE{El-Ghazawi2008,
+  author = {Tarek A. El-Ghazawi and Esam El-Araby and Miaoqing Huang and Kris
+	Gaj and Volodymyr V. Kindratenko and Duncan A. Buell},
+  title = {The Promise of High-Performance Reconfigurable Computing},
+  journal = {IEEE Computer},
+  year = {2008},
+  volume = {41},
+  pages = {69-76},
+  number = {2},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://doi.ieeecomputersociety.org/10.1109/MC.2008.65}
+}
+
+@ARTICLE{Estrin2002,
+  author = {Estrin, Gerald},
+  title = {Reconfigurable computer origins: the UCLA fixed-plus-variable (F+V)
+	structure computer},
+  journal = {IEEE Ann. Hist. Comput.},
+  year = {2002},
+  volume = {24},
+  pages = {3--9},
+  number = {4},
+  month = oct,
+  acmid = {636836},
+  address = {Piscataway, NJ, USA},
+  doi = {10.1109/MAHC.2002.1114865},
+  issn = {1058-6180},
+  issue_date = {October 2002},
+  numpages = {7},
+  publisher = {IEEE Educational Activities Department},
+  url = {http://dx.doi.org/10.1109/MAHC.2002.1114865}
+}
+
+@BOOK{Fedeli2003,
+  title = {Introdu\c{c}\~ao \`a Ci\^encia da Computa\c{c}\~ao},
+  publisher = {Thomson},
+  year = {2003},
+  author = {Ricardo Fedeli and Enrico Polloni and Fernando Peres},
+  edition = {1},
+  owner = {Lucas},
+  timestamp = {2013.11.20}
+}
+
+@BOOK{Harel2004,
+  title = {Algorithmics: The Spirit of Computing},
+  publisher = {Addison Wesley},
+  year = {2004},
+  author = {David Harel and Yishai Feldman},
+  edition = {3rd},
+  owner = {Lucas},
+  timestamp = {2013.11.20}
+}
+
+@MISC{Hartenstein2006,
+  author = {Reiner Hartenstein},
+  title = {Why we need Reconfigurable Computing Education},
+  howpublished = {1st International Workshop on Reconfigurable Computing Education},
+  month = {March},
+  year = {2006}
+}
+
+@INPROCEEDINGS{Hartenstein2001,
+  author = {Hartenstein, R.},
+  title = {A decade of reconfigurable computing: a visionary retrospective},
+  booktitle = {Proceedings of the conference on Design, automation and test in Europe},
+  year = {2001},
+  series = {DATE '01},
+  pages = {642--649},
+  address = {Piscataway, NJ, USA},
+  publisher = {IEEE Press},
+  acmid = {367839},
+  isbn = {0-7695-0993-2},
+  location = {Munich, Germany},
+  numpages = {8},
+  url = {http://dl.acm.org/citation.cfm?id=367072.367839}
+}
+
+@INPROCEEDINGS{Hartenstein1995,
+  author = {Hartenstein, Reiner W. and Kress, Rainer},
+  title = {A datapath synthesis system for the reconfigurable datapath architecture},
+  booktitle = {Proceedings of the 1995 Asia and South Pacific Design Automation
+	Conference},
+  year = {1995},
+  series = {ASP-DAC '95},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  acmid = {224959},
+  articleno = {77},
+  doi = {10.1145/224818.224959},
+  isbn = {0-89791-766-9},
+  location = {Makuhari, Massa, Chiba, Japan},
+  url = {http://doi.acm.org/10.1145/224818.224959}
+}
+
+@BOOK{Hauck2007,
+  title = {Reconfigurable Computing: The Theory and Practice of FPGA-Based Computation},
+  publisher = {Morgan Kaufmann Publishers Inc.},
+  year = {2007},
+  author = {Hauck, Scott and DeHon, Andre},
+  address = {San Francisco, CA, USA},
+  isbn = {0123705223, 9780080556017, 9780123705228}
+}
+
+@BOOK{Hennessy2011,
+  title = {Computer Architecture, Fifth Edition: A Quantitative Approach},
+  publisher = {Morgan Kaufmann Publishers Inc.},
+  year = {2011},
+  author = {Hennessy, John L. and Patterson, David A.},
+  address = {San Francisco, CA, USA},
+  edition = {5th},
+  isbn = {012383872X, 9780123838728}
+}
+
+@ARTICLE{Ismaili2009,
+  author = {Zine El Abidine Alaoui Ismaili and Ahmed Moussa},
+  title = {Self-Partial and Dynamic Reconfiguration Implementation for AES using
+	FPGA},
+  journal = {CoRR},
+  year = {2009},
+  volume = {abs/0909.2369},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://arxiv.org/abs/0909.2369},
+  url = {http://cogprints.org/6694/1/2-33-40.pdf}
+}
+
+@MISC{MaxxPI2013,
+  author = {MaxxPI},
+  title = {MaxxPI's TOP15 Flops List},
+  howpublished = {\url{http://www.maxxpi.net/pages/result-browser/top15---flops.php}},
+  year = {2013},
+  note = {[Online; acessado em 16 de julho de 2013]}
+}
+
+@ARTICLE{Moore1965,
+  author = {Moore, G. E.},
+  title = {{Cramming More Components onto Integrated Circuits}},
+  journal = {Electronics},
+  year = {1965},
+  volume = {38},
+  pages = {114--117},
+  number = {8},
+  month = apr,
+  abstract = {{First Page of the Article}},
+  citeulike-article-id = {814762},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1109/jproc.1998.658762},
+  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=658762},
+  day = {19},
+  doi = {10.1109/jproc.1998.658762},
+  issn = {0018-9219},
+  keywords = {engineeringindustry, fabrication},
+  posted-at = {2007-10-10 14:15:19},
+  priority = {2},
+  publisher = {IEEE},
+  url = {http://dx.doi.org/10.1109/jproc.1998.658762}
+}
+
+@BOOK{nageldinger2001coarse,
+  title = {Coarse Grained Reconfigurable Architecture Design Space Exploration},
+  publisher = {Univ.-Bibliothek},
+  year = {2001},
+  author = {Nageldinger, U.},
+  isbn = {9783925178658},
+  url = {http://books.google.com.br/books?id=Qz29AQAACAAJ}
+}
+
+@BOOK{patterson2005coa,
+  title = {{Computer Organization and Design: The Hardware/software Interface}},
+  publisher = {Morgan Kaufmann},
+  year = {2005},
+  author = {Patterson, D.A. and Hennessy, J.L.},
+  added-at = {2008-11-22T09:47:19.000+0100},
+  biburl = {http://www.bibsonomy.org/bibtex/22df6376f037ed51e76d65e930b7d5599/mokukkon},
+  interhash = {ebc2032312fa00210484281e39e7b836},
+  intrahash = {2df6376f037ed51e76d65e930b7d5599},
+  keywords = {computers imported}
+}
+
+@BOOK{Pellerin2005,
+  title = {Practical FPGA Programming in C},
+  publisher = {Prentice Hall Press},
+  year = {2005},
+  author = {Pellerin, David and Thibault, Scott},
+  address = {Upper Saddle River, NJ, USA},
+  edition = {First},
+  isbn = {0131543180}
+}
+
+@BOOK{Thomas1996,
+  title = {The VERILOG Hardware Description Language},
+  publisher = {Kluwer Academic Publishers},
+  year = {1996},
+  author = {Thomas, Donald E. and Moorby, Philip R.},
+  address = {Norwell, MA, USA},
+  edition = {3rd},
+  isbn = {0792397231}
+}
+
+@MISC{Top5002013,
+  author = {Top500},
+  title = {June 2013's Supercomputer Sites},
+  howpublished = {\url{http://www.top500.org/lists/2013/06/}},
+  month = {Junho},
+  year = {2013},
+  note = {[Online; acessado em 16 de julho de 2013]},
+  owner = {Lucas},
+  timestamp = {2013.07.16}
+}
+
+@BOOK{Vajda2011,
+  title = {{Programming Many-Core Chips}},
+  publisher = {Springer},
+  year = {2011},
+  author = {Vajda, Andras},
+  address = {Dordrecht}
+}
+
+@BOOK{vassiliadis2007fine,
+  title = {Fine- and Coarse-Grain Reconfigurable Computing},
+  publisher = {Springer London, Limited},
+  year = {2007},
+  author = {Vassiliadis, S. and Soudris, D.},
+  isbn = {9781402065057},
+  lccn = {2007936371},
+  url = {http://books.google.com.br/books?id=2Vsvwyq7BREC}
+}
+
+@BOOK{williams2012c++,
+  title = {C++ Concurrency in Action: Practical Multithreading ; [for the New
+	C++ 11 Standard]},
+  publisher = {Manning Publications Company},
+  year = {2012},
+  author = {Williams, A.},
+  series = {Manning Pubs Co Series},
+  isbn = {9781933988771},
+  url = {http://books.google.com.br/books?id=EttPPgAACAAJ}
+}
+
+@BOOK{Woods2008,
+  title = {FPGA-based Implementation of Signal Processing Systems},
+  publisher = {Wiley Publishing},
+  year = {2008},
+  author = {Woods, Roger and Mcallister, John and Turner, Richard and Yi, Ying
+	and Lightbody, Gaye},
+  isbn = {0470030097, 9780470030097}
+}
+
+@TECHREPORT{N25Q128,
+  title = {{N25Q128}: 128-Mbit 3 V, multiple I/O, 4-Kbyte subsector erase on
+	boot sectors,
+	
+	XiP enabled, serial flash memory with 108 MHz SPI bus interface},
+  institution = {{Micron Technology, Inc.}}
+}
+
+@MANUAL{ug702,
+  title = {{UG702}: Partial Reconfiguration User Guide},
+  organization = {{Xilinx Inc.}},
+  month = {April},
+  year = {2013},
+  url = {http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/ug702.pdf},
+  www_section = {Xilinx}
+}
+
+@MANUAL{ug743,
+  title = {{UG743}: Partial Reconfiguration Tutorial},
+  organization = {{Xilinx Inc.}},
+  month = {April},
+  year = {2013},
+  url = {http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/PlanAhead_Tutorial_Partial_Reconfiguration.pdf},
+  www_section = {Xilinx}
+}
+
+@MANUAL{ug744,
+  title = {{UG744}: Partial Reconfiguration of a Processor Peripheral Tutorial},
+  organization = {{Xilinx Inc.}},
+  month = {June},
+  year = {2013},
+  owner = {Lucas},
+  timestamp = {2013.11.25},
+  url = {http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/PlanAhead_Tutorial_Reconfigurable_Processor.pdf},
+  www_section = {Xilinx}
+}
+
+@MANUAL{ug748,
+  title = {{UG748}: Hierarchical Design Methodology Guide},
+  organization = {{Xilinx Inc.}},
+  month = {April},
+  year = {2013},
+  owner = {Lucas},
+  timestamp = {2013.11.25},
+  url = {http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/Hierarchical_Design_Methodology_Guide.pdf}
+}
+
+@MANUAL{ug810,
+  title = {{UG810}: KC705 Evaluation Board for the Kintex-7 FPGA},
+  organization = {{Xilinx Inc.}},
+  month = {July},
+  year = {2013},
+  owner = {Lucas},
+  timestamp = {2013.11.25},
+  url = {http://www.xilinx.com/support/documentation/boards_and_kits/kc705/ug810_KC705_Eval_Bd.pdf}
+}
+
+@TECHREPORT{MT8JTF12864HZ,
+  title = {DDR3 SDRAM SODIMM},
+  institution = {{Micron Technology}},
+  year = {2010},
+  owner = {Lucas},
+  timestamp = {2013.11.26}
+}
+

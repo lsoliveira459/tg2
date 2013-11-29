@@ -111,7 +111,7 @@ Atualmente, nossos modernos computadores multiprocessados utilizam a arquitetura
 A sua capacidade de processamento atinge n\'i­veis extraordin\'arios, ultrapassando 20 GFlops em computadores comuns \cite{MaxxPI2013} e 54 PFlops em supercomputadores \cite{Top5002013}.
 Apesar disso, a arquitetura Harvard original ainda \'e muito usada em microcontroladores e processadores digitais de sinal (\textit{Digital Signal Processors} ou DSPs).
 
-\subsection{Computa\c{c}\~ao Reconfigur\'avel}
+\section{Computa\c{c}\~ao Reconfigur\'avel}
 \label{ss:computacao_reconfiguravel}
 
 A computa\c{c}\~ao reconfigur\'avel foi proposta por volta de 1960 por Gerald Estrin para resolver problemas que n\~ao podiam ser resolvidos pela computa\c{c}\~ao da \'epoca \cite{Estrin2002}.
@@ -165,28 +165,59 @@ Nas arquiteturas com granularidade fina, como os \textit{Field-Programmable Gate
 Nas arquiteturas com granularidade grossa, os \textit{bits} s\~ao agrupados em palavras de tamanhos fixos, reduzindo assim o espa\c{c}o gasto com roteamento e melhorando a roteabilidade \cite{Hartenstein2001}.
 No \'ultimo tipo de arquiteturas, a h\'i­brida, parte das conex\~oes s\~ao grossas e partes s\~ao finas, combinando os benef\'i­cios das duas classes.
 
+\subsection{Compilação de \textit{Hardware}}
+A compilação de \textit{hardware} é um processo primordial no desenvolvimento de sistemas reconfiguráveis, equivalente à compilação para projetos de \textit{software} \cite{Hauck2007}.
+A figura \ref{fig:sintese} apresenta duas imagens que apresentam este processo de compilação.
 
+\begin{figure}[h]
+	\centering
+       	\begin{subfigure}[b]{0.4\textwidth}
+       		\centering
+		\includegraphics[width=\textwidth]{fig/c1_introducao/sintese_simples.pdf}
+		\caption{Imagem ilustrativa do fluxo de compilação de um projeto de \textit{hardware}, extraida de \cite{Hauck2007}.}
+		\label{fig:sintese_simples}
+	\end{subfigure}\quad
+	\begin{subfigure}[b]{0.55\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/c1_introducao/sintese.pdf}
+		\caption{Imagem ilustrativa do fluxo de compilação de um projeto de \textit{hardware} segundo visto pelo usuário, extraida de \cite{Hauck2007}.}
+		\label{fig:sintese_user}
+	\end{subfigure}
+	\caption{Imagens do fluxo da compilação de \textit{hardware}.}
+	\label{fig:sintese}
+\end{figure}
 
+\paragraph{Descrição}
+Assim como no \textit{software},  se inicia com a descrição do funcionamento do sistema.
+Esta descrição em geral é feita utilizando-se especificações de um problema/aplicação.
+Ela pode ser realizada em Verilog, VDHL e diagramas de blocos, na maioria dos casos.
+Utiliza-se ainda a simulação funcional, como mostrado na figura \ref{fig:sintese_user}, para validar a descrição realizada.
 
+\paragraph{Síntese Lógica}
+A partir do código fonte construido, realiza-se a síntese lógica, processo que consiste em transformar a descrição comportamental ou estrutural em elementos lógicos \cite{Thomas1996, Ashenden2008}.
+Assim como na compilação de \textit{software}, existe uma fase de pré-processamento que expande macros, inclui arquivos e realiza a verificação léxica e sintática da descrição.
+Diversos algoritmos de otimização também são aplicados de forma a reduzir as equações lógicas, otimizando seu espaço no dispositivo e performance.
+
+\paragraph{Colocação (\textit{Placement}) e Roteamento (\textit{Routing})}
+A colocação, que aqui também abrange a etapa de \textit{floorplanning}, consiste em identificar onde a lógica deverá ser posicionada para satisfazer os requisitos de tempo, potência e performance, segundo as limitações do dispositivo-alvo.
+Ela recebe informações da lógica do projeto e dos recursos lógicos do dispositivo e aplica algoritmos de otimização para alcançar todos os objetivos e pré-requisitos impostos.
+
+De forma similar, a etapa de roteamento c
+
+\paragraph{Análise e Simulação de \textit{Timing}}
+
+\paragraph{Geração do Arquivo Binário (\textit{Bitstream Generation})}~
 
 \todo{Descrever o fluxo de "compilação" de um projeto de hardware para FPGA.}
 
-\section{\textit{}}
-
+\subsection{\textit{Benchmark}}
 A avaliação de desempenho de sistemas reconfiguráveis não pode mais ser dada com base em quantidade de operações em ponto flutuante (FLOPS) como é feita em computadores e similares \cite{patterson2005coa, cullinan2012computing}.
 A melhor forma de se comparar dispositivos é através de do uso de uma mesma aplicação sintetizada com as ferramentas específicas de cada empresa.
 Neste caso, pórem, a comparação também leva em consideração o desempenho das ferramentas, especialmente em sua capacidade de otimizar as funções implementadas.
 Outra forma comum de se comparar desempenho é específico através de uma análise de aplicações específicas.
 Um exemplo para uma aplicação de filtragem de imagens é a quantidade de quadros ela consegue processar em um determinado periodo de tempo.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{fig/c1_introducao/fluxo.pdf}
-\caption{Imagem ilustrativa do fluxo de síntese de um projeto de \textit{hardware}.}
-\label{fig:fluxo}
-\end{figure}
-
-\section{Dispositivos}
+\subsection{Dispositivos}
 As formas mais comuns de dispositivos reconfigur\'aveis s\~ao o \textit{Programmable Array Logic} (PAL), o \textit{Complex Programmable Logic Device} (CPLD), o \textit{Field-Programmable Gate Array} e o \textit{Reconfigurable Datapath Array} (rDPA).
 Cada um possui suas vantagens e desvantagens segundo a forma de implementa\c{c}\~ao, comentadas a seguir.
 
