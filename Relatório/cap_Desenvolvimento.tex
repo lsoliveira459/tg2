@@ -400,15 +400,15 @@ Este teste, então, tem por objetivo entender o fluxo de projeto para o uso do M
 
 \subsubsection{Fluxo de Projeto}
 O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
-A figura \ref{fig:ex3:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
+A figura \ref{fig:ex2:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
 Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
 Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT através do SDK.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[height=100px]{fig/c3_desenvolvimento/ex3/softwareflow.pdf}
+\includegraphics[height=100px]{fig/c3_desenvolvimento/ex2/softwareflow.pdf}
 \caption{Foto ilustrativa do fluxo de ferramentas para o desenvolvimento de sistemas com MicroBlaze, extraído de \cite{ug081}.}
-\label{fig:ex3:softwareflow}
+\label{fig:ex2:softwareflow}
 \end{figure}
 
 \subsubsection{MicroBlaze}
@@ -419,7 +419,7 @@ Todas as outras configurações, tais como o uso de \textit{Big Endian} ou \text
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex3/MicroBlaze_Core.pdf}
+\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex2/MicroBlaze_Core.pdf}
 \caption{Diagrama de blocos do MicroBlaze.}
 \label{fig:ex3:microblazecore}
 \end{figure}
@@ -432,31 +432,33 @@ Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde 
 \subsubsection{XPS}
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/XPS.pdf}
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex2/XPS.pdf}
 \caption{Imagem do XPS logo que aberto.}
-\label{fig:ex3:xps}
+\label{fig:ex2:xps}
 \end{figure}
+
+Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da figura \ref{fig:ex2:xps}.
+Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
+Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
+Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o \textit{Baud Rate} da interface UART para 115200 bits/s.
+
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex3/BSB_AXI_flow.pdf}
+\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex2/BSB_AXI_flow.pdf}
 \caption{Escolha dos periféricos no BSB do XPS.}
-\label{fig:ex3:bsb_prerifericos}
+\label{fig:ex2:bsb_prerifericos}
 \end{figure}
-
-Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da figura \ref{fig:ex3:xps}.
-Na janela que aparece, escolheu-se a placa de desenvolvimento que se escolheu utilizar e a opção de um só processador no sistema, para simplificar o projeto.
-Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex3:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=439px]{fig/c3_desenvolvimento/ex3/xps_address.pdf}
+\includegraphics[width=439px]{fig/c3_desenvolvimento/ex2/xps_address.pdf}
 \caption{Aba \textit{Addresses} do \textit{System Assembly View} indicando os ajustes dos endereços e tamanhos das memórias.}
-\label{fig:ex3:xps_enderecos}
+\label{fig:ex2:xps_enderecos}
 \end{figure}
 
 Antes de concluir o a construção do sistema, precisa-se ajustar os tamanhos das memórias e seus endereços, de forma que estes novos tamanhos possam ser corretamente acessados.
 Isto pode ser feito na aba \textit{Addresses} do painel \textit{System Assembly View}.
-Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x70000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex3:xps_enderecos}.
+Muda-se então o tamanho da memória SPI Flash para 128M, seu endereço base para 0x70000000, o tamanho da memória DDR3 para 1G e seu endereço base para 0xC0000000, conforme a figura \ref{fig:ex2:xps_enderecos}.
 Note que o endereço da memória SPI Flash pode ser alterado, tendo como única restrição de ter os 28 bits menos significativos iguais a zero.
 O endereço base da memória DDR3, porém, não pode ser alterado visto que o endereço de 0xC0000000 a 00xC7FFFFFF é utilizado como memória \textit{cache} pela interface AXI4.
 
