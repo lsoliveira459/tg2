@@ -471,9 +471,37 @@ Após a implementação do arquivo binário, a ferramenta SDK será aberta.
 
 \subsubsection{SDK}
 Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{workspace}.
-Uma boa opção é a pasta SDK criada dentro da pasta do projeto do sistema durante sua exportação.
+Uma boa opção é a pasta SDK criada dentro da pasta do projeto do sistema durante sua exportação, apesar desta escolha ser completamente arbitrária.
+Escolhida a pasta, o ambiente de trabalho é aberto.
+
+Começa-se o processo criando um projeto do tipo \dlq{}\textit{Board Support Package}\drq{}.
+Este projeto compila automaticamente os drivers disponíveis para o projeto segundo as características do microcontrolador.
+Em seguida, pode-se criar os projetos dos \textit{softwares} que irão embarcados.
+Para isto, cria-se um projeto do tipo \dlq{}\textit{Application Project}\drq{}.
+Na janela que se abre, nomeie o projeto e selecione a \dlq{}\textit{Board Support Package}\drq{} no \textit{dropdown} do item \dlq{}\textit{Board Support Package}\drq{}.
+Na página seguinte, escolhe-se \dlq{}\textit{Empty Project}\drq{}.
+
+Adiciona-se arquivos ao projeto tanto arrastando os códigos para ele quanto selecionando a opção \dlq{}\textit{New/Source File}\drq{} do menu que aparece quando se clica no projeto com o botão direito.
+Note que o acesso a memória é feito simplesmente dereferenciando um ponteiro para a posição de memória desejada.
+A escrita é feita do mesmo modo.
+Encontra-se emanexo códigos-exemplo para o teste das memórias DDR3 e SPI Flash.
+
+Antes de executar o programa, é interessante habilitar a opção de debugação.
+Isto é feito através do menu \dlq{}\textit{Run}\drq{}, na opção \dlq{}\textit{Run Configurations...}\drq{}.
+Na janela que aparece, na aba \dlq{}\textit{STDIO Connection}\drq{}, habilita-se a conexão do STDIO com o console e modifica-se o \dlq{}\textit{Baud Rate}\drq{} para 115200.
+Clica-se então em \dlq{}\textit{Apply}\drq{} e em seguida \dlq{}\textit{Close}\drq{}.
+
+A programação do FPGA pode ser feita através do menu \dlq{}\textit{Xilinx Tools}\drq{}, na opção \dlq{}\textit{Program FPGA}\drq{}.
+Na janela que se abre, é padrão que as informações já estejam pré-preenchidas, mas caso isto não aconteça, procura-se pelos arquivos \dlq{}system.bit\drq{} e \dlq{}system\_bd.bmm\drq{} na pasta \dlq{}\textit{implementations}\drq{} na raíz do projeto do processador.
+Clica-se em \dlq{}\textit{Program}\drq{} para inciar a programação.
+
+Para se transferir o programa criado com o auxílio do SDK, seleciona-se o projeto deste programa, clica-se com o botão direito, seleciona-se o submenu \dlq{}\textit{Run As...}\drq{} e escolhe-se a opção \dlq{}\textit{1 Launch on Hardware (GDB)}\drq{}.
+No caso dos códigos-exemplo, algumas informações são imprimidas no console caso tudo tenha ocorrido confome o esperado.
 
 \subsection{Conclusão}
+Conclui-se assim o experimento para o teste de programação das memórias.
+Notou-se que existe muita pouca literatura no assunto, forçando o programador a fazer uso dos forúns de discussão e conhecimentos gerais de programação embarcada.
+Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
 \section{Experimento 3 - Teste do \textit{Bootloader}}
 O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
