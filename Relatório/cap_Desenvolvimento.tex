@@ -35,9 +35,9 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%% Apagar coisas acima
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newcommand\dlq{\lq\lq{}}
+	\newcommand\drq{\rq\rq{}}
 \fi
-\newcommand\dlq{\lq\lq{}}
-\newcommand\drq{\rq\rq{}}
 
 \lstdefinestyle{customVHDL}{
 	  belowcaptionskip=1\baselineskip,
@@ -508,6 +508,7 @@ O \textit{bootloader}, como mencionado acima, é um sistema que carrega as infor
 Usou-se um microcontrolador MicroBlaze com controladores para a memória SPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
 Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
 
+\todo{Introduzir a necessidade do experimento experimento (usar o iMPACT para escrever um ou mais .bit na SPI Flash e carregar/interpretar este arquivo passando para a memória DDR3).}
 
 \subsection{Teste}
 O teste deste experimento compreende a construção de um subsistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3 e indique para o resto do sistema o final do processo.
