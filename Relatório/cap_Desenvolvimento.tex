@@ -309,16 +309,26 @@ Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que cont�
 
 \subsubsection{iMPACT}
 Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através auxilio da ferramenta iMPACT. 
+A primeira coisa a se fazer após abrir o programa é permitir que o sistema automaticamente crie um projeto.
+Na janela que se abre, escolhe-se a opção \dlq{}\textit{Automatically connect to a cable and identify Boundary-Scan chain}\drq{} do item \dlq{}\textit{Configure devices using Boundary-Scan (JTAG)}\drq{}.
+Quando pergunta-se se deseja-se atribuir uma nova configuração, pode-se clicar que sim e escolher um arquivo binário completo gerado na etapa anterior.
+Normalmente escolhe-se a configuração vazia como configuração inicial para poupar energia.
 
-A primeira coisa a se fazer é inicializar a cadeia de dispositivos, fazendo com que um símbolo representando a FPGA apareça na tela.
-\todo{Terminar iMPACT}
+Quando a configuração for completamente transmitida e implementada, observa-se que um LED está piscando com uma frequência de 2 Hz e todos os outros (acionados) estão acesos.
+Isto acontece uma vez que o sitema atribui sinal ativo para os elementos desconectados.
+
+Para realizar a reconfiguração parcial dinâmica, clica-se com o botão direito no símbolo do dispositivo que aparece no iMPACT e seleciona-se a opção \dlq{}\textit{Assign New Configuration File...}\drq{}.
+Procura-se então pelos arquivos binários parciais localizados na pasta \textit{PlanAhead > PlanAhead.runs >} \dlq{}nome da configuração\drq{}.
+Este arquivo possui \dlq{}partial\drq{} em seu nome, o que o diferencia do arquivo binário completo.
+Note que utilizar os arquivos binários completos não gera erro, mas constitui reconfiguração total, não parcial.
+Após a seleção da configuração desejada, o último passo necessário é a programação, que pode ser realizada clicando-se com o botão direito no dispositivo e selecionando-se a opção \dlq{}\textit{Program}\drq{}.
 
 \subsection{Possíveis Erros}
 \paragraph{Erros no código-fonte} Este é um dos erros mais comuns.
 A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
 Para acelerar o processo, realiza-se apenas a síntese.
 
-\paragraph{Erros no na alocação de partições}
+\paragraph{Erros na alocação de partições}
 Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\textit{AR\# 53290: Partial Reconfiguration - 7 series device layout of tiles (CLB, DSP, BRAM, INT) and a shared clocking structure of vertical clock spines between interconnect (routing) tiles}. Disponível em \url{http://www.xilinx.com/support/answers/53290.htm}}.
 Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições UCF ou alterando a região da partição.
 A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \dlq{}INCLUSIVE=ROUTE\drq{} na linha que contém \dlq{}INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"\drq{}.
@@ -332,6 +342,11 @@ Esquecer de promover esta partição pode fazer com que erros sejam gerados na e
 \paragraph{O PlanAhead pode travar enquanto implementando uma configuração}
 Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
 A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
+
+\paragraph{Erros na detecção da placa}
+Note que algum programa aberto pode interferir com a varredura realizada pelo iMPACT, fazendo-a falhar.
+Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
+Note ainda que a placa deve estar ligada para poder ser detectada.
 
 \subsection{Conclusão}
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
