@@ -28,10 +28,11 @@
 4. [XAPP501] **Configuration Quick Start Guidelines** (v1.05): Explica os diversos processos de programação da FPGA.
 4. [XAPP502] **Using a Microprocessor to Configure Xilinx FPGAs via Slave Serial or SelectMAP Mode** (v1.6.1): Explica a interface SelectMAP de uma forma +/- legal.
 5. [XAPP583] **Using a Microprocessor to Configure 7 Series FPGAs via Slave Serial or Slave SelectMAP Mode** (v1.00): Discute a programação de uma FPGA através de um microcontrolador usando uma interface Slave Serial ou Slave SelectMap.
-5. [XAPP586] **Using SPI Flash with 7 Series FPGAs** (v1.01): Explica como funciona a memória SPI Flash, inclusive como calcular sua frequência de operação.
-6. [XAPP694] **Reading User Data from Configuration PROMs** (v1.1.1): Explica como programar PROMs (SPI Flash, BPI Flash, etc) com dados arbitrários. Parece muito promissor.
+5. [XAPP586] **Using SPI Flash with 7 Series FPGAs** (v1.01): Explica como funciona a memória SPI Flash, inclusive como calcular sua frequência de operação. Também ensina como forçar o uso da interface SPI x4 através do "-g spi_buswidth: 1|2|4".
+6. [XAPP694] **Reading User Data from Configuration PROMs** (v1.1.1): Explica como programar PROMs (SPI Flash, BPI Flash, etc) com dados arbitrários. Parece muito interessante!
 5. [XAPP739] **AXI Multi-Ported Memory Controller** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
 6. [XAPP789] **7 Series FPGAs AXI Multi-Port Memory Controller Using the Vivado Tools** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
+6. [XAPP800] **Configuring Xilinx FPGAs with SPI Flash Memories Using CoolRunner-II CPLDs** (v1.1.1): Uma boa explicação de "_SPI Memory as FPGA User Space_".
 7. [XAPP883] **Fast Configuration of PCI Express Technology through Partial Reconfiguration** (v1.00): Explica a metodologia para construção de um Fast PCIe Configuration Module (FPC), ou seja, uma configuração inicial e configurações customizáveis subsequentes.
 8. [XAPP887] **PRC/EPRC: Data Integrity and Security Controller for Partial Reconfiguration** (v1.01): Descreve um controlador de verificação da integridade de dados. Interessante fazer esse CRC antes de passar os dados pro ICAP.
 8. [XAPP951] **Configuring Xilinx FPGAs with SPI Serial Flash** (v1.03): Explica passo-a-passo e em baixo nível como programar a FPGA a partir da SPI Flash.
@@ -46,6 +47,7 @@
 ## User Guide (UG)
 1. [UG081] **MicroBlaze Processor Reference Guide - Embedded Development Kit EDK 14.6** (v14.6): Informações de memória e registradores da interface AXI4.
 1. [UG111] **Embedded System Tools Reference Manual (EDK)** (v14.6): Explica os comandos e programas auxiliares do EDK.
+1. [UG161] **Platform Flash PROM User Guide** (v1.05): Explica como criar um arquivo de PROM para carregar para a memória SPI Flash.
 2. [UG257] **MicroBlaze Development Kit Spartan-3E 1600E Edition User Guide** (v1.01): Mostra os recursos e configurações da Spartan-3E 1600E.
 3. [UG258] **Getting Started with the MicroBlaze Development Kit - Spartan-3E 1600E Edition** (v1.03)
 1. [UG470] **7 Series FPGAs Configuration User Guide** (v1.07): Explica as interfaces de configuração, inclusive a SelectMAP, que é similar a ICAP.
@@ -122,6 +124,7 @@
 
 [UG081]: ./xilinx/ug/ug081.pdf
 [UG111]: ./xilinx/ug/ug111.pdf
+[UG161]: ./xilinx/ug/ug161.pdf
 [UG257]: ./xilinx/ug/ug257.pdf
 [UG258]: ./xilinx/ug/ug258.pdf
 [UG470]: ./xilinx/ug/ug470.pdf
