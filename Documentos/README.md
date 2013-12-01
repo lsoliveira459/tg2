@@ -29,6 +29,7 @@
 4. [XAPP502] **Using a Microprocessor to Configure Xilinx FPGAs via Slave Serial or SelectMAP Mode** (v1.6.1): Explica a interface SelectMAP de uma forma +/- legal.
 5. [XAPP583] **Using a Microprocessor to Configure 7 Series FPGAs via Slave Serial or Slave SelectMAP Mode** (v1.00): Discute a programação de uma FPGA através de um microcontrolador usando uma interface Slave Serial ou Slave SelectMap.
 5. [XAPP586] **Using SPI Flash with 7 Series FPGAs** (v1.01): Explica como funciona a memória SPI Flash, inclusive como calcular sua frequência de operação.
+6. [XAPP694] **Reading User Data from Configuration PROMs** (v1.1.1): Explica como programar PROMs (SPI Flash, BPI Flash, etc) com dados arbitrários. Parece muito promissor.
 5. [XAPP739] **AXI Multi-Ported Memory Controller** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
 6. [XAPP789] **7 Series FPGAs AXI Multi-Port Memory Controller Using the Vivado Tools** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
 7. [XAPP883] **Fast Configuration of PCI Express Technology through Partial Reconfiguration** (v1.00): Explica a metodologia para construção de um Fast PCIe Configuration Module (FPC), ou seja, uma configuração inicial e configurações customizáveis subsequentes.
@@ -106,6 +107,7 @@
 [XAPP502]: ./xilinx/xapp/xapp502.pdf
 [XAPP583]: ./xilinx/xapp/xapp583.pdf
 [XAPP586]: ./xilinx/xapp/xapp586.pdf
+[XAPP694]: ./xilinx/xapp/xapp694.pdf
 [XAPP739]: ./xilinx/xapp/xapp739.pdf
 [XAPP789]: ./xilinx/xapp/xapp789.pdf
 [XAPP883]: ./xilinx/xapp/xapp883.pdf
