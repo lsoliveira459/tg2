@@ -17,8 +17,7 @@
 	\usepackage{fancyhdr}
 	\usepackage{url}
 	\usepackage{afterpage}
-	\usepackage{color}
-	\usepackage{colortbl}
+	\usepackage{xcolor}
 	\usepackage{rotating}
 	\usepackage{makeidx}
 	\usepackage{indentfirst}
@@ -526,6 +525,13 @@ Neste experimento, espera-se entender como é formado o arquivo binário para as
 
 Utilizará-se também o GPIO, que dá acesso aos pinos da placa, visto que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
 
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/hex_blank.pdf}
+\caption{Cabeçalho do arquivo binário gerado no primeiro experimento para a configuração vazia.}
+\label{fig:ex3:hex_blank}
+\end{figure}
+
 \subsection{Arquivo Binário}
 O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
 O cabeçalho é formado por chaves e tamanhos, indicando diversos campos deste.
@@ -536,39 +542,37 @@ Se estas palavras fossem 0x00 indicariam que a configuração não é mais váli
 
 O cabeçalho descrito na tabela \ref{tab:ex3:hex_blank} contém pelo menos duas informações muito interessantes: o identificador do dispositivo alvo, que permite verificar a compatibilidade entre a configuração e o dispositivo que a está recebendo, e o tamanho da configuração, que permite que ela seja carregada de forma dinâmica sem necessidade de mais informações.
 
+\begin{table}[htp]
+\centering
+\begin{tabular}{cp{4cm}p{7.5cm}}
+Tamanho & Chave & Significado\\ \hline
+2 bytes & 9 (0x00 09) & Tamanho em bytes do próximo campo \\ \hline
+9 bytes & 0x0f f0 0f f0 0f f0 0f f0 00 & Indica que a configuração a seguir é válida. \\ \hline
+2 bytes & 1 (0x00 01) & Tamanho em bytes do próximo campo\\ \hline
+1 byte & "a" (0x61) & Indica que os próximos campos conterão informações sobre o projeto e sobre a configuração. \\ \hline
+2 bytes & 35 (0x00 23) & Tamanho em bytes do próximo campo \\ \hline
+35 bytes & Blank\_routed.ncd;\qquad UserID=0xFFFFFFFF & Apresenta o nome do \textit{netlist} e o identificador do usuário. 0x00 ao final indica o final da string. \\ \hline
+1 byte & "b" (0x62) & Indica que o próximo campo é um indentificador do dispositivo-alvo. \\ \hline
+2 bytes & 13 (0x00 0d) & Tamanho em bytes do próximo campo \\ \hline
+13 bytes & 7k325tffg900 & Identificador do dispositivo-alvo. 0x00 ao final indica o final da string. \\ \hline
+1 byte & "c" (0x63) & Indica que o próximo campo é a data de sintese da configuração. \\ \hline
+2 bytes & 11 bytes (0x00 0b) & Tamanho em bytes do próximo campo \\ \hline
+11 bytes & 2013/11/26 & Data da síntese da configuração. \\ \hline
+1 byte & "d" (0x64) & Indica que o próximo campo é a hora de síntese da configuração. \\ \hline
+2 bytes & 9 bytes (0x00 09) & Tamanho em bytes do próximo campo \\ \hline
+9 bytes & 08:54:11 & Hora de síntese da configuração. \\ \hline
+1 byte & "e" (0x65) & Indica que os próximos 8 bytes contém o tamanho da configuração. \\ \hline
+4 bytes & 661188 (0x00 0a 16 c4) & Tamanho em bytes da configuração a partir desta posição. \\\hline
+\end{tabular}
+\caption{Descrição do cabeçalho dos arquivos binários.}
+\label{tab:ex3:hex_blank}
+\end{table}
+
 Ainda no cabeçalho, tem-se um 32 bytes de espaçamento preenchidos por com \dlq{}0xff\drq{}.
 Em seguida, tem-se os bytes para autodetecção de largura de banda \cite{ug470, xapp583}.
 Estes bytes (\dlq{}0x00 00 00 bb 11 22 00 44\drq{}) são usados no modo de configuração paralelo para detectar automaticamente a largura de banda do arquivo de configuração.
 O modo serial ignora todos os bits anteriores a palavra de sincronia \cite{xapp583}.
 Estes bits são então usados apenas para pré-processamento do arquivo binário.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/hex_blank.pdf}
-\caption{Cabeçalho do arquivo binário gerado no primeiro experimento para a configuração vazia.}
-\label{fig:ex3:hex_blank}
-\end{figure}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|c|p{6.5cm}|}
-\hline
-Tamanho & Chave & Significado\\ \hline
-9 bytes (0x00 09) & 0x0f f0 0f f0 0f f0 0f f0 00 & Indica que a configuração a seguir é válida. \\ \hline
-1 byte (0x00 01) & "a" (0x61) & Indica que os próximos campos conterão informações sobre o projeto e sobre a configuração. \\ \hline
-35 bytes (0x00 23) & [Chave muito longa] & Apresenta o nome do \textit{netlist} e o identificador do usuário. 0x00 ao final indica o final da string. \\ \hline
-& "b" (0x62) & Indica que o próximo campo é um indentificador do dispositivo-alvo. \\ \hline
-13 bytes (0x00 0d) & 7k325tffg900 & Identificador do dispositivo-alvo. 0x00 ao final indica o final da string. \\ \hline
-& "c" (0x63) & Indica que o próximo campo é a data de sintese da configuração. \\ \hline
-11 bytes (0x00 0b) & 2013/11/26 & Data da síntese da configuração. \\ \hline
-& "d" (0x64) & Indica que o próximo campo é a hora de síntese da configuração. \\ \hline
-9 bytes (0x00 09) & 08:54:11 & Hora de síntese da configuração. \\ \hline
-& "e" (0x65) & Indica que os próximos 8 bytes contém o tamanho da configuração. \\ \hline
-& 661188 bytes (0x00 0a 16 c4) & Tamanho da configuração a partir desta posição. \\\hline
-\end{tabular}
-\caption{Descrição do cabeçalho dos arquivos binários.}
-\label{tab:ex3:hex_blank}
-\end{table}
 
 A palavra de sincronia (\dlq{}0xaa 99 ff 66\drq{}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
 
@@ -589,6 +593,8 @@ A memória SPI Flash, assim como todas as outras, precisa de um procedimento esp
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para a FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
 Apesar disto, programar a FPGA utilizando apenas a SPI Flash pode ser muito custoso \cite{xapp586}.
 Este processo demora em torno de 1 minuto e 30 segundos, em condições ideais.
+
+Para se programar a memória SPI Flash.
 
 \subsubsection{SDK}
 
