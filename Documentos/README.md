@@ -54,12 +54,14 @@
 1. [UG473] **7 Series FPGAs Memory Resources User Guide** (v1.09): Explica a Block RAM.
 1. [UG586] **7 Series FPGAs Memory Interface Solutions v1.9 and v1.9a User Guide** (v1.09):  
 2. [UG625] **Constraints Guide** (v13.4): Explica alguns tipos de arquivos de restrições (UCF, etc).
+2. [UG628] **Command Line Tools User Guide** (v14.5): Explica o comando BitGen.
 3. [UG702] **Partial Reconfiguration User Guide** (v14.5): Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
 4. [UG744] **Partial Reconfiguration of a Processor Tutorial** (v14.6): Tutorial mostrando como fazer um processador com um periférico reconfigurável.
 3. [UG748] **Hierarchical Design Methodology Guide** (v14.5): Explica porque usar "-iobuf NO". Também apresenta muitas informações sobre partições e 
 4. [UG761] **AXI Reference Guide** (v14.3): Explica a interface AXI.
 5. [UG768] **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs** (v14.6): Contém todos os macros e primitivas, inclusive o ICAP.
+5. [UG789] **PlanAhead Tcl Command Reference Guide** (v14.6): Como usar o iMPACT por linha de comando.
 6. [UG810] **KC705 Evaluation Board for the Kintex-7 FPGA User Guide** (v1.04): Explica os diversos componentes da KC705, inclusive os clocks, dando informação sobre os pinos e etc.
  
 ## Slides
@@ -69,6 +71,9 @@
 
 ## Release Note Tables
 1. [XTP025] **IP Release Notes Guide** (v4.03): Release note dos diferente IP Cores.
+
+## SW Manuals
+1. [Project Files](http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/platform_studio/ps_r_gst_project_files.htm) **XPS Project Files** (v14.6): Explica onde mudar as informações do BitGen mesmo no XPS.
 
 # Artigos
 1. [fpt09lai] **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**
@@ -131,12 +136,14 @@
 [UG473]: ./xilinx/ug/ug473.pdf
 [UG586]: ./xilinx/ug/ug586.pdf
 [UG625]: ./xilinx/ug/ug625.pdf
+[UG628]: ./xilinx/ug/ug628.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
 [UG743]: ./xilinx/ug/ug743.pdf
 [UG744]: ./xilinx/ug/ug744.pdf
 [UG748]: ./xilinx/ug/ug748.pdf
 [UG761]: ./xilinx/ug/ug761.pdf
 [UG768]: ./xilinx/ug/ug768.pdf
+[UG789]: ./xilinx/ug/ug789.pdf
 [UG810]: ./xilinx/ug/ug810.pdf
 
 [01_PR_Intro]: 	./xilinx/others/01_PR_Intro.pdf
