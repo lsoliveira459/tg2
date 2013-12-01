@@ -23,8 +23,10 @@
 1. [XAPP058] **Xilinx In-System Programming Using an Embedded Microcontroller** (v4.01): Explica o processo de programar a FPGA usando um microcontrolador embarcado.
 1. [XAPP290] **Difference-Based Partial Reconfiguration** (v2.00): Possível modificação. _**Acrescentar na conclusão**_!
 2. [XAPP463] **Using Block RAM in Spartan-3 Generation FPGAs** (v2.00): Explica como funcionam as _Block Rams_ em baixo nível.
+3. [XAPP468] **Fail-Safe MultiBoot Reference Design** (v1.01): Explica os campos do arquivo de dados.
 3. [XAPP482] **MicroBlaze Platform Flash/PROM Boot Loader and User Data Storage** (v2.00): Descreve em baixo nível e em _software_ como carregar dados da memória Flash, seja código, dados de usuário ou informação de configuração.
 4. [XAPP501] **Configuration Quick Start Guidelines** (v1.05): Explica os diversos processos de programação da FPGA.
+4. [XAPP502] **Using a Microprocessor to Configure Xilinx FPGAs via Slave Serial or SelectMAP Mode** (v1.6.1): Explica a interface SelectMAP de uma forma +/- legal.
 5. [XAPP583] **Using a Microprocessor to Configure 7 Series FPGAs via Slave Serial or Slave SelectMAP Mode** (v1.00): Discute a programação de uma FPGA através de um microcontrolador usando uma interface Slave Serial ou Slave SelectMap.
 5. [XAPP586] **Using SPI Flash with 7 Series FPGAs** (v1.01): Explica como funciona a memória SPI Flash, inclusive como calcular sua frequência de operação.
 5. [XAPP739] **AXI Multi-Ported Memory Controller** (v1.00): Explica como funciona o MPMC, usado quando muitos elementos precisam usar a mesma memória (DDR3). Demonstra como criar um DDR3 MPMC.
@@ -53,7 +55,7 @@
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
 4. [UG744] **Partial Reconfiguration of a Processor Tutorial** (v14.6): Tutorial mostrando como fazer um processador com um periférico reconfigurável.
 3. [UG748] **Hierarchical Design Methodology Guide** (v14.5): Explica porque usar "-iobuf NO". Também apresenta muitas informações sobre partições e 
-4. [UG761] **** (v14.3): Explica a interface AXI.
+4. [UG761] **AXI Reference Guide** (v14.3): Explica a interface AXI.
 5. [UG768] **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs** (v14.6): Contém todos os macros e primitivas, inclusive o ICAP.
 6. [UG810] **KC705 Evaluation Board for the Kintex-7 FPGA User Guide** (v1.04): Explica os diversos componentes da KC705, inclusive os clocks, dando informação sobre os pinos e etc.
  
@@ -72,6 +74,7 @@
 # Tutoriais
 1. [microblaze_tutorial] **MicroBlaze Tutorial Creating a Simple Embedded System and Adding Custom Peripherals Using Xilinx EDK Software Tools**: Ensina basicamente como criar um sistema MicroBlaze.
 2. [Bootloader] **SPI Flash Bootloader**: Tutorial um pouco confuso sobre como gerar o _bitstream_ para um _bootloader_ de configurações.
+3. [fmt_xilinxbit] **Xilinx BIT bitstream files**: Explica muito grosseiramente o que compõe o cabeçalho do bitstream da Xilinx.
 
 # Datasheets
 1. [N25Q128] **N25Q128: 128-Mbit 3 V, multiple I/O, 4-Kbyte subsector erase on boot sectors, XiP enabled, serial flash memory with 108 MHz SPI bus interface**: Datasheet da memória SPI Flash.
@@ -97,8 +100,10 @@
 [XAPP058]: ./xilinx/xapp/xapp058.pdf
 [XAPP290]: ./xilinx/xapp/xapp290.pdf
 [XAPP463]: ./xilinx/xapp/xapp463.pdf
+[XAPP468]: ./xilinx/xapp/xapp468.pdf
 [XAPP482]: ./xilinx/xapp/xapp482.pdf
 [XAPP501]: ./xilinx/xapp/xapp501.pdf
+[XAPP502]: ./xilinx/xapp/xapp502.pdf
 [XAPP583]: ./xilinx/xapp/xapp583.pdf
 [XAPP586]: ./xilinx/xapp/xapp586.pdf
 [XAPP739]: ./xilinx/xapp/xapp739.pdf
@@ -123,8 +128,8 @@
 [UG625]: ./xilinx/ug/ug625.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
 [UG743]: ./xilinx/ug/ug743.pdf
-[UG748]: ./xilinx/ug/ug748.pdf
 [UG744]: ./xilinx/ug/ug744.pdf
+[UG748]: ./xilinx/ug/ug748.pdf
 [UG761]: ./xilinx/ug/ug761.pdf
 [UG768]: ./xilinx/ug/ug768.pdf
 [UG810]: ./xilinx/ug/ug810.pdf
@@ -140,6 +145,7 @@
 
 [microblaze_tutorial]: 	./Tutoriais/microblaze_tutorial.pdf
 [Bootloader]: 			./Tutoriais/Bootloader.pdf
+[fmt_xilinxbit]:		./Tutoriais/fmt_xilinxbit.pdf
 
 [N25Q128]:		./Datasheet/N25Q128.pdf
 
