@@ -519,16 +519,69 @@ Notou-se que existe muita pouca literatura no assunto, forçando o programador a
 Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
 \section{Experimento 3 - Teste do \textit{Bootloader}}
-O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, ou seja, a memória DDR3.
-Usou-se um microcontrolador MicroBlaze com controladores para a memória SPI Flash, DDR3 e GPIO, que dá acesso aos pinos da placa.
-Note que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
+O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, a memória DDR3.
+Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flash e DDR3.
+O experimento 2 foi dedicado a aprender a utilizar estas memórias.
+Neste experimento, espera-se entender como é formado o arquivo binário para assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
 
-\todo{Introduzir a necessidade do experimento experimento (usar o iMPACT para escrever um ou mais .bit na SPI Flash e carregar/interpretar este arquivo passando para a memória DDR3).}
+Utilizará-se também o GPIO, que dá acesso aos pinos da placa, visto que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
+
+\subsection{Arquivo Binário}
+O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
+O cabeçalho é formado por chaves e tamanhos, indicando diversos campos deste.
+Na tabela \ref{tab:ex3:hex_blank} pode-se observar os tamanhos e campos apresentados na figura \ref{fig:ex3:hex_blank}.
+A figura \ref{fig:ex3:hex_blank} possui os primeiros 112 bytes, dos quais os primeiros 98 estão selecionados, da configuração parcial vazia construida no experimento 1.
+O primeiro conjunto tamanho/chave indica, através da sequência de de palavras 0x0f, que a configuração é válida.
+Se estas palavras fossem 0x00 indicariam que a configuração não é mais válida, e se contivessem 0xff indicariam que a configuração está vazia.
+
+O cabeçalho descrito na tabela \ref{tab:ex3:hex_blank} contém pelo menos duas informações muito interessantes: o identificador do dispositivo alvo, que permite verificar a compatibilidade entre a configuração e o dispositivo que a está recebendo, e o tamanho da configuração, que permite que ela seja carregada de forma dinâmica sem necessidade de mais informações.
+
+Ainda no cabeçalho, tem-se um 32 bites de espaçamento preenchidos por com \dlq{}0xff\drq{}.
+Em seguida, tem-se os bites para autodetecção de largura de banda \cite{ug470, xapp583}.
+Estes bites (\dlq{}0x00 00 00 bb 11 22 00 44\drq{}) são usados no modo de configuração paralelo para detectar automaticamente a largura de banda do arquivo de configuração.
+O modo serial ignora todos os bits anteriores a palavra de sincronia \cite{xapp583}.
+Estes bits são então usados apenas para pré-processamento do arquivo binário.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/hex_blank.pdf}
+\caption{Cabeçalho do arquivo binário gerado no primeiro experimento para a configuração vazia.}
+\label{fig:ex3:hex_blank}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|p{6.5cm}|}
+\hline
+Tamanho & Chave & Significado\\ \hline
+9 bites (0x00 09) & 0x0f f0 0f f0 0f f0 0f f0 00 & Indica que a configuração a seguir é válida. \\ \hline
+1 bite (0x00 01) & "a" (0x61) & Indica que os próximos campos conterão informações sobre o projeto e sobre a configuração. \\ \hline
+35 bites (0x00 23) & [Chave muito longa] & Apresenta o nome do \textit{netlist} e o identificador do usuário. 0x00 ao final indica o final da string. \\ \hline
+& "b" (0x62) & Indica que o próximo campo é um indentificador do dispositivo-alvo. \\ \hline
+13 bites (0x00 0d) & 7k325tffg900 & Identificador do dispositivo-alvo. 0x00 ao final indica o final da string. \\ \hline
+& "c" (0x63) & Indica que o próximo campo é a data de sintese da configuração. \\ \hline
+11 bites (0x00 0b) & 2013/11/26 & Data da síntese da configuração. \\ \hline
+& "d" (0x64) & Indica que o próximo campo é a hora de síntese da configuração. \\ \hline
+9 bites (0x00 09) & 08:54:11 & Hora de síntese da configuração. \\ \hline
+& "e" (0x65) & Indica que os próximos 8 bites contém o tamanho da configuração. \\ \hline
+& 661188 bites (0x00 0a 16 c4) & Tamanho da configuração a partir desta posição. \\\hline
+\end{tabular}
+\caption{Descrição do cabeçalho dos arquivos binários.}
+\label{tab:ex3:hex_blank}
+\end{table}
+
+A palavra de sincronia (\dlq{}0xaa 99 ff 66\drq{}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
+
+\paragraph{Troca de bites} A interface ICAP e a ICAPE2, similares a interface SelectMAP \cite{wp374}, precisa de uma inversão na ordem dos bits nos bites da configuração, incluindo a palavra de sincronia \cite{xapp502}.
+Esta inversão é necessária apenas no uso destas três interfaces.
+Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bites invertidosnão sendo necessário invertê-los novamente \cite{ug470}.
 
 \subsection{Teste}
 O teste deste experimento compreende a construção de um subsistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3 e indique para o resto do sistema o final do processo.
 Este subsistema, que aqui é mestre, será escravo quando incluido no sistema principal.
 Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
+
+\todo{Introduzir a necessidade do experimento experimento (usar o iMPACT para escrever um ou mais .bit na SPI Flash e carregar/interpretar este arquivo passando para a memória DDR3).}
 
 \todo{Passo a passo do experimento 3}
 
