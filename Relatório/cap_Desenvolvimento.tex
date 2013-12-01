@@ -584,6 +584,12 @@ Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (E
 \subsubsection{MicroBlaze}
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
 
+\subsubsection{Inicialização da Memória SPI Flash}
+A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
+Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para a FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
+Apesar disto, programar a FPGA utilizando apenas a SPI Flash pode ser muito custoso \cite{xapp586}.
+Este processo demora em torno de 1 minuto e 30 segundos, em condições ideais.
+
 \subsubsection{SDK}
 
 \todo{Passo a passo do experimento 3}
