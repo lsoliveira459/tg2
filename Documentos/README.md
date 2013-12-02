@@ -117,6 +117,7 @@
 [XAPP694]: ./xilinx/xapp/xapp694.pdf
 [XAPP739]: ./xilinx/xapp/xapp739.pdf
 [XAPP789]: ./xilinx/xapp/xapp789.pdf
+[XAPP800]: ./xilinx/xapp/xapp800.pdf
 [XAPP883]: ./xilinx/xapp/xapp883.pdf
 [XAPP887]: ./xilinx/xapp/xapp887.pdf
 [XAPP951]: ./xilinx/xapp/xapp951.pdf
