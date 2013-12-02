@@ -1,5 +1,5 @@
-# Documentos da Xilinx
-## Data Sheet (DS), Product Specification
+### Documentos da Xilinx
+#### Data Sheet (DS), Product Specification
 1. [DS080] **System ACE CompactFlash Solution** (v2.00): Explica o funcionamento do controlador do System ACE.
 1. [DS123] **Platform Flash In-System Programmable Configuration PROMs** (v2.18)
 2. [DS176] **7 Series FPGAs Memory Interface Solutions (v2.0)** (v2.00): Descreve os controladores gerados pelo MIS.
@@ -11,15 +11,7 @@
 7. [DS817] **LogiCORE IP AXI HWICAP** (v2.3a): Explica como funciona o ICAP e ICAPE2 através da AXI4-Lite.
 8. [DS843] **LogiCORE IP AXI Quad Serial Peripheral Interface (AXI Quad SPI)** (v2.0a): Explica como funciona o acesso a QSPI Flash através da AXI4-Lite.
 
-## White Paper (WP)
-1. [WP374] **Partial Reconfiguration of Xilinx FPGAs Using ISE Design Suite** (v1.02): Explica porque fazer reconfiguração dinâmica. Contém alguma informação por alto de como fazê-la e muitas imagens legais.
-2. [WP375] **High Performance Computing Using FPGAs** (v1.00): Explica vantagens de se usar FPGAs.
-2. [WP377] **Xilinx 7 Series FPGAs Embedded Memory Advantages** (v1.01): Explica vantagens de se usar FPGAs.
-2. [WP383] **Achieving High Performance DDR3 Data Rates** (v1.02): Descreve a implementação de um controlador DDR3 de alta performance.
-2. [WP394] **Advancing the Use of FPGA Co-Processors through Platforms and High-Level Design Flows** (v1.00): Descreve as vantagens da aceleração de sistemas por FPGAs.
-3. [WP417] **Maximize System Performance Using Xilinx Based AXI4 Interconnects** (v1.01): Como otimizar a AXI4.
-
-## Application Note (XAPP)
+#### Application Note (XAPP)
 1. [XAPP058] **Xilinx In-System Programming Using an Embedded Microcontroller** (v4.01): Explica o processo de programar a FPGA usando um microcontrolador embarcado.
 1. [XAPP290] **Difference-Based Partial Reconfiguration** (v2.00): Possível modificação. _**Acrescentar na conclusão**_!
 2. [XAPP463] **Using Block RAM in Spartan-3 Generation FPGAs** (v2.00): Explica como funcionam as _Block Rams_ em baixo nível.
@@ -40,11 +32,11 @@
 10. [XAPP978] **FPGA Configuration from Flash PROMs on the Spartan-3E 1600E Board** (v1.2): Descreve os diferentes modos de configuração usando a memória Flash: BPI Up, BPI Down, SPI. Mostra o passo-a-passo de como _bootload_ um programa (_software_) da memória.
 11. [XAPP1100] **MultiBoot with Virtex-5 FPGAs and Platform Flash XL** (v1.00): Mostra como configurar e reconfigurar a FPGA pelo ICAP.
 
-## Product Guide (PG)
+#### Product Guide (PG)
 1. [PG100] **LogiCORE IP AXI EMC v2.0 - Product Guide for Vivado Design Suite** (v2.00)
 2. [PG134] **LogiCORE IP AXI HWICAP v3.0 - Product Guide for Vivado Design Suite** (v3.0)
 
-## User Guide (UG)
+#### User Guide (UG)
 1. [UG081] **MicroBlaze Processor Reference Guide - Embedded Development Kit EDK 14.6** (v14.6): Informações de memória e registradores da interface AXI4.
 1. [UG111] **Embedded System Tools Reference Manual (EDK)** (v14.6): Explica os comandos e programas auxiliares do EDK.
 1. [UG161] **Platform Flash PROM User Guide** (v1.05): Explica como criar um arquivo de PROM para carregar para a memória SPI Flash.
@@ -63,28 +55,36 @@
 5. [UG768] **Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs** (v14.6): Contém todos os macros e primitivas, inclusive o ICAP.
 5. [UG789] **PlanAhead Tcl Command Reference Guide** (v14.6): Como usar o iMPACT por linha de comando.
 6. [UG810] **KC705 Evaluation Board for the Kintex-7 FPGA User Guide** (v1.04): Explica os diversos componentes da KC705, inclusive os clocks, dando informação sobre os pinos e etc.
+
+#### White Paper (WP)
+1. [WP374] **Partial Reconfiguration of Xilinx FPGAs Using ISE Design Suite** (v1.02): Explica porque fazer reconfiguração dinâmica. Contém alguma informação por alto de como fazê-la e muitas imagens legais.
+2. [WP375] **High Performance Computing Using FPGAs** (v1.00): Explica vantagens de se usar FPGAs.
+2. [WP377] **Xilinx 7 Series FPGAs Embedded Memory Advantages** (v1.01): Explica vantagens de se usar FPGAs.
+2. [WP383] **Achieving High Performance DDR3 Data Rates** (v1.02): Descreve a implementação de um controlador DDR3 de alta performance.
+2. [WP394] **Advancing the Use of FPGA Co-Processors through Platforms and High-Level Design Flows** (v1.00): Descreve as vantagens da aceleração de sistemas por FPGAs.
+3. [WP417] **Maximize System Performance Using Xilinx Based AXI4 Interconnects** (v1.01): Como otimizar a AXI4.
  
-## Slides
+#### Slides
 1. [01_PR_Intro] **Introduction to Partial Reconfiguration Methodology**
 2. [04_PR_Design] **Partial Reconfiguration Design Considerations**
 3. [10_Driving] **Driving ICAP Resource**
 
-## Release Note Tables
+#### Release Note Tables
 1. [XTP025] **IP Release Notes Guide** (v4.03): Release note dos diferente IP Cores.
 
-## SW Manuals
+#### SW Manuals
 1. [Project Files](http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/platform_studio/ps_r_gst_project_files.htm) **XPS Project Files** (v14.6): Explica onde mudar as informações do BitGen mesmo no XPS.
 
-# Artigos
+### Artigos
 1. [fpt09lai] **ICAP-I: A Reusable Interface for the Internal Reconfiguration of Xilinx FPGAs**
 2. [fpt12vipin] **A High Speed Open Source Controller for FPGA Partial Reconﬁguration**: Artigo muito interessante, que descreve uma forma mais rápida de se realizar a autoreconfiguração. Ele usa DMA e ICAP para isso.
 
-# Tutoriais
+### Tutoriais
 1. [microblaze_tutorial] **MicroBlaze Tutorial Creating a Simple Embedded System and Adding Custom Peripherals Using Xilinx EDK Software Tools**: Ensina basicamente como criar um sistema MicroBlaze.
 2. [Bootloader] **SPI Flash Bootloader**: Tutorial um pouco confuso sobre como gerar o _bitstream_ para um _bootloader_ de configurações.
 3. [fmt_xilinxbit] **Xilinx BIT bitstream files**: Explica muito grosseiramente o que compõe o cabeçalho do bitstream da Xilinx.
 
-# Datasheets
+### Datasheets
 1. [N25Q128] **N25Q128: 128-Mbit 3 V, multiple I/O, 4-Kbyte subsector erase on boot sectors, XiP enabled, serial flash memory with 108 MHz SPI bus interface**: Datasheet da memória SPI Flash.
 
 [DS080]: ./xilinx/ds/ds080.pdf
