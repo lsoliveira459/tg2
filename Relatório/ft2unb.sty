@@ -79,6 +79,15 @@
 	\csdef{dedicatoria\arabic{contadordedicatoria}}{#1}}
 \newcommand{\@dedicatoria}[1]{\csuse{dedicatoria#1}}
 
+% Agradecimentos
+\newcounter{contadoragradecimentos}
+\newcommand{\agradecimentos}[1]{
+	\stepcounter{contadoragradecimentos}
+	\ifthenelse{\value{contadoragradecimentos}>\value{contadorautores}}{
+		\PackageError{\packagename}{Quantidade de agradecimentos maior que o numero de autores.}{Tente informar os autores antes dos agradecimentos.}}{}
+	\csdef{agradecimentos\arabic{contadoragradecimentos}}{#1}}
+\newcommand{\@agradecimentos}[1]{\csuse{agradecimentos#1}}
+
 % Mensagem da Contra-capa
 \newcommand{\mensagemcontracapa}{Relatório submetido ao Departamento de \mbox{Engenharia} Elétrica como requisito parcial para obtenção do grau de \graunome}
 
@@ -193,7 +202,7 @@
 }
 
 %%% Dedicatória
-\newcommand{\dedicatorias}{
+\newcommand{\paginadededicatorias}{
 \begin{titlepage}
 \begin{center}
 \vspace*{\fill}
@@ -244,11 +253,11 @@
 }
 
 %%% Agradecimentos
-\newcommand{\agradecimentosautori}[1]{\def\agradecimentosautorinome{#1}}
-\newcommand{\agradecimentosautorii}[1]{\def\agradecimentosautoriinome{#1}}
-\newcommand{\agradecimentosautoriii}[1]{\def\agradecimentosautoriiinome{#1}}
+%\newcommand{\agradecimentosautori}[1]{\def\agradecimentosautorinome{#1}}
+%\newcommand{\agradecimentosautorii}[1]{\def\agradecimentosautoriinome{#1}}
+%\newcommand{\agradecimentosautoriii}[1]{\def\agradecimentosautoriiinome{#1}}
 
-\newcommand{\agradecimentos}{
+\newcommand{\paginadeagradecimentos}{
 \begin{titlepage}
 \begin{flushleft}
 \large\bf Agradecimentos 
@@ -256,14 +265,14 @@
 \begin{center}
 	\vspace*{1cm}
 	\begin{tabular}{p{0.9\textwidth}}
-		\textit{\agradecimentosautorinome}\\
+		\textit{\@agradecimentos1}\\
 	  \\
   	\raggedleft\textit{\@autornome1}\\
 	\end{tabular}
 	\vspace*{1cm}
 	\ifthenelse{\equal{\@autornome2}{}}{}{
 		\begin{tabular}{p{0.9\textwidth}}
-			\textit{\agradecimentosautoriinome}\\
+			\textit{\@agradecimentos2}\\
 	  	\\
 	  	\raggedleft\textit{\@autornome2}\\
 		\end{tabular}
@@ -271,7 +280,7 @@
 	\vspace*{1cm}
 	\ifthenelse{\equal{\@autornome3}{}}{}{
 		\begin{tabular}{p{0.9\textwidth}}
-			\textit{\agradecimentosautoriiinome}\\
+			\textit{\@agradecimentos3}\\
 	  	\\
 	  	\raggedleft\textit{\@autornome3}\\
 		\end{tabular}
