@@ -47,6 +47,8 @@
 1. [UG586] **7 Series FPGAs Memory Interface Solutions v1.9 and v1.9a User Guide** (v1.09):  
 2. [UG625] **Constraints Guide** (v13.4): Explica alguns tipos de arquivos de restrições (UCF, etc).
 2. [UG628] **Command Line Tools User Guide** (v14.5): Explica o comando BitGen.
+3. [UG631] **ISE Design Suite 14: Release Notes, Installation, and Licensing** (v14.6):
+3. [UG695] **ISE In-Depth Tutorial** (v14.1):
 3. [UG702] **Partial Reconfiguration User Guide** (v14.5): Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
 4. [UG744] **Partial Reconfiguration of a Processor Tutorial** (v14.6): Tutorial mostrando como fazer um processador com um periférico reconfigurável.
@@ -138,6 +140,8 @@
 [UG586]: ./xilinx/ug/ug586.pdf
 [UG625]: ./xilinx/ug/ug625.pdf
 [UG628]: ./xilinx/ug/ug628.pdf
+[UG631]: ./xilinx/ug/ug631.pdf
+[UG695]: ./xilinx/ug/ug695.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
 [UG743]: ./xilinx/ug/ug743.pdf
 [UG744]: ./xilinx/ug/ug744.pdf
