@@ -29,6 +29,7 @@
 	\begin{document}
 	\frontmatter
 	\listoftodos
+	\tableofcontents
 	\mainmatter
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -596,7 +597,12 @@ Pode-se alcançar este objetivo introduzindo um bit alto no inicio de cada palav
 Uma vez que a interface UART permite o envio de palavra de até 8 bits, pode-se, com esta modificação, enviar 7 bits de dados por pacote, aumentando o tempo de envio em aproximadamente 14\%.
 O algoritmo proposto captura 7 bytes por vez e constrói 8 pacotes de dados com 1 na posição mais significativa (MSB) e 7 bits de dados nos seguintes, como mostrado na figura \ref{fig:ex3:transformacao}.
 
-\todo{Colocar uma figura aqui sobre a modificação proposta para os pacotes enviados pela UART.}
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.3\textwidth]{fig/c3_desenvolvimento/ex3/bit_transf.pdf}
+\caption{Transformação nos bytes do arquivo binário para que possam ser transmitidos. À esquerda tem-se os bytes originais e à direita tem-se os bytes transformados.}
+\label{fig:ex3:transformacao}
+\end{figure}
 
 Após o recebimento de cada pacote da configuração parcial, o programa embarcado o processa fazendo a transformação inversa dos dados e os salva na memória SPI Flash.
 Assim como na transformação direta, este processamento é realizado em blocos de 8 bytes, gerando vetores de 7 bytes de dados.
@@ -610,7 +616,6 @@ Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (E
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
 
 \subsubsection{SDK}
-
 \todo{Passo a passo do experimento 3 na SDK}
 
 \subsection{Conclusão}
