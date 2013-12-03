@@ -594,8 +594,10 @@ Em geral, as únicas informações que podem ser gravadas nas memórias não-vol
 Este processo custoso \cite{xapp586} é pouco documentado e achou-se de difícil implementação.
 A solução encontrada mais interessante para se contornar este problema é o uso da interface UART para transmissão de dados entre o computador, do MicroBlaze e das característica não-voláteis desta memória para sua programação em um estágio preliminar de preparação da memória Flash.
 
-A interface UART é utilizada para 
-
+A interface UART (\textit{Universal Asynchronous Receiver/Transmitter}) é normalmente utilizada para a transmissão de informações de debugação do programa em execução e para a implementação das funções de leitura/escrita no MicroBlaze.
+Apesar disto, ela é aberta para ser utilizada de qualquer forma que se achar conveniente.
+Neste caso, pretende-se realizar a transmissão dos arquivos de configuração parciais para escrita em memória não-volátil.
+Em uma situação ideal, esta interface pode transferir os arquivos binários parciais do primeiro experimento em 46 segundos ($661284 \text{ bytes }\cdot\frac{8\text{ bit}}{\text{byte}} \div 115200 \frac{\text{bits}}{\text{segundo}}$).
 
 \subsubsection{SDK}
 
