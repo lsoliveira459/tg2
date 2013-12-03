@@ -588,13 +588,14 @@ Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (E
 \subsubsection{MicroBlaze}
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
 
-\subsubsection{Inicialização da Memória SPI Flash}
+\subsubsection{Inicialização da Memória SPI Flash e a interface UART}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para a FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
-Apesar disto, programar a FPGA utilizando apenas a SPI Flash pode ser muito custoso \cite{xapp586}.
-Este processo demora em torno de 1 minuto e 30 segundos, em condições ideais.
+Este processo custoso \cite{xapp586} é pouco documentado e achou-se de difícil implementação.
+A solução encontrada mais interessante para se contornar este problema é o uso da interface UART para transmissão de dados entre o computador, do MicroBlaze e das característica não-voláteis desta memória para sua programação em um estágio preliminar de preparação da memória Flash.
 
-Para se programar a memória SPI Flash.
+A interface UART é utilizada para 
+
 
 \subsubsection{SDK}
 
