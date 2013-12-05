@@ -38,6 +38,7 @@
 	\newcommand\dlq{\lq\lq{}}
 	\newcommand\drq{\rq\rq{}}
 	\newcommand\qt[1]{\lq\lq{}#1\rq\rq{}}
+	\newcommand\qti[1]{\lq\lq{}\textit{#1}\rq\rq{}}
 \fi
 
 \lstdefinestyle{customVHDL}{
@@ -429,7 +430,7 @@ Tanto o programa quando o processador gerarão arquivos binários que serão car
 
 \subsubsection{MicroBlaze}
 O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
-Ele possui 32 registrados genéricos de 32 bits, instruções de 32 bits e endereços de 32 bits.
+Ele possui 32 registradores genéricos de 32 bits, instruções de 32 bits e endereços de 32 bits.
 Seu \textit{pipeline} possui 3 ou 5 estágios e é construido em torno da arquitetura Harvard, como pode ser observado na figura \ref{fig:ex3:microblazecore}.
 Todas as outras configurações, tais como o uso de \textit{Big Endian} ou \textit{Little Endian}, por exemplo, são opcionais \cite{ug081}.
 
@@ -449,7 +450,7 @@ Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde 
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
 Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
 Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
-Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o \textit{Baud Rate} da interface UART para 115200 bits/s.
+Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o \textit{Baud Rate} da interface UART para 115200 bits/s e o C\_SPI\_MODE da QSPI\_FLASH para \qti{Quad SPI Mode}.
 
 \begin{figure}[htp]
 \centering
@@ -474,10 +475,12 @@ Estas restrições são devido aos tamanhos das memórias e o alinhamento dos es
 Precisa-se agora modificar as posições de memória cobertas pela memória \textit{cache}.
 Isto é feito clicando-se duas vezes sobre \qt{microblaze\_0} na aba \qt{\textit{Bus Interfaces}} do painel \qt{\textit{System Assembly View}}.
 Na janela que se abre, clica-se  \qt{\textit{Next}} 3 vezes para chegar página sobre \textit{caches}.
-Modifique os endereços da primeira coluna para 0xc0000000 e 0xffffffff e os da segunda para 0x80000000 e 0xffffffff, indicando que a memória de instruções pode acessar apenas os endereços da memória DDR3, mas que a memória de dados pode acessar toda a faixa de endereços entre 0x80000000 e 0xffffffff, que engloba as memórias SPI Flash e DDR3.
+Modifique os endereços nas duas colunas para 0xc0000000 e 0xffffffff, indicando que a memória de instruções e memória de dados podem acessar os endereços da memória DDR3.
 Apenas os endereços contidos neste intervalo da memória de dados podem ser escritos.
 Note que o sistema reserva para uso próprio os primeiros 64K endereços das memórias, que correspondem às posições com finais entre 0x0000 a 0x3fff.
 A tentativa de uso destes endereços comprometerá o correto funcionamento do sistema.
+
+Algumas outras configurações também podem ser ajustadas, mas não sao estritamente necessárias para este experimento.
 
 O projeto pode ser sintetizado através do botão \qt{\textit{Generate Netlist}} localizado no menu a esquerda e no menu \qt{\textit{Hardware}} da barra de menus.
 Este processo é demorado.
@@ -584,10 +587,10 @@ Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem te
 
 \subsection{Inicialização da Memória SPI Flash}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
-Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para a FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
+Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para o FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
 Este processo é conhecido como programação indireta da memória Flash \cite{xapp586}.
 
-\paragraph{Arquivo Binário} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
+\subsubsection{Compilação} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
 Este procedimento é realizado na etapa de construção do processador.
 Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita,  e relógio de frequência 3 MHz.
 Com estas configurações, a programação do sistema demora apenas 1 minutos e 30 segundos \cite{xapp586}, mas pode ser ainda mais reduzido.
@@ -597,6 +600,47 @@ Através da opção \qt{-g SPI\_buswidth:X}, onde X pode ser 1, 2 ou 4, pode-se 
 Pode-se ainda forçar a opção \qt{-g ConfigRate\_en:Y}, onde Y pode ser 3, 6, 9, 12, 16, 22, 26, 33, 40, 50 ou 66, para se utilizar de relógios de variadas frequências e obter assim o modo de configuração mais adequado para a memória em questão \cite{xapp586, ug628, ug810}.
 Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
 Uma opção alternativa é utilizar um relógio externo através da opção \qt{-g ExtMasterCclk\_en:Z}, onde Z pode ser \qt{Disable}, \qt{div-8}, \qt{div-4}, \qt{div-2} e \qt{div-1}.
+
+\subsubsection{Arquivo de Memória PROM}
+Após compilado o projeto, seu arquivo binário e qualquer outra informação a ser programada na memória Flash precisa ser adicionada a um arquivo do tipo MCS.
+Este processo é necessário para que o iMPACT consiga carregar e programar a memória Flash de forma correta.
+
+Pode-se construir este arquivo de memória PROM através do iMPACT.
+No momento da criação do novo projeto do iMPACT, seleciona-se a opção \qt{\textit{Prepare a PROM File}}.
+Na janela seguinte, seleciona-se \qti{SPI Flash/Configure Single FPGA} no primeiro painel e \qt{128M} no segundo e modifica-se \qti{Add Non-Configuration Data Files} para \qt{Yes}, conforme mostrado na figura \ref{fig:ex3:prom_file}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex3/PROM_File.pdf}
+\caption{Janela para criação de um arquivo de memória PROM com as configurações devidamente ajustadas.}
+\label{fig:ex3:prom_file}
+\end{figure}
+
+
+Em seguida, adicionam-se os arquivos binários que se deseja programar na memória Flash.
+O primeiro arquivo a se adicionar é o de configuração total.
+Este arquivo é carregado durante o procedimento de inicio do FPGA.
+Apenas um arquivo deste tipo precisa ser carregado neste experimento, apesar de ser possível realizar um projeto com diversas revisões de configurações ou múltiplas possibilidades de configurações de \textit{boot} \cite{xapp468, xapp1100}.
+Para rejeitar a adicão de outras configurações, deve-se clicar em \qti{No} na mensagem de título \qti{Add Device}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex3/PROM_Addr.pdf}
+\caption{Janela para criação de um arquivo de memória PROM com as configurações devidamente ajustadas.}
+\label{fig:ex3:prom_addr}
+\end{figure}
+
+A mensagem seguinte, \qti{Add Data File}, faz referência a adição de arquivos de dados neste projeto.
+Clicando-se em \qti{Yes}, uma janela aparece com informações de endereçamento.
+Pode-se aceitar os valores iniciais.
+Estes arquivos podem ter qualquer conteúdo, mas o programa espera arquivos gerados pelo SDK, sendo necessário mudar a configuração de arquivos apresentados para \qti{All Files (*.*)}.
+Após adicionar-se todos os arquivos, deve-se clicar em \qti{No} na janela de inclusão de novos arquivos de dados.
+Ao se fazer isto, uma janela para indicação dos endereços é mostrada.
+Recomenda-se mudar os endereços de início (\qti{Start Address}) para valores arredondados, como 0xB00000, 0xC00000 e 0xD00000, obedecendo os endereços das revisões, de forma a facilitar o trabalho de programação do sistema embarcado.
+O botão \qti{Update Address} deve ser clicado para ajustar os endereços de fim (\qti{End Address}) antes de se prosseguir, obtendo-se algo similar a figura \ref{fig:ex3:prom_addr}.
+
+O último passo é gerar o arquivo, o que pode ser feito através do menu \qti{Operations} ou do painel \qti{iMPACT Processes}, selecionando-se a opção \qti{Generate File...}.
+Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino definida no passo da figura \ref{fig:ex3:prom_file}.
 
 \subsection{Teste}
 O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3, capture as informações relevantes e indique através de GPIO o final do processo.
