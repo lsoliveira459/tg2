@@ -649,13 +649,15 @@ Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (E
 \subsubsection{MicroBlaze}
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
 A interface SPI utilizada aqui foi a padrão, x1, por motivos de simplificação do projeto.
+O uso de uma interface x4 diminuiria o tempo de programação em 4 vezes, o que não é fator crítico para este experimento.
 
 \subsubsection{Arquivo de Memória PROM}
-Para a construção de um 
+Para a construção de um arquivo de memória PROM como descrito anteriormente, faz-se necessário que todos os elementos sejam compilados para uma mesma interface SPI.
+O uso de interfaces diferentes pode gerar erros na programação da memória Flash.
 
 \subsubsection{SDK}
 O procedimento para o SDK nesse caso é igual ao do experimento passado.
-A única diferença são os arquivos adicionados. 
+A única diferença são os arquivos adicionados, que agora 
 
 \subsection{Conclusão}
 
