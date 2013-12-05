@@ -31,6 +31,7 @@
 9. [XAPP963] **Using and Creating Flash Files for the MicroBlaze Development Kit - Spartan-3E Edition** (v1.01): Descreve como programar a memória Flash para ser usada pelo MicroBlaze.
 10. [XAPP978] **FPGA Configuration from Flash PROMs on the Spartan-3E 1600E Board** (v1.2): Descreve os diferentes modos de configuração usando a memória Flash: BPI Up, BPI Down, SPI. Mostra o passo-a-passo de como _bootload_ um programa (_software_) da memória.
 11. [XAPP1100] **MultiBoot with Virtex-5 FPGAs and Platform Flash XL** (v1.00): Mostra como configurar e reconfigurar a FPGA pelo ICAP.
+12. [XAPP1176] **Execute-in-Place (XIP) with AXI Quad SPI Using Vivado IP Integrator** (v1.00)
 
 #### Product Guide (PG)
 1. [PG100] **LogiCORE IP AXI EMC v2.0 - Product Guide for Vivado Design Suite** (v2.00)
@@ -85,6 +86,7 @@
 1. [microblaze_tutorial] **MicroBlaze Tutorial Creating a Simple Embedded System and Adding Custom Peripherals Using Xilinx EDK Software Tools**: Ensina basicamente como criar um sistema MicroBlaze.
 2. [Bootloader] **SPI Flash Bootloader**: Tutorial um pouco confuso sobre como gerar o _bitstream_ para um _bootloader_ de configurações.
 3. [fmt_xilinxbit] **Xilinx BIT bitstream files**: Explica muito grosseiramente o que compõe o cabeçalho do bitstream da Xilinx.
+4. [kc705_qspi_flash_bootload] **QSPI Flash Memory Bootloading In Standard SPI Mode with KC705 Platform**: Tutorial um pouco esclarecedor sobre a programação de memórias QSPI Flash.
 
 ### Datasheets
 1. [N25Q128] **N25Q128: 128-Mbit 3 V, multiple I/O, 4-Kbyte subsector erase on boot sectors, XiP enabled, serial flash memory with 108 MHz SPI bus interface**: Datasheet da memória SPI Flash.
@@ -126,6 +128,7 @@
 [XAPP963]: ./xilinx/xapp/xapp963.pdf
 [XAPP978]: ./xilinx/xapp/xapp978.pdf
 [XAPP1100]: ./xilinx/xapp/xapp1100.pdf
+[XAPP1176]: ./xilinx/xapp/xapp1176.pdf
 
 [PG100]: ./xilinx/pg/pg100.pdf
 [PG134]: ./xilinx/pg/pg134.pdf
@@ -163,6 +166,7 @@
 [microblaze_tutorial]: 	./Tutoriais/microblaze_tutorial.pdf
 [Bootloader]: 			./Tutoriais/Bootloader.pdf
 [fmt_xilinxbit]:		./Tutoriais/fmt_xilinxbit.pdf
+[kc705_qspi_flash_bootload] ./Tutoriais/kc705_qspi_flash_bootload.pdf
 
 [N25Q128]:		./Datasheet/N25Q128.pdf
 
