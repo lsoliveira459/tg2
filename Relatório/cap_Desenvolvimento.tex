@@ -581,31 +581,17 @@ A palavra de sincronia (\dlq{}0xaa 99 ff 66\drq{}), encontrada a seguida, serve 
 Esta inversão é necessária apenas no uso destas três interfaces.
 Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente \cite{ug470}.
 
-\subsection{Inicialização da Memória SPI Flash e a interface UART}
+\subsection{Inicialização da Memória SPI Flash}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para a FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
-Este processo custoso \cite{xapp586} é pouco documentado e achou-se de difícil implementação.
-A solução encontrada mais interessante para se contornar este problema é o uso da interface UART para transmissão de dados entre o computador, do MicroBlaze e das característica não-voláteis desta memória para sua programação em um estágio preliminar de preparação da memória Flash.
+Este processo custoso, que possui tempos de programação ideais de aproximadamente 1 minuto e 30 segundos, é conhecido como programação indireta da memória Flash \cite{xapp586}.
 
-A interface UART (\textit{Universal Asynchronous Receiver/Transmitter}) é normalmente utilizada para a transmissão de informações de debugação do programa em execução e para a implementação das funções de leitura/escrita no MicroBlaze.
-Apesar disto, ela é aberta para ser utilizada de qualquer forma que se achar conveniente.
-Neste caso, pretende-se realizar a transmissão dos arquivos de configuração parciais para escrita em memória não-volátil.
-Em uma situação ideal, esta interface pode transferir os arquivos binários parciais do primeiro experimento em 46 segundos ($661284 \text{ bytes }\cdot\frac{8\text{ bit}}{\text{byte}} \div 115200 \frac{\text{bits}}{\text{segundo}}$).
-Note que a transmissão de dados através da porta serial do computador pode ser filtrada para evitar o envio de pacotes vazios \footnote{\textit{Re: UART Problem}, \url{http://forums.xilinx.com/t5/New-Users-Forum/UART-Problem/m-p/383265/highlight/true\#M6901}}, poupando o canal de transmissão.
-Para solucionar este problema, deve-se modificar os pacotes enviados para que não sejam nulos, mas sem modificar o conteúdo do mesmo.
-Pode-se alcançar este objetivo introduzindo um bit alto no inicio de cada palavra enviada.
-Uma vez que a interface UART permite o envio de palavra de até 8 bits, pode-se, com esta modificação, enviar 7 bits de dados por pacote, aumentando o tempo de envio em aproximadamente 14\%.
-O algoritmo proposto captura 7 bytes por vez e constrói 8 pacotes de dados com 1 na posição mais significativa (MSB) e 7 bits de dados nos seguintes, como mostrado na figura \ref{fig:ex3:transformacao}.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.3\textwidth]{fig/c3_desenvolvimento/ex3/bit_transf.pdf}
-\caption{Transformação nos bytes do arquivo binário para que possam ser transmitidos. À esquerda tem-se os bytes originais e à direita tem-se os bytes transformados.}
-\label{fig:ex3:transformacao}
-\end{figure}
-
-Após o recebimento de cada pacote da configuração parcial, o programa embarcado o processa fazendo a transformação inversa dos dados e os salva na memória SPI Flash.
-Assim como na transformação direta, este processamento é realizado em blocos de 8 bytes, gerando vetores de 7 bytes de dados.
+\paragraph{Arquivo Binário} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
+Este procedimento é realizado na etapa de construção do processador.
+Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita.
+Forçando-se a opção \dlq{}-g SPI\_buswidth:X\drq{} no programa de compilação, onde X pode ser 1, 2 ou 4, pode-se alterar a interface utilizada neste tipo de programação \cite{ug628, xapp576}, sendo a x4 a mais eficiente.
+Pode-se ainda forçar a opção \dlq{}-g ConfigRate\_en:Y\drq{}, onde Y pode ser 3, 6, 9, 12, 16, 22, 26, 33, 40, 50 ou 66, para forçar o uso de um relógio de 50 Mhz, ao invés do padrão 3 Mhz, e obter assim o modo de configuração mais rápido para esta memória \cite{xapp586, ug628, ug810}.
+Existe também a opção \dlq{}-g SPI\_Fall\_Edge:Yes\drq{}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
 
 \subsection{Teste}
 O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3, capture as informações relevantes e indique através de GPIO o final do processo.
