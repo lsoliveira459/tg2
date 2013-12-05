@@ -436,7 +436,7 @@ Todas as outras configurações, tais como o uso de \textit{Big Endian} ou \text
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex2/MicroBlaze_Core.pdf}
+\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex2/MicroBlaze_Core.pdf}
 \caption{Diagrama de blocos do MicroBlaze.}
 \label{fig:ex3:microblazecore}
 \end{figure}
@@ -454,7 +454,7 @@ Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex2/BSB_AXI_flow.pdf}
+\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex2/BSB_AXI_flow.pdf}
 \caption{Escolha dos periféricos no BSB do XPS.}
 \label{fig:ex2:bsb_prerifericos}
 \end{figure}
@@ -467,7 +467,7 @@ Estas restrições são devido aos tamanhos das memórias e o alinhamento dos es
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex2/xps_address.pdf}
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex2/xps_address.pdf}
 \caption{Aba \textit{Addresses} do \textit{System Assembly View} indicando os ajustes dos endereços e tamanhos das memórias.}
 \label{fig:ex2:xps_enderecos}
 \end{figure}
@@ -503,7 +503,7 @@ Na página seguinte, escolhe-se \qt{\textit{Empty Project}}.
 Adiciona-se arquivos ao projeto tanto arrastando os códigos para ele quanto selecionando a opção \qt{\textit{New/Source File}} do menu que aparece quando se clica no projeto com o botão direito.
 Note que o acesso a memória é feito simplesmente dereferenciando um ponteiro para a posição de memória desejada.
 A escrita é feita do mesmo modo.
-Encontra-se emanexo códigos-exemplo para o teste das memórias DDR3 e SPI Flash.
+Encontra-se em anexo códigos-exemplo para o teste das memórias DDR3 e SPI Flash.
 
 Antes de executar o programa, é interessante habilitar a opção de debugação.
 Isto é feito através do menu \qt{\textit{Run}}, na opção \qt{\textit{Run Configurations...}}.
@@ -616,7 +616,6 @@ Na janela seguinte, seleciona-se \qti{SPI Flash/Configure Single FPGA} no primei
 \label{fig:ex3:prom_file}
 \end{figure}
 
-
 Em seguida, adicionam-se os arquivos binários que se deseja programar na memória Flash.
 O primeiro arquivo a se adicionar é o de configuração total.
 Este arquivo é carregado durante o procedimento de inicio do FPGA.
@@ -643,17 +642,24 @@ O último passo é gerar o arquivo, o que pode ser feito através do menu \qti{O
 Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino definida no passo da figura \ref{fig:ex3:prom_file}.
 
 \subsection{Teste}
-O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3, capture as informações relevantes e indique através de GPIO o final do processo.
+O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
 Este experimento contribuirá para a compreenção do processo de inicialização de memórias não-voláteis e do tratamento do cabeçalho dos arquivos binários.
 Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
 
 \subsubsection{MicroBlaze}
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
+A interface SPI utilizada aqui foi a padrão, x1, por motivos de simplificação do projeto.
+
+\subsubsection{Arquivo de Memória PROM}
+Para a construção de um 
 
 \subsubsection{SDK}
-\todo{Passo a passo do experimento 3 na SDK}
+O procedimento para o SDK nesse caso é igual ao do experimento passado.
+A única diferença são os arquivos adicionados. 
 
 \subsection{Conclusão}
+
+
 \todo{Explicar como fui para o próximo experimento}
 \section{Experimento 4 - Teste da Autoreconfiguração com \textit{Bootloader} Dedicado}
 \todo{Descrever o experimento 4}
