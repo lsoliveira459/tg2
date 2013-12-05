@@ -37,6 +37,7 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\newcommand\dlq{\lq\lq{}}
 	\newcommand\drq{\rq\rq{}}
+	\newcommand\qt[1]{\lq\lq{}#1\rq\rq{}}
 \fi
 
 \lstdefinestyle{customVHDL}{
@@ -108,7 +109,7 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 	\label{fig:ex1:softwareflow:comparacao}
 \end{figure}
 
-Reconfiguração parcial pede uma síntese utilizando o método \dlq de baixo para cima\drq{} (\textit{bottom-up}), mas uma implementação \dlq de cima para baixo\drq{} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
+Reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
 \subsection{Peculiaridades}
@@ -128,7 +129,7 @@ Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, q
 \subsection{Teste}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
 Para isso, implementou-se o sistema esquematizado na figura \ref{fig:ex1:componentes}.
-Este sistema contém o \dlq{}Top\drq{} para interfaceamento com a FPGA, o \dlq{}Clocks\drq{} para tratamento do sinal de relógio, a \dlq{}Static\drq{}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \dlq{}Dynamic\drq{}, que possui a lógica a ser alterada dinâmicamente.
+Este sistema contém o \qt{Top} para interfaceamento com a FPGA, o \qt{Clocks} para tratamento do sinal de relógio, a \qt{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qt{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
 
 \begin{figure}[h]
 \centering
@@ -156,20 +157,20 @@ Seguindo essa lógica, dois projetos com comportamentos diferentes foram constru
 O comportamento individual de cada módulo ou componente será descrito a seguir.
 Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como ISE.
 
-O componente \dlq{}Static\drq{} possui uma entrada para um relógio pulsando a 2 Hz e uma saída para um LED.
-Seu comportamento apenas faz com que o LED pisque a uma frequência de 2 Hz, o que permite observar seu funcionamento durante a reconfiguração do componente \dlq{}Dynamic\drq{}.
+O componente \qt{Static} possui uma entrada para um relógio pulsando a 2 Hz e uma saída para um LED.
+Seu comportamento apenas faz com que o LED pisque a uma frequência de 2 Hz, o que permite observar seu funcionamento durante a reconfiguração do componente \qt{Dynamic}.
 
-O componente \dlq{}Dynamic\drq{} possui dois comportamentos distintos.
+O componente \qt{Dynamic} possui dois comportamentos distintos.
 O primeiro deles é o de um simples contador crescente de 4 bits.
 O segundo é uma máquina de estados que alterna os 4 bits de saída entre "1100" e "0011" a cada pulso de relógio.
 Este componente possui uma entrada para um relógio pulsando a 1 Hz e uma palavra de 4 bits de saída.
-A frequência de operação deste componente foi escolhida para ser a metade da frequência da \dlq{}Static\drq{} para poder ser visualmente comprovado que \dlq{}Static\drq{} não para de funcionar quando \dlq{}Dynamic\drq{} está sendo reconfigurado.
+A frequência de operação deste componente foi escolhida para ser a metade da frequência da \qt{Static} para poder ser visualmente comprovado que \qt{Static} não para de funcionar quando \qt{Dynamic} está sendo reconfigurado.
 
-O componente \dlq{}Clocks\drq{} recebe os sinais diferenciais de relógio e o transformam em um sinal comum.
+O componente \qt{Clocks} recebe os sinais diferenciais de relógio e o transformam em um sinal comum.
 O bloco lógico utilizado para isso foi construído usando ferramentas presentes no ISE.
 Uma vez que a ferramenta permitia a construção de um relógio com divisor de frequência, a frequência do relógio da placa, que nesse caso é de 200 MHz, foi reduzida para 20 MHz.
 
-O módulo \dlq{}Top\drq{} instancia os componentes descritos acima e faz a interface dos mesmos com a FPGA.
+O módulo \qt{Top} instancia os componentes descritos acima e faz a interface dos mesmos com a FPGA.
 O componente dinâmico precisa de uma declaração de protótipo para ser instanciado corretamente.
 Utilizou-se o código abaixo para esta finalidade.
 \begin{lstlisting}[style=customVHDL]
@@ -178,7 +179,7 @@ component dynamic
            leds : out std_logic_vector (3 downto 0));
 end component;
 \end{lstlisting}
-O módulo \dlq{}Top\drq{} possui também um divisor de frequência para reduzir a frequência devolvida por \dlq{}Clocks\drq{} para 1 e 2 Hz.
+O módulo \qt{Top} possui também um divisor de frequência para reduzir a frequência devolvida por \qt{Clocks} para 1 e 2 Hz.
 
 \subsubsection{Síntese}
 Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese.
@@ -191,7 +192,7 @@ O comando para iniciar o processo é o seguinte.
 \begin{lstlisting}[style=customVHDL]
 xst.exe -ifn Top.xst
 \end{lstlisting}
-O arquivo \dlq{}Top.xst\drq{} contém os seguintes comandos.
+O arquivo \qt{Top.xst} contém os seguintes comandos.
 \begin{lstlisting}[style=customVHDL]
 run
 -ifn Top.prj
@@ -200,7 +201,7 @@ run
 -p xc7k325t-2-ffg900
 -top top
 \end{lstlisting}
-O arquivo \dlq{}Top.prj\drq{} contém os endereços dos arquivos, conforme a seguir.
+O arquivo \qt{Top.prj} contém os endereços dos arquivos, conforme a seguir.
 \begin{lstlisting}[style=customVHDL]
 vhdl work "../../Sources/static/top.vhd"
 vhdl work "../../Sources/static/static.vhd"
@@ -212,8 +213,8 @@ Uma vez que não existe nenhuma restrição especial para tais componentes, eles
 O mesmo não pode ser dito para os elementos dinâmicos.
 Cada componente dinâmico precisa ser sintetizado em separado para depois ser incluído no projeto através do PlanAhead.
 
-A síntese de componentes dinâmicos precisa ser realizada com um \textit{script} \dlq{}.xst\drq{} ligeiramente diferente.
-Como mostrado a seguir, faz-se necessária a inclusão do argumento \dlq{}-iobuf NO\drq{}, que desabilita a inserção de componentes de Entrada/Saída \cite{ug743, ug748}.
+A síntese de componentes dinâmicos precisa ser realizada com um \textit{script} \qt{.xst} ligeiramente diferente.
+Como mostrado a seguir, faz-se necessária a inclusão do argumento \qt{-iobuf NO}, que desabilita a inserção de componentes de Entrada/Saída \cite{ug743, ug748}.
 \begin{lstlisting}[style=customVHDL]
 run
 -ifn DynFSM.prj
@@ -223,7 +224,7 @@ run
 -top dynamic
 -iobuf NO
 \end{lstlisting}
-Note que o arquivo \dlq{}DynFSM.prj\drq{} contém informações sobre o cógigo-fonte do componente dinâmico, como mostrado a seguir.
+Note que o arquivo \qt{DynFSM.prj} contém informações sobre o cógigo-fonte do componente dinâmico, como mostrado a seguir.
 \begin{lstlisting}[style=customVHDL]
 vhdl work "../../Sources/dynamic_fsm/dynamic.vhd"
 \end{lstlisting}
@@ -238,9 +239,9 @@ Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfi
 Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial.
 
 O primeiro passo necessário no PlanAhead é a criação do projeto.
-Para isso, após a abertura do programa, clica-se no ícone superior esquerdo mostrado na figura \ref{fig:ex1:planahead}, onde se lê \dlq{}Create New Project\drq{}.
+Para isso, após a abertura do programa, clica-se no ícone superior esquerdo mostrado na figura \ref{fig:ex1:planahead}, onde se lê \qt{Create New Project}.
 Na janela que aparece, indicamos o nome do projeto e seu caminho, lembrando que foi criada uma pasta anteriormente especificamente para conter este projeto.
-Indicamos também que o projeto é do tipo \dlq{}\textit{Post-synthesis Project}\drq{} e que desejamos habilitar a reconfiguração parcial, indicamos quais \textit{netlists} compõe o comportamento do projeto e qual corresponde ao arquivo principal, qual é o arquivo de restrições (\textit{constrains}) e qual é o modelo da FPGA.
+Indicamos também que o projeto é do tipo \qt{\textit{Post-synthesis Project}} e que desejamos habilitar a reconfiguração parcial, indicamos quais \textit{netlists} compõe o comportamento do projeto e qual corresponde ao arquivo principal, qual é o arquivo de restrições (\textit{constrains}) e qual é o modelo da FPGA.
 
 \begin{figure}[h]
 \centering
@@ -249,59 +250,59 @@ Indicamos também que o projeto é do tipo \dlq{}\textit{Post-synthesis Project}
 \label{fig:ex1:planahead}
 \end{figure}
 
-Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \dlq{}\textit{Open Synthesized Design}\drq{}, mostrado na figura \ref{fig:ex1:planahead_open_synthesized_design}.
+Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \qt{\textit{Open Synthesized Design}}, mostrado na figura \ref{fig:ex1:planahead_open_synthesized_design}.
 Duas janelas de avisos aparecem, informando que existe uma partição não implementada e aviso sobre alguns pinos.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=173px]{fig/c3_desenvolvimento/ex1/planahead_open_synthesized_design}
-\caption{Imagem do menu \dlq{}\textit{Open Synthesized Design}\drq{}.}
+\caption{Imagem do menu \qt{\textit{Open Synthesized Design}}.}
 \label{fig:ex1:planahead_open_synthesized_design}
 \end{figure}
 
 
 Pode-se agora definir a partição que armazenará o componente dinâmico.
-Isso é feito através do painel \dlq{}\textit{Netlist}\drq{}, selecionando a opção \dlq{}\textit{Set Partition}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} com o botão direito.
+Isso é feito através do painel \qt{\textit{Netlist}}, selecionando a opção \qt{\textit{Set Partition}} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
 Na janela que aparece, selecionamos a opção referente à partição reconfigurável, nomeamos o módulo reconfigurável de acordo com o componente que será carregado e indicamos o arquivo que corresponde ao arquivo sintetizado do componente reconfigurável.
 Não é necessário informar restrições, visto que o componente, seguindo recomendações, não acessa os pinos de entrada e saída diretamente.
 Note ainda que é recomendado que o primeiro módulo a ser incluído seja o mais complexo e sucetível a falhas, permitindo que erros e falhas na definição da região a seguir sejam identificados mais cedo.
 
 Precisa-se definir também uma região para a partição recém definida.
-Isto pode ser feito pelo mesmo painel \dlq{}\textit{Netlist}\drq{}, selecionando a opção \dlq{}\textit{Set Pblock Size}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} com o botão direito.
-Nesse momento, precisa-se selecionar na aba \dlq{}\textit{Device}\drq{} uma região do dispositivo que contenha uma quantidade de recursos maior que a requerida pelo projeto.
+Isto pode ser feito pelo mesmo painel \qt{\textit{Netlist}}, selecionando a opção \qt{\textit{Set Pblock Size}} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
+Nesse momento, precisa-se selecionar na aba \qt{\textit{Device}} uma região do dispositivo que contenha uma quantidade de recursos maior que a requerida pelo projeto.
 Note que o processo de escolha dessa região não é bem definido, o que abre espaço para diversos erros de alocação.
-Para testar se a região foi bem alocada, abre-se a aba \dlq{}\textit{Design Runs}\drq{} do painel inferior, clica-se com o botão direito na única configuração disponível no momento e seleciona-se \dlq{}\textit{Run Launch}\drq{}.
+Para testar se a região foi bem alocada, abre-se a aba \qt{\textit{Design Runs}} do painel inferior, clica-se com o botão direito na única configuração disponível no momento e seleciona-se \qt{\textit{Run Launch}}.
 Este processo pode demorar.
 Em tentativas subsequentes, seleciona-se a opção de recomeçar todo o processo do zero, evitando erros gerados nos estágios iniciais.
 Uma região possível, que foi utilizada nesse projeto, foi a que contém as células (\textit{slice}) de X80Y244 a X139Y205.
 Os nomes das células ficam visíveis através da ampliação do dispositivo.
 
-Uma vez terminado o \dlq{}\textit{Design Run}\drq{}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
-Para isso, clica-se em \dlq{}\textit{Synthesized Design}\drq{} novamente e seleciona-se a opção \dlq{}\textit{Add reconfigurable module}\drq{} do menu que aparece ao se clicar em \dlq{}dynamic\_i\drq{} no painel \dlq{}\textit{Netlist}\drq{} com o botão direito.
+Uma vez terminado o \qt{\textit{Design Run}}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
+Para isso, clica-se em \qt{\textit{Synthesized Design}} novamente e seleciona-se a opção \qt{\textit{Add reconfigurable module}} do menu que aparece ao se clicar em \qt{dynamic\_i} no painel \qt{\textit{Netlist}} com o botão direito.
 O processo é o mesmo da definição da partição, sendo a única mudança na seleção do arquivo sintetizado e do nome do módulo.
 Um módulo vazio pode ser criado usando esta mesma opção, mas selecionando a opção que indica a inclusão de uma \textit{blackbox} sem o uso de uma \textit{netlist}.
 
 Com as possibilidades de módulos reconfiguráveis definidas, pode-se construir várias configurações.
-Isso é feito através do clique com botão direito na \dlq{}\textit{Design Runs}\drq{} do painel inferior e selecionando-se a opção \dlq{}\textit{Create Runs...}\drq{}.
-A janela que abre possui um painel chamado \dlq{}\textit{Create Implementation Runs}\drq{}.
-Nesse painel, na coluna \dlq{}\textit{Partition Action}\drq{}, define-se, na coluna \dlq{}\textit{Module Variant}\drq{} da nova janela que aparece, o módulo desejado.
-Voltando para a primeira janela, clica-se em \dlq{}\textit{More}\drq{} para adicionar a última configuração desejada.
-Em seguida, as duas novas configurações serão criadas através de \dlq{}\textit{Design Runs}\drq{}.
+Isso é feito através do clique com botão direito na \qt{\textit{Design Runs}} do painel inferior e selecionando-se a opção \qt{\textit{Create Runs...}}.
+A janela que abre possui um painel chamado \qt{\textit{Create Implementation Runs}}.
+Nesse painel, na coluna \qt{\textit{Partition Action}}, define-se, na coluna \qt{\textit{Module Variant}} da nova janela que aparece, o módulo desejado.
+Voltando para a primeira janela, clica-se em \qt{\textit{More}} para adicionar a última configuração desejada.
+Em seguida, as duas novas configurações serão criadas através de \qt{\textit{Design Runs}}.
 É necessário promover neste momento a primeira configuração implementada.
 O processo de promoção será comentado a seguir.
 Note que os avisos que aparecerem podem ser ignorados.
 
-Ao final dos \dlq{}\textit{Design Runs}\drq{}, recomenda-se fazer a verificação das configurações através do painel \dlq{}\textit{Configurations}\drq{}.
-Clicando-se com o botão direito, encontra-se a opção \dlq{}\textit{Verify Configuration...}\drq{}, que faz com que uma janela seja aberta.
-Selecionado-se todos os itens e clicando em \dlq{}\textit{OK}\drq{}, a verificação se inicia.
+Ao final dos \qt{\textit{Design Runs}}, recomenda-se fazer a verificação das configurações através do painel \qt{\textit{Configurations}}.
+Clicando-se com o botão direito, encontra-se a opção \qt{\textit{Verify Configuration...}}, que faz com que uma janela seja aberta.
+Selecionado-se todos os itens e clicando em \qt{\textit{OK}}, a verificação se inicia.
 Nenhum erro deve ser encontrado.
 
 Devemos agora promover as configurações.
-No menu de quando se clica com o botão direito sobre as configurações já existentes do painel \dlq{}\textit{Configurations}\drq{}, seleciona-se \dlq{}\textit{Promote Configuration...}\drq{}.
+No menu de quando se clica com o botão direito sobre as configurações já existentes do painel \qt{\textit{Configurations}}, seleciona-se \qt{\textit{Promote Configuration...}}.
 A promoção de uma configuração é o equivalente a sua exportação \cite{ug748}.
 Promover a primeira configuração antes de implementar novas contribui para manter a parte estática, compartilhada, igual em todas as configurações, uma vez que elas não mais são sintetizadas e sim importadas.
 
-O último passo necessário para a criação dos \textit{bitfiles} é o \dlq{}\textit{Generate Bitstream}\drq{}, localizado no menu a esquerda.
+O último passo necessário para a criação dos \textit{bitfiles} é o \qt{\textit{Generate Bitstream}}, localizado no menu a esquerda.
 Este passo recebe o resultado das sínteses e implementações e transforma-os em \textit{bitfiles}.
 Esta etapa precisa ser realizada com cada uma das configurações realizadas, ou alguma delas não terá seus \textit{bitfiles} gerados.
 Tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta *.runs.
@@ -310,18 +311,18 @@ Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que cont�
 \subsubsection{iMPACT}
 Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através auxilio da ferramenta iMPACT. 
 A primeira coisa a se fazer após abrir o programa é permitir que o sistema automaticamente crie um projeto.
-Na janela que se abre, escolhe-se a opção \dlq{}\textit{Automatically connect to a cable and identify Boundary-Scan chain}\drq{} do item \dlq{}\textit{Configure devices using Boundary-Scan (JTAG)}\drq{}.
+Na janela que se abre, escolhe-se a opção \qt{\textit{Automatically connect to a cable and identify Boundary-Scan chain}} do item \qt{\textit{Configure devices using Boundary-Scan (JTAG)}}.
 Quando pergunta-se se deseja-se atribuir uma nova configuração, pode-se clicar que sim e escolher um arquivo binário completo gerado na etapa anterior.
 Normalmente escolhe-se a configuração vazia como configuração inicial para poupar energia.
 
 Quando a configuração for completamente transmitida e implementada, observa-se que um LED está piscando com uma frequência de 2 Hz e todos os outros (acionados) estão acesos.
 Isto acontece uma vez que o sitema atribui sinal ativo para os elementos desconectados.
 
-Para realizar a reconfiguração parcial dinâmica, clica-se com o botão direito no símbolo do dispositivo que aparece no iMPACT e seleciona-se a opção \dlq{}\textit{Assign New Configuration File...}\drq{}.
-Procura-se então pelos arquivos binários parciais localizados na pasta \textit{PlanAhead > PlanAhead.runs >} \dlq{}nome da configuração\drq{}.
-Este arquivo possui \dlq{}partial\drq{} em seu nome, o que o diferencia do arquivo binário completo.
+Para realizar a reconfiguração parcial dinâmica, clica-se com o botão direito no símbolo do dispositivo que aparece no iMPACT e seleciona-se a opção \qt{\textit{Assign New Configuration File...}}.
+Procura-se então pelos arquivos binários parciais localizados na pasta \textit{PlanAhead > PlanAhead.runs >} \qt{nome da configuração}.
+Este arquivo possui \qt{partial} em seu nome, o que o diferencia do arquivo binário completo.
 Note que utilizar os arquivos binários completos não gera erro, mas constitui reconfiguração total, não parcial.
-Após a seleção da configuração desejada, o último passo necessário é a programação, que pode ser realizada clicando-se com o botão direito no dispositivo e selecionando-se a opção \dlq{}\textit{Program}\drq{}.
+Após a seleção da configuração desejada, o último passo necessário é a programação, que pode ser realizada clicando-se com o botão direito no dispositivo e selecionando-se a opção \qt{\textit{Program}}.
 
 \subsection{Possíveis Erros}
 \paragraph{Erros no código-fonte} Este é um dos erros mais comuns.
@@ -331,7 +332,7 @@ Para acelerar o processo, realiza-se apenas a síntese.
 \paragraph{Erros na alocação de partições}
 Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\textit{AR\# 53290: Partial Reconfiguration - 7 series device layout of tiles (CLB, DSP, BRAM, INT) and a shared clocking structure of vertical clock spines between interconnect (routing) tiles}. Disponível em \url{http://www.xilinx.com/support/answers/53290.htm}}.
 Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições UCF ou alterando a região da partição.
-A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \dlq{}INCLUSIVE=ROUTE\drq{} na linha que contém \dlq{}INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"\drq{}.
+A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \qt{INCLUSIVE=ROUTE} na linha que contém \qt{INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"}.
 A segunda forma é simplemente mudando a posição da região da partição para a direita, para a esquerda ou sua largura, de acordo com a mensagem de erro retornada.
 Esta método não é determinístico e pode ser necessárias várias tentativas antes de se conseguir uma partição mapeável. 
 
@@ -471,17 +472,17 @@ Estas restrições são devido aos tamanhos das memórias e o alinhamento dos es
 \end{figure}
 
 Precisa-se agora modificar as posições de memória cobertas pela memória \textit{cache}.
-Isto é feito clicando-se duas vezes sobre \dlq{}microblaze\_0\drq{} na aba \dlq{}\textit{Bus Interfaces}\drq{} do painel \dlq{}\textit{System Assembly View}\drq{}.
-Na janela que se abre, clica-se  \dlq{}\textit{Next}\drq{} 3 vezes para chegar página sobre \textit{caches}.
+Isto é feito clicando-se duas vezes sobre \qt{microblaze\_0} na aba \qt{\textit{Bus Interfaces}} do painel \qt{\textit{System Assembly View}}.
+Na janela que se abre, clica-se  \qt{\textit{Next}} 3 vezes para chegar página sobre \textit{caches}.
 Modifique os endereços da primeira coluna para 0xc0000000 e 0xffffffff e os da segunda para 0x80000000 e 0xffffffff, indicando que a memória de instruções pode acessar apenas os endereços da memória DDR3, mas que a memória de dados pode acessar toda a faixa de endereços entre 0x80000000 e 0xffffffff, que engloba as memórias SPI Flash e DDR3.
 Apenas os endereços contidos neste intervalo da memória de dados podem ser escritos.
 Note que o sistema reserva para uso próprio os primeiros 64K endereços das memórias, que correspondem às posições com finais entre 0x0000 a 0x3fff.
 A tentativa de uso destes endereços comprometerá o correto funcionamento do sistema.
 
-O projeto pode ser sintetizado através do botão \dlq{}\textit{Generate Netlist}\drq{} localizado no menu a esquerda e no menu \dlq{}\textit{Hardware}\drq{} da barra de menus.
+O projeto pode ser sintetizado através do botão \qt{\textit{Generate Netlist}} localizado no menu a esquerda e no menu \qt{\textit{Hardware}} da barra de menus.
 Este processo é demorado.
-Quando terminado, pode-se exportar o projeto através do botão \dlq{}\textit{Export Design}\drq{} para abrir o SDK com as informações deste processador.
-Na janela que aparecer, marque \dlq{}\textit{Include bitstream and BMM file}\drq{} e clique em \dlq{}\textit{Export \& Launch SDK}\drq{}.
+Quando terminado, pode-se exportar o projeto através do botão \qt{\textit{Export Design}} para abrir o SDK com as informações deste processador.
+Na janela que aparecer, marque \qt{\textit{Include bitstream and BMM file}} e clique em \qt{\textit{Export \& Launch SDK}}.
 Após a implementação do arquivo binário, a ferramenta SDK será aberta.
 
 \subsubsection{SDK}
@@ -489,28 +490,28 @@ Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{
 Uma boa opção é a pasta SDK criada dentro da pasta do projeto do sistema durante sua exportação, apesar desta escolha ser completamente arbitrária.
 Escolhida a pasta, o ambiente de trabalho é aberto.
 
-Começa-se o processo criando um projeto do tipo \dlq{}\textit{Board Support Package}\drq{}.
+Começa-se o processo criando um projeto do tipo \qt{\textit{Board Support Package}}.
 Este projeto compila automaticamente os drivers disponíveis para o projeto segundo as características do microcontrolador.
 Em seguida, pode-se criar os projetos dos \textit{softwares} que irão embarcados.
-Para isto, cria-se um projeto do tipo \dlq{}\textit{Application Project}\drq{}.
-Na janela que se abre, nomeie o projeto e selecione a \dlq{}\textit{Board Support Package}\drq{} no \textit{dropdown} do item \dlq{}\textit{Board Support Package}\drq{}.
-Na página seguinte, escolhe-se \dlq{}\textit{Empty Project}\drq{}.
+Para isto, cria-se um projeto do tipo \qt{\textit{Application Project}}.
+Na janela que se abre, nomeie o projeto e selecione a \qt{\textit{Board Support Package}} no \textit{dropdown} do item \qt{\textit{Board Support Package}}.
+Na página seguinte, escolhe-se \qt{\textit{Empty Project}}.
 
-Adiciona-se arquivos ao projeto tanto arrastando os códigos para ele quanto selecionando a opção \dlq{}\textit{New/Source File}\drq{} do menu que aparece quando se clica no projeto com o botão direito.
+Adiciona-se arquivos ao projeto tanto arrastando os códigos para ele quanto selecionando a opção \qt{\textit{New/Source File}} do menu que aparece quando se clica no projeto com o botão direito.
 Note que o acesso a memória é feito simplesmente dereferenciando um ponteiro para a posição de memória desejada.
 A escrita é feita do mesmo modo.
 Encontra-se emanexo códigos-exemplo para o teste das memórias DDR3 e SPI Flash.
 
 Antes de executar o programa, é interessante habilitar a opção de debugação.
-Isto é feito através do menu \dlq{}\textit{Run}\drq{}, na opção \dlq{}\textit{Run Configurations...}\drq{}.
-Na janela que aparece, na aba \dlq{}\textit{STDIO Connection}\drq{}, habilita-se a conexão do STDIO com o console e modifica-se o \dlq{}\textit{Baud Rate}\drq{} para 115200.
-Clica-se então em \dlq{}\textit{Apply}\drq{} e em seguida \dlq{}\textit{Close}\drq{}.
+Isto é feito através do menu \qt{\textit{Run}}, na opção \qt{\textit{Run Configurations...}}.
+Na janela que aparece, na aba \qt{\textit{STDIO Connection}}, habilita-se a conexão do STDIO com o console e modifica-se o \qt{\textit{Baud Rate}} para 115200.
+Clica-se então em \qt{\textit{Apply}} e em seguida \qt{\textit{Close}}.
 
-A programação do FPGA pode ser feita através do menu \dlq{}\textit{Xilinx Tools}\drq{}, na opção \dlq{}\textit{Program FPGA}\drq{}.
-Na janela que se abre, é padrão que as informações já estejam pré-preenchidas, mas caso isto não aconteça, procura-se pelos arquivos \dlq{}system.bit\drq{} e \dlq{}system\_bd.bmm\drq{} na pasta \dlq{}\textit{implementations}\drq{} na raíz do projeto do processador.
-Clica-se em \dlq{}\textit{Program}\drq{} para inciar a programação.
+A programação do FPGA pode ser feita através do menu \qt{\textit{Xilinx Tools}}, na opção \qt{\textit{Program FPGA}}.
+Na janela que se abre, é padrão que as informações já estejam pré-preenchidas, mas caso isto não aconteça, procura-se pelos arquivos \qt{system.bit} e \qt{system\_bd.bmm} na pasta \qt{\textit{implementations}} na raíz do projeto do processador.
+Clica-se em \qt{\textit{Program}} para inciar a programação.
 
-Para se transferir o programa criado com o auxílio do SDK, seleciona-se o projeto deste programa, clica-se com o botão direito, seleciona-se o submenu \dlq{}\textit{Run As...}\drq{} e escolhe-se a opção \dlq{}\textit{1 Launch on Hardware (GDB)}\drq{}.
+Para se transferir o programa criado com o auxílio do SDK, seleciona-se o projeto deste programa, clica-se com o botão direito, seleciona-se o submenu \qt{\textit{Run As...}} e escolhe-se a opção \qt{\textit{1 Launch on Hardware (GDB)}}.
 No caso dos códigos-exemplo, algumas informações são imprimidas no console caso tudo tenha ocorrido confome o esperado.
 
 \subsection{Conclusão}
@@ -569,13 +570,13 @@ Tamanho & Chave & Significado\\ \hline
 \label{tab:ex3:hex_blank}
 \end{table}
 
-Ainda no cabeçalho, tem-se um 32 bytes de espaçamento preenchidos por com \dlq{}0xff\drq{}.
+Ainda no cabeçalho, tem-se um 32 bytes de espaçamento preenchidos por com \qt{0xff}.
 Em seguida, tem-se os bytes para autodetecção de largura de banda \cite{ug470, xapp583}.
-Estes bytes (\dlq{}0x00 00 00 bb 11 22 00 44\drq{}) são usados no modo de configuração paralelo para detectar automaticamente a largura de banda do arquivo de configuração.
+Estes bytes (\qt{0x00 00 00 bb 11 22 00 44}) são usados no modo de configuração paralelo para detectar automaticamente a largura de banda do arquivo de configuração.
 O modo serial ignora todos os bits anteriores a palavra de sincronia \cite{xapp583}.
 Estes bits são então usados apenas para pré-processamento do arquivo binário.
 
-A palavra de sincronia (\dlq{}0xaa 99 ff 66\drq{}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
+A palavra de sincronia (\qt{0xaa 99 ff 66}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
 
 \paragraph{Inversão dos bytes} A interface ICAP e a ICAPE2, similares a interface SelectMAP \cite{wp374}, precisa de uma inversão na ordem dos bits nos bytes da configuração, incluindo a palavra de sincronia \cite{xapp502}.
 Esta inversão é necessária apenas no uso destas três interfaces.
@@ -584,14 +585,18 @@ Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem te
 \subsection{Inicialização da Memória SPI Flash}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para a FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
-Este processo custoso, que possui tempos de programação ideais de aproximadamente 1 minuto e 30 segundos, é conhecido como programação indireta da memória Flash \cite{xapp586}.
+Este processo é conhecido como programação indireta da memória Flash \cite{xapp586}.
 
 \paragraph{Arquivo Binário} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
 Este procedimento é realizado na etapa de construção do processador.
-Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita.
-Forçando-se a opção \dlq{}-g SPI\_buswidth:X\drq{} no programa de compilação, onde X pode ser 1, 2 ou 4, pode-se alterar a interface utilizada neste tipo de programação \cite{ug628, xapp576}, sendo a x4 a mais eficiente.
-Pode-se ainda forçar a opção \dlq{}-g ConfigRate\_en:Y\drq{}, onde Y pode ser 3, 6, 9, 12, 16, 22, 26, 33, 40, 50 ou 66, para forçar o uso de um relógio de 50 Mhz, ao invés do padrão 3 Mhz, e obter assim o modo de configuração mais rápido para esta memória \cite{xapp586, ug628, ug810}.
-Existe também a opção \dlq{}-g SPI\_Fall\_Edge:Yes\drq{}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
+Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita,  e relógio de frequência 3 MHz.
+Com estas configurações, a programação do sistema demora apenas 1 minutos e 30 segundos \cite{xapp586}, mas pode ser ainda mais reduzido.
+
+No PlanAhead, as configurações de compilação podem ser modificadas através do arquivo \qt{bitgen.ut} localizado na pasta \qt{etc} do projeto.
+Através da opção \qt{-g SPI\_buswidth:X}, onde X pode ser 1, 2 ou 4, pode-se alterar a interface utilizada neste tipo de programação \cite{ug628, xapp576}, sendo a x4 a mais eficiente.
+Pode-se ainda forçar a opção \qt{-g ConfigRate\_en:Y}, onde Y pode ser 3, 6, 9, 12, 16, 22, 26, 33, 40, 50 ou 66, para se utilizar de relógios de variadas frequências e obter assim o modo de configuração mais adequado para a memória em questão \cite{xapp586, ug628, ug810}.
+Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
+Uma opção alternativa é utilizar um relógio externo através da opção \qt{-g ExtMasterCclk\_en:Z}, onde Z pode ser \qt{Disable}, \qt{div-8}, \qt{div-4}, \qt{div-2} e \qt{div-1}.
 
 \subsection{Teste}
 O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3, capture as informações relevantes e indique através de GPIO o final do processo.
