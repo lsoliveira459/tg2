@@ -145,6 +145,7 @@
 [UG625]: ./xilinx/ug/ug625.pdf
 [UG628]: ./xilinx/ug/ug628.pdf
 [UG631]: ./xilinx/ug/ug631.pdf
+[UG658]: ./xilinx/ug/ug658.pdf
 [UG695]: ./xilinx/ug/ug695.pdf
 [UG702]: ./xilinx/ug/ug702.pdf
 [UG743]: ./xilinx/ug/ug743.pdf
