@@ -28,7 +28,6 @@
 	
 	\begin{document}
 	\frontmatter
-	\listoftodos
 	\tableofcontents
 	\mainmatter
 	
@@ -53,12 +52,10 @@
 	  stringstyle=\itshape\color{blue!40!black},
 }
                       
-\chapter{Desenvolvimento}\label{CapDesenvolvimento}
-
+\chapter{Introdu\c{c}\~{a}o}
 \resumodocapitulo{Este capítulo trata da concepção dos experimentos realizados. Nele serão descritos com detalhes cada um dos experimentos, ficando a parte de análise reservada ao capítulo \ref{CapExperimentos}.}
+\vspace{0.8cm}
 
-\section{Introdu\c{c}\~{a}o}
-%\vspace{0.8cm}
 Devido ao caráter experimental e exploratório do objetivo proposto na seção \ref{sec:projeto}, decidiu-se dividir o projeto em vários experimentos menores.
 Desta forma, além de garantir algum material mesmo que tudo dê errado, consegue-se simplificar o processo de pesquisa e desenvolvimento através dos pequenos passos e análises frequentes.
 
@@ -80,10 +77,10 @@ Este kit possui FPGA modelo XC7K325T-2FFG900C, leitor de cartão de memória, co
 
 Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descrição de \textit{hardware} ao invés da Verilog.
 
-\section{Experimento 1 - Reconfiguração Dinâmica}
+\chapter{Experimento 1 - Reconfiguração Dinâmica}
 De forma a dar validade a todo o projeto, foi preciso desenvolver um experimento para se entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
 
-\subsection{Fluxo de Ferramentas}
+\section{Fluxo de Ferramentas}
 A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
 Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
 Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
@@ -111,11 +108,11 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 Reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
-\subsection{Peculiaridades}
+\section{Peculiaridades}
 O kit de desenvolvimento utilizada apresenta algumas peculiaridades com relação aos kits comuns.
 A seguir serão apresentadas algumas destas peculiaridades.
 
-\subsubsection{Relógios}
+\subsection{Relógios}
 Diferentemente das FPGAs comuns, a que está presente neste kit contém um relógio diferencial, ou seja, dois sinais compoem tal relógio.
 A razão para tal é a presença de circuitos sensíveis a interferência, tais como \textit{transceivers}, que são muito menores em sinais diferenciais.
 O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
@@ -125,7 +122,7 @@ Por motivos de simplicidade, utilizou-se o SYSCLK.
 Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
 Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
 
-\subsection{Teste}
+\section{Teste}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
 Para isso, implementou-se o sistema esquematizado na figura \ref{fig:ex1:componentes}.
 Este sistema contém o \qt{Top} para interfaceamento com a FPGA, o \qt{Clocks} para tratamento do sinal de relógio, a \qt{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qt{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
@@ -150,7 +147,7 @@ Projeto/
 \end{lstlisting}
 Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvolvimento limpo.
 
-\subsubsection{Comportamento}
+\subsection{Comportamento}
 Como explicado anteriormente, o projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
 Seguindo essa lógica, dois projetos com comportamentos diferentes foram construídos usando como base a figura \ref{fig:ex1:componentes}.
 O comportamento individual de cada módulo ou componente será descrito a seguir.
@@ -180,7 +177,7 @@ end component;
 \end{lstlisting}
 O módulo \qt{Top} possui também um divisor de frequência para reduzir a frequência devolvida por \qt{Clocks} para 1 e 2 Hz.
 
-\subsubsection{Síntese}
+\subsection{Síntese}
 Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese.
 Este passo é necessário uma vez que o próximo passo, referente ao PlanAhead, não aceita como entrada códigos-fonte.
 Os códigos-fonte precisam passar por uma etapa de síntese separada para poderem ser importados no PlanAhead.
@@ -232,7 +229,7 @@ Existe também a possibilidade de construção de um \textit{script} para a sín
 Utilizou-se aqui uma adaptação do arquivo em linguagem TCL usado pela Xilinx em seus manuais \cite{ug702, ug743, ug744}.
 A única coisa que se faz neste \textit{script} é a construção dinâmica dos comandos com base em listas de arquivos pré-informados.
 
-\subsubsection{PlanAhead}
+\subsection{PlanAhead}
 Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
 Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, criaremos configurações alternativas, promoremos tais configurações e geraremos os \textit{bitfiles} para a programação do dispositivo.
 Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial.
@@ -307,7 +304,7 @@ Esta etapa precisa ser realizada com cada uma das configurações realizadas, ou
 Tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta *.runs.
 Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que contém a configuração completa, e outro menor que possui a configuração parcial.
 
-\subsubsection{iMPACT}
+\subsection{iMPACT}
 Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através auxilio da ferramenta iMPACT. 
 A primeira coisa a se fazer após abrir o programa é permitir que o sistema automaticamente crie um projeto.
 Na janela que se abre, escolhe-se a opção \qt{\textit{Automatically connect to a cable and identify Boundary-Scan chain}} do item \qt{\textit{Configure devices using Boundary-Scan (JTAG)}}.
@@ -323,7 +320,7 @@ Este arquivo possui \qt{partial} em seu nome, o que o diferencia do arquivo bin�
 Note que utilizar os arquivos binários completos não gera erro, mas constitui reconfiguração total, não parcial.
 Após a seleção da configuração desejada, o último passo necessário é a programação, que pode ser realizada clicando-se com o botão direito no dispositivo e selecionando-se a opção \qt{\textit{Program}}.
 
-\subsection{Possíveis Erros}
+\section{Possíveis Erros}
 \paragraph{Erros no código-fonte} Este é um dos erros mais comuns.
 A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
 Para acelerar o processo, realiza-se apenas a síntese.
@@ -348,44 +345,44 @@ Note que algum programa aberto pode interferir com a varredura realizada pelo iM
 Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
 Note ainda que a placa deve estar ligada para poder ser detectada.
 
-\subsection{Conclusão}
+\section{Conclusão}
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto.
 
-\section{Experimento 2 - Teste de Memórias}
+\chapter{Experimento 2 - Teste de Memórias}
 Seguindo o raciocínio apresentado no início do capítulo, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os \textit{bitfiles} de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
 
-\subsection{Tipos de Mémoria}
+\section{Tipos de Mémoria}
 
 No kit utilizado existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades \cite{ug810}.
 Este experimento foi dedicado à compreenção do funcionamento dos diversos tipos de memórias e à escolha da solução mais adequada.
 
-\subsubsection{Memória \textit{Block RAM}}
+\subsection{Memória \textit{Block RAM}}
 A memória do tipo \textit{Block RAM} é construída usando-se os blocos de memória RAM restantes da FPGA.
 Esta memória consegue alcançar velocidades de leitura na ordem de várias centenas de hertz, mas possui uma capacidade de armazenamento bem reduzida, de apenas 445 blocos de 36 Kb para este kit, totalizando um máximo de aproximadamente 2 MB \cite{ug473, wp377}.
 Note que a configuração total da FPGA necessita de aproximadamente 11 MB, ou exatamente 91.548.896 bits, para sua programação total \cite{ug470}.
 Pode-se programá-la através do iMPACT, dentre outras formas \footnote{\textit{Memory Initialization Methods}, escrito por Jim Wu em 31 de dezembro de 2011. Dísponível em \url{http://myfpgablog.blogspot.com.br/2011/12/memory-initialization-methods.html}}.
 
-\subsubsection{Memória \textit{Distributed RAM}}
+\subsection{Memória \textit{Distributed RAM}}
 A memória \textit{Distributed RAM} é construida utilizando-se das LUTs disponíveis nas célula lógicas \cite{ug473, wp377}.
 Também são muito rápidas, apesar de síncronas, e também possuem pouca capacidade de armazenamento.
 Pode-se programá-la através do iMPACT, dentre outras formas.
 
-\subsubsection{Memória \textit{Linear BPI Flash}}
+\subsection{Memória \textit{Linear BPI Flash}}
 A memória \textit{Linear BPI Flash} disponibiliza 128 Mb de memória não-volátil \cite{ug810}, acessadas em palavras de 16 bits.
 Apesar disso, sua velocidade de leitura máxima é de 33 MHz.
 Convertendo tal velocidade para a leitura de 32 bits, tem-se uma velocidade de leitura de aproximadamente 16 MHz.
 Pode-se programá-la através do iMPACT.
 
-\subsubsection{Memória \textit{SPI Flash}}
+\subsection{Memória \textit{SPI Flash}}
 A memória SPI Flash é diferente na sua forma de acesso, que acontece através da interface SPI.
 Esta memória fornece 128 Mb de memória não volátil \cite{ug810}.
 Ela aceita três modos de operação, x1, x2 e x4, que corresponde a largura da palavra lida/escrita a cada pulso de relógio \cite{N25Q128}.
 A frequência de operação é de no máximo 50 MHz \cite{xapp586}.
 Pode-se programá-la através do iMPACT.
 
-\subsubsection{Cartão de Memória SD}
+\subsection{Cartão de Memória SD}
 O cartão de memória SD dá acesso a uma memória não-volátil de tamanho arbitrário.
 Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4 bits a frequências de até 50 MHz \cite{ug810}.
 A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
@@ -395,11 +392,11 @@ Note que também não existe a possibilidade de programação do cartão atravé
 \textit{SystemAce} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
 Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão.
 
-\subsubsection{Memória DDR3}
+\subsection{Memória DDR3}
 A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
 Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
 
-\subsection{Teste}
+\section{Teste}
 Notou-se no primeiro experimento que os \textit{bitfiles} parciais gerados possuem 645 KB, totalizando 1935 KB, ou 1,89 MB.
 Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
 Caso se escolha esta opção, apenas os \textit{bitfiles} parciais poderiam ser armazenados, necessitando da ajuda do computador para a programação inicial.
@@ -413,7 +410,7 @@ A forma mais fácil de implementar tal funcionalidade é através do uso de um m
 Antes de implementar o \textit{bootloader}, precisamos entender como funcionam as memórias do escolhidas.
 Este teste, então, tem por objetivo entender o fluxo de projeto para o uso do MicroBlaze, o funcionamento deste microcontrolador e as formas corretas de se acessar as memórias do sistema.
 
-\subsubsection{Fluxo de Projeto}
+\subsection{Fluxo de Projeto}
 O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
 A figura \ref{fig:ex2:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
 Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
@@ -426,7 +423,7 @@ Tanto o programa quando o processador gerarão arquivos binários que serão car
 \label{fig:ex2:softwareflow}
 \end{figure}
 
-\subsubsection{MicroBlaze}
+\subsection{MicroBlaze}
 O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
 Ele possui 32 registradores genéricos de 32 bits, instruções de 32 bits e endereços de 32 bits.
 Seu \textit{pipeline} possui 3 ou 5 estágios e é construido em torno da arquitetura Harvard, como pode ser observado na figura \ref{fig:ex3:microblazecore}.
@@ -444,7 +441,7 @@ A interface mais atual suportada, e que foi utilizada neste experimento, é a Ad
 A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibilidade e disponibilidade.
 Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
 
-\subsubsection{XPS}
+\subsection{XPS}
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
 Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
 Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
@@ -486,7 +483,7 @@ Quando terminado, pode-se exportar o projeto através do botão \qt{\textit{Expo
 Na janela que aparecer, marque \qt{\textit{Include bitstream and BMM file}} e clique em \qt{\textit{Export \& Launch SDK}}.
 Após a implementação do arquivo binário, a ferramenta SDK será aberta.
 
-\subsubsection{SDK}
+\subsection{SDK}
 Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{workspace}.
 Uma boa opção é a pasta SDK criada dentro da pasta do projeto do sistema durante sua exportação, apesar desta escolha ser completamente arbitrária.
 Escolhida a pasta, o ambiente de trabalho é aberto.
@@ -515,12 +512,12 @@ Clica-se em \qt{\textit{Program}} para inciar a programação.
 Para se transferir o programa criado com o auxílio do SDK, seleciona-se o projeto deste programa, clica-se com o botão direito, seleciona-se o submenu \qt{\textit{Run As...}} e escolhe-se a opção \qt{\textit{1 Launch on Hardware (GDB)}}.
 No caso dos códigos-exemplo, algumas informações são imprimidas no console caso tudo tenha ocorrido confome o esperado.
 
-\subsection{Conclusão}
+\section{Conclusão}
 Conclui-se assim o experimento para o teste de programação das memórias.
 Notou-se que existe muita pouca literatura no assunto, forçando o programador a fazer uso dos forúns de discussão e conhecimentos gerais de programação embarcada.
 Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
-\section{Experimento 3 - Teste do \textit{Bootloader}}
+\chapter{Experimento 3 - Teste do \textit{Bootloader}}
 O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, a memória DDR3.
 Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flash e DDR3.
 O experimento 2 foi dedicado a aprender a utilizar estas memórias.
@@ -533,7 +530,7 @@ Neste experimento, espera-se entender como é formado o arquivo binário para as
 \label{fig:ex3:hex_blank}
 \end{figure}
 
-\subsection{Arquivo Binário}
+\section{Arquivo Binário}
 \label{sec:binario}
 O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
 O cabeçalho é formado por chaves e tamanhos, indicando diversos campos deste.
@@ -578,13 +575,13 @@ Estes bits são então usados apenas para pré-processamento do arquivo binário
 
 A palavra de sincronia (\qt{0xaa 99 ff 66}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
 
-\subsection{Inicialização da Memória SPI Flash}
+\section{Inicialização da Memória SPI Flash}
 \label{sec:flash_indireta}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para o FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
 Este processo é conhecido como programação indireta da memória Flash \cite{xapp586}.
 
-\subsubsection{Compilação} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
+\subsection{Compilação} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
 Este procedimento é realizado na etapa de construção do processador.
 Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita,  e relógio de frequência 3 MHz.
 Com estas configurações, a programação do sistema demora apenas 1 minutos e 30 segundos \cite{xapp586}, mas pode ser ainda mais reduzido.
@@ -595,22 +592,22 @@ Pode-se ainda forçar a opção \qt{-g ConfigRate\_en:Y}, onde Y pode ser 3, 6, 
 Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
 Uma opção alternativa é utilizar um relógio externo através da opção \qt{-g ExtMasterCclk\_en:Z}, onde Z pode ser \qt{Disable}, \qt{div-8}, \qt{div-4}, \qt{div-2} e \qt{div-1}.
 
-\subsubsection{Arquivo de Memória PROM}
+\subsection{Arquivo de Memória PROM}
 Após compilado o projeto, seu arquivo binário e qualquer outra informação a ser programada na memória Flash precisa ser adicionada a um arquivo do tipo MCS.
 Este processo é necessário para que o iMPACT consiga carregar e programar a memória Flash de forma correta.
 Pode-se construir este arquivo de memória PROM através do próprio iMPACT, processo que será descrito mais a frente.
 
-\subsection{Teste}
+\section{Teste}
 O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
 Este experimento contribuirá para a compreenção do processo de inicialização de memórias não-voláteis e do tratamento do cabeçalho dos arquivos binários.
 Usará-se os programas XPS, SDK, que fazem parte do Embedded Development Kit (EDK), data2mem e iMPACT.
 
-\subsubsection{XPS}
+\subsection{XPS}
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
 A interface SPI utilizada aqui foi a padrão, x1, por motivos de simplificação do projeto.
 O uso de uma interface x4 diminuiria o tempo de programação em 4 vezes, o que não é fator crítico para este experimento, mas acarretaria na necessidade de recompilar todos os projetos desenvolvidos até agora.
 
-\subsubsection{SDK}
+\subsection{SDK}
 Logo após a construção do microcontrolador, recomenda-se construir o projeto do programa embarcado.
 O procedimento para o SDK nesse caso é bem semelhante ao dos experimentos anteriores, mudando-se apenas os arquivos importados e a geração do \textit{linker script}.
 Os arquivos a serem importados podem ser encontrados no CD de anexos.
@@ -624,7 +621,7 @@ Este \textit{script} pode ser gerado clicando-se com o botão direito sobre o pr
 Para o escopo deste experimento, as configurações apresentadas na janela que se abre são suficientes, bastando clicar em \qti{Generate}.
 A criação deste \textit{script} permite agora que se utilize o programa \qt{data2mem} para construir um arquivo binário de configuração com um programa embarcado pré-programado.
 
-\subsubsection{data2mem}
+\subsection{data2mem}
 A ferramenta data2mem funciona através da linha de comando, mas normalmente é acionada através de programas com interfaces gráficas, tais como o ISE, o XPS, o SDK e o iMPACT \cite{ug658}.
 Sua função principal é o de mapear blocos contíguos de dados entre múltiplas \textit{Block RAMs} distribuídas pelo FPGA mantendo um acesso lógico contínuo, i.e., dados em endereços de memória adjacentes podem estar em blocos completamente diferentes.
 No caso em questão, ela mapeará o \textit{bootloader} desenvolvido nas \textit{Block RAMs} de forma que no momento da programação, o MicroBlaze embarcado já possua um programa carregado.
@@ -652,7 +649,7 @@ O arquivo gerado pode ser encontrado na pasta \qt{SDK/*\_hw\_platform} sob o nom
 \label{fig:ex3:prom_file}
 \end{figure}
 
-\subsubsection{Programação Indireta da Memória Flash}
+\subsection{Programação Indireta da Memória Flash}
 Como todos os arquivos binários prontos, pode-se começar o processo de programação indireta da memória Flash.
 Este processo se inicia através da criação de um arquivo de memória PROM através da ferramenta iMPACT.
 Vale salientar apenas que faz-se necessário que todos os elementos (configurações totais e parciais) sejam previamente compilados para uma mesma interface SPI, seja ela x1, x2 ou x4.
@@ -687,7 +684,7 @@ Note que é possível incluir também um programa para o MicroBlaze na memória 
 O último passo é gerar o arquivo, o que pode ser feito através do menu \qti{Operations} ou do painel \qti{iMPACT Processes}, selecionando-se a opção \qti{Generate File...}.
 Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino definida no passo da figura \ref{fig:ex3:prom_file}.
 
-\subsubsection{Resultado}
+\subsection{Resultado}
 Logo após a programação e após cada ciclo de energia (\textit{power cycle}), o programa embarcado envia dados da sua execução através da porta UART para o computador, gerando a saída mostrada na figura \ref{fig:ex3:resultado}.
 Pode-se observar que o programa foi executado perfeitamente.
 
@@ -698,7 +695,7 @@ Pode-se observar que o programa foi executado perfeitamente.
 \label{fig:ex3:resultado}
 \end{figure}
 
-\subsection{Conclusão}
+\section{Conclusão}
 O experimento realizado funcionou como esperado, tendo carregado as informações do computador para a memória Flash e, em tempo de execução, da memória Flash para a memória DDR3.
 Ainda foi possível interpretar o cabeçalho do arquivo binário, extraindo dele informações importantes para o correto carregamento das configurações.
 O processo de programação da memória Flash através do computador é bem demorado, chegando a levar 20 minutos, mas durante o \textit{boot} do sistema, ele é bem rápido, demorando apenas alguns poucos segundos.
@@ -708,11 +705,11 @@ Este experimento só pode ser realizado devido a uma imensa pesquisa e compilaç
 
 O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze utilizando-se do \textit{bootloader} já desenvolvido.
 
-\section{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
+\chapter{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
 Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP e integrar tudo de forma satisfatória.
 
-\subsection{ICAP e ICAPE2}
+\section{ICAP e ICAPE2}
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
 Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sitemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
 Estas portas de configuração se utilizam de um protocolo identico ao da interface SelectMAP \cite{wp374, ug702}, que se utiliza de uma série de comandos para iniciar um dos vários procedimentos de programação.
@@ -727,16 +724,16 @@ Esta inversão só é aplicavel no uso das interfaces Serial, SelectMAP, e por c
 Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente.
 Não foi encontrada uma explicação para esta inversão.
 
-\subsection{Teste}
+\section{Teste}
 Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos neste trabalho.
 Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1, o microprocessador desenvolvido no experimento 2 e o programa desenvolvido no experimento 3, cada um com suas devidas modificações, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
 Note que pode ser necessária a criação de um projeto para interfaceamento entre os elementos externos da placa utilizados pelas partições reconfiguráveis, uma vez que, como mencionado no experimento 1, não é recomendado conectar módulos reconfiguráveis diretamente a pinos de entrada e saída.
 
-\subsubsection{XPS}
+\subsection{XPS}
 
-%\subsubsection{Registrador de \textit{Status}} Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
+%\subsection{Registrador de \textit{Status}} Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
 
-\subsection{Possiveis Erros}
+\section{Possiveis Erros}
 \paragraph{Erro de fase do relógio}
 Um erro muito comum de se encontrar
 
@@ -750,7 +747,7 @@ ERROR:EDK - DDR3_SDRAM (axi_7series_ddrx) - The clock phase of the
    value. 
 \end{lstlisting}
 
-\subsection{Conclusão}
+\section{Conclusão}
 
 Observa-se que ainda é possível construir um sistema totalmente independente de microcontroladores, apesar de isto aumentar muito a complexidade do projeto.
 Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader} está implementado em uma partição reconfigurável e pode ser apagado após o início do sistema, restando assim apenas entender o funcionamento da interface ICAP ou ICAPE2 e do controlador de DDR3 criado pelo MIG.
@@ -760,5 +757,6 @@ Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader
 	%\bibliography{bibliografia.bib}
 	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
 
+	\listoftodos
 	\end{document}
 \fi

@@ -29,21 +29,21 @@
 	
 	\begin{document}
 	\frontmatter
-	\listoftodos
+	\tableofcontents
 	\mainmatter
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%% Apagar coisas acima
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newcommand\qt[1]{\lq\lq{}#1\rq\rq{}}
+	\newcommand\qti[1]{\lq\lq{}\textit{#1}\rq\rq{}}
 \fi
-\newcommand\dlq{\lq\lq{}}
-\newcommand\drq{\rq\rq{}}
 
-\chapter{Introdu\c{c}\~ao}\label{CapIntro}
+\chapter{Introdu\c{c}\~ao Histórica}\label{CapIntro}
 
 \resumodocapitulo{Este cap\'itulo contextualiza o tema apresentado, apresentando a motivação histórica para o desenvolvimento do mesmo.}
 
-\section{Introdu\c{c}\~ao} 
+\vspace{0.8cm}
 O mundo atual \'e controlado quase que completamente por sistemas digitais.
 As informa\c{c}\~oes obtidas pelos sensores s\~ao digitalizadas antes de serem tratadas.
 Tal processo de digitaliza\c{c}\~ao \'e importante, visto que elimina os ru\'idos intr\'insecos ao processamento anal\'ogico \cite{chen2004electrical}.
@@ -352,7 +352,7 @@ Permite programação estrutural e comportamental.
 
 \paragraph{VHDL}
 VHDL foi desenvolvida logo em seguida ao Verilog, em um projeto solicitado pelo Departamento de Defesa dos Estados Unidos, como uma forma de documentar o comportamento de ASICs.
-Ela possui uma sintaxe similar a linguagem \dlq{}Ada\drq{}.
+Ela possui uma sintaxe similar a linguagem \qt{Ada}.
 A linguagem logo foi padronizada pelo IEEE, em 1987.
 Ela possui algumas diferen\c{c}as b\'asicas em rela\c{c}\~ao ao Verilog que n\~ao ser\~ao mencionados aqui.
 A maior diferen\c{c}a pr\'atica por\'em \'e a presen\c{c}a de bibliotecas padronizadas pelo IEEE que disponibilizam funcionalidades muito \'uteis.
@@ -360,9 +360,9 @@ Permite programação estrutural e comportamental.
 
 \paragraph{SystemC}
 SystemC foi desenvolvida em meados dos anos 2000, aproximadamente 15 anos depois do Verilog e VHDL, com o intuido de aproximar as linguagens de descri\c{c}\~ao de \textit{hardware} \`as de programa\c{c}\~ao gen\'erica.
-Ela \'e basicamente um conjunto de classes e macros para \dlq{}C++\drq{} que disponibiliza uma interface de simula\c{c}\~ao dirigidas por eventos.
+Ela \'e basicamente um conjunto de classes e macros para \qt{C++} que disponibiliza uma interface de simula\c{c}\~ao dirigidas por eventos.
 Essas ferramentas permitem que o projetista simule processos concorrentes, mas nos \'ultimos tempos tamb\'em foi adaptada para o desenvolvimento de sistemas reconfigur\'aveis.
-Uma vez que n\~ao foi desenvolvida com o prop\'osito principal de descric\~ao de \text{hardware}, possui um chamado \dlq{}\textit{overhead} sint\'atico\drq{} com rela\c{c}\~ao a Verilog e VHDL, onde mais texto tem que ser escrito para descrever um mesmo comportamento.
+Uma vez que n\~ao foi desenvolvida com o prop\'osito principal de descric\~ao de \text{hardware}, possui um chamado \qt{\textit{overhead} sint\'atico} com rela\c{c}\~ao a Verilog e VHDL, onde mais texto tem que ser escrito para descrever um mesmo comportamento.
 
 \subsection{Fabricantes}
 As duas maiores fabricantes de FPGAs s\~ao as empresas Altera e Xilinx.
@@ -444,6 +444,6 @@ Tentará-se, no decorrer dos próximos capítulos, apresentar o resultado das pe
 	\bibliographystyle{authordate1} 
 	%\bibliography{bibliografia}
 	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
-
+	\listoftodos
 	\end{document}
 \fi
