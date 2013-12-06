@@ -79,16 +79,42 @@ Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descriç
 
 \todo{Reestruturar capítulos para terem introdução teórica, desenvolvimento, resultados e conclusão.}
 \chapter{Experimento 1 - Reconfiguração Dinâmica}
-De forma a dar validade a todo o projeto, foi preciso desenvolver um experimento para se entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
+De forma a dar validade a todo o projeto, desenvolveu-se um experimento para entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
+Este experimento tem como objetivo a construção de um projeto que se utilize de reconfiguração dinâmica para reprogramar um FPGA.
 
 \section{Introdução Teórica}
+Antes de se começar a construir o experimento, é necessário estudar as peculiaridades da placa e deste tipo de projeto, bem como seu fluxo de desenvolvimento.
+Este estudo é apresetado a seguir.
 
-\subsection{Fluxo de Ferramentas}
-A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
-Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
-Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
-No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
-Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.
+\subsection{Peculiaridades}
+O kit de desenvolvimento utilizada apresenta várias peculiaridades com relação aos kits comuns.
+A única que afeta diretamente o experimento em questão é o uso de um relógio com sinal diferencial ao invés do sinal comum, explicado a seguir.
+Outra peculiaridade é uma diferente estrutura de organização de arquivos, que permite um desenvolvimento mais limpo e de fácil entendimento.
+
+\subsubsection{Relógio Diferencial}
+Diferentemente das FPGAs comuns, a que está presente neste kit contém um relógio diferencial, ou seja, ele é composto por dois sinais ao invés de um.
+A razão para tal é a presença de circuitos sensíveis a interferências, tais como \textit{transceivers}, que são muito menores em sinais diferenciais.
+O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
+O primeiro possui uma frequência fixa de oscilação de 200 MHz.
+O segundo possui uma frequência original de 156,250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
+Nota-se porém que o uso do SYSCLK é bem mais simples que o do USER\_CLOCK, não sendo necessário nenhum circuito controlador/programador.
+
+Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
+Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
+
+\subsubsection{Estrutura de Pastas}
+A questão da organização do projeto em pastas bem específicas foi bem reforçado na literatura \cite{ug702, ug743, ug744}.
+Os manuais recomendam a estrutura de pastas apresentada abaixo.
+\begin{lstlisting}
+Projeto/
+  Source/           //codigos-fonte organizados segundo particao
+  Implementation/   //contem pastas para cada config. dinamica gerada
+  Synth/            //contem pastas com os arquivos .xst e .prj
+  Tools/            //ferramentas para automacao da sintese
+  PlanAhead/        //pasta para o projeto do PlanAhead
+\end{lstlisting}
+A principal razão para esta recomendação é o uso de ferramentas variadas, tais como \textit{scripts} em TCL, o XST e o PlanAhead.
+Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvolvimento limpo.
 
 \begin{figure}[h]
 	\centering
@@ -108,22 +134,15 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 	\label{fig:ex1:softwareflow:comparacao}
 \end{figure}
 
+\subsection{Fluxo de Ferramentas}
+A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
+Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
+Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
+No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
+Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.
+
 Reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
-
-\subsection{Peculiaridades}
-O kit de desenvolvimento utilizada apresenta algumas peculiaridades com relação aos kits comuns.
-A seguir serão apresentadas algumas destas peculiaridades.
-
-\subsubsection{Relógios}
-Diferentemente das FPGAs comuns, a que está presente neste kit contém um relógio diferencial, ou seja, dois sinais compoem tal relógio.
-A razão para tal é a presença de circuitos sensíveis a interferência, tais como \textit{transceivers}, que são muito menores em sinais diferenciais.
-O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
-O primeiro possui uma frequência fixa de oscilação de 200 MHz.
-O segundo possui uma frequência original de 156,250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
-Por motivos de simplicidade, utilizou-se o SYSCLK.
-Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
-Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
 
 \section{Experimento}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
@@ -136,19 +155,6 @@ Este sistema contém o \qt{Top} para interfaceamento com a FPGA, o \qt{Clocks} p
 \caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos e os em azul são dinâmicos.}
 \label{fig:ex1:componentes}
 \end{figure}
-
-\paragraph{Estrutura de Pastas}
-A questão da organização do projeto em pastas bem específicas é sempre bem mencionado na literatura \cite{ug702, ug743, ug744}.
-Os manuais recomendam a seguinte estrutura de pastas.
-\begin{lstlisting}
-Projeto/
-  Source/           //codigos-fonte organizados segundo particao
-  Implementation/   //contem pastas para cada config. dinamica gerada
-  Synth/            //contem pastas com os arquivos .xst e .prj
-  Tools/            //ferramentas para automacao da sintese
-  PlanAhead/        //pasta para o projeto do PlanAhead
-\end{lstlisting}
-Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvolvimento limpo.
 
 \subsection{Comportamento}
 Como explicado anteriormente, o projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
