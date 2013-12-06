@@ -526,8 +526,6 @@ Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flas
 O experimento 2 foi dedicado a aprender a utilizar estas memórias.
 Neste experimento, espera-se entender como é formado o arquivo binário para assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
 
-Utilizará-se também o GPIO, que dá acesso aos pinos da placa, visto que é interessante que este subsistema possa sinalizar para os demais que o carregamento foi completado e informar algumas informações dos elementos transferidos, tais como tamanhos e posições iniciais.
-
 \begin{figure}[htp]
 \centering
 \includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/hex_blank.pdf}
@@ -712,16 +710,17 @@ Este experimento só pode ser realizado devido a uma imensa pesquisa e compilaç
 
 O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze.
 
-\section{Experimento 4 - Teste da Autoreconfiguração com \textit{Bootloader} Dedicado}
-\todo{Descrever o experimento 4}
+\section{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
+Neste experimento espera-se conseguir projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma.
+Para isto, deve-se entender o processo de cria
 
 \subsubsection{Registrador de \textit{Status}}
 Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
 
-\todo{Explicar como fui para o próximo experimento}
-\section{Experimento 5 - Teste da Autoreconfiguração}
-\todo{Descrever o experimento 5}
-\todo{Explicar como fui para o próximo experimento}
+\subsection{Conclusão}
+
+Observa-se que ainda é possível construir um sistema totalmente independente de microcontroladores, apesar de isto aumentar muito a complexidade do projeto.
+Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader} está implementado em uma partição reconfigurável e pode ser apagado após o início do sistema, restando assim apenas entender o funcionamento da interface ICAP ou ICAPE2 e do controlador de DDR3 criado pelo MIG.
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{plain} 
