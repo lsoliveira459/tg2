@@ -577,10 +577,6 @@ Estes bits são então usados apenas para pré-processamento do arquivo binário
 
 A palavra de sincronia (\qt{0xaa 99 ff 66}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
 
-\paragraph{Inversão dos bytes} A interface ICAP e a ICAPE2, similares a interface SelectMAP \cite{wp374}, precisa de uma inversão na ordem dos bits nos bytes da configuração, incluindo a palavra de sincronia \cite{xapp502}.
-Esta inversão é necessária apenas no uso destas três interfaces.
-Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente \cite{ug470}.
-
 \subsection{Inicialização da Memória SPI Flash}
 \label{sec:flash_indireta}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
@@ -703,16 +699,25 @@ Pode-se observar que o programa foi executado perfeitamente.
 
 \subsection{Conclusão}
 O experimento realizado funcionou como esperado, tendo carregado as informações do computador para a memória Flash e, em tempo de execução, da memória Flash para a memória DDR3.
+Ainda foi possível interpretar o cabeçalho do arquivo binário, extraindo dele informações importantes para o correto carregamento das configurações.
 O processo de programação da memória Flash através do computador é bem demorado, chegando a levar 20 minutos, mas durante o \textit{boot} do sistema, ele é bem rápido, demorando apenas alguns poucos segundos.
 
 É relativamente complicado trabalhar com os periféricos e \textit{drivers} que os acompanham devido a documentação escassa e a grande disperção das informações.
 Este experimento só pode ser realizado devido a uma imensa pesquisa e compilação de guias de usuário, relatórios de aplicações, \textit{datasheets}, exemplos de projetos para diversos tipos de kits de desenvolvimento e comentários em fóruns de discussão.
 
-O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze.
+O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze utilizando-se do \textit{bootloader} já desenvolvido.
 
 \section{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
-Neste experimento espera-se conseguir projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma.
-Para isto, deve-se entender o processo de cria
+Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
+Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP \cite{ds817} e integrar tudo de forma satisfatória.
+
+\subsection{ICAP e ICAPE2}
+As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
+Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100} e sistemas críticos que necessitam de frequente verificação da configuração do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais, sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
+
+\paragraph{Inversão dos bytes} A interface ICAP e a ICAPE2, similares a interface SelectMAP \cite{wp374}, precisa de uma inversão na ordem dos bits nos bytes da configuração, incluindo a palavra de sincronia \cite{xapp502}.
+Esta inversão é necessária apenas no uso destas três interfaces.
+Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente \cite{ug470}.
 
 \subsubsection{Registrador de \textit{Status}}
 Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
