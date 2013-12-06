@@ -29,7 +29,7 @@
 	\begin{document}
 	\frontmatter
 	\listoftodos
-	\tableofcontents
+	%\tableofcontents
 	\mainmatter
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -405,7 +405,7 @@ Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica c
 Caso se escolha esta opção, apenas os \textit{bitfiles} parciais poderiam ser armazenados, necessitando da ajuda do computador para a programação inicial.
 Este típo de memória é mais útil como memória de dados e de programa em microcontroladores embarcados na FPGA, devido a sua altíssima velocidade de acesso e capacidade de acesso de vários canais em paralelo.
 
-Observa-se que a interface de reprogramação dinâmica, ICAPE2, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s.
+Observa-se que a interface de reprogramação dinâmica, ICAPE2, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s \cite{ug702}.
 Por causa disso, todas as interfaces não-voláteis apresentadas acima acabariam por ser o gargalo do tempo da programação.
 Uma solução é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica.
 A forma mais fácil de implementar tal funcionalidade é através do uso de um microcontrolador MicroBlaze funcionando como \textit{bootloader}.
@@ -534,6 +534,7 @@ Neste experimento, espera-se entender como é formado o arquivo binário para as
 \end{figure}
 
 \subsection{Arquivo Binário}
+\label{sec:binario}
 O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
 O cabeçalho é formado por chaves e tamanhos, indicando diversos campos deste.
 Na tabela \ref{tab:ex3:hex_blank} pode-se observar os tamanhos e campos apresentados na figura \ref{fig:ex3:hex_blank} \footnote{\qti{FAQ: Tell me about the format of the .BIT files please}, \url{http://www.fpga-faq.com/FAQ_Pages/0026_Tell_me_about_bit_files.htm}}.
@@ -709,18 +710,24 @@ O próximo passo natural no desenvolvimento deste projeto é a tentativa de auto
 
 \section{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
-Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP \cite{ds817} e integrar tudo de forma satisfatória.
+Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP e integrar tudo de forma satisfatória.
 
 \subsection{ICAP e ICAPE2}
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
-Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100} e sistemas críticos que necessitam de frequente verificação da configuração do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais, sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
+Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sitemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
+Estas portas de configuração se utilizam de um protocolo identico ao da interface SelectMAP \cite{wp374, ug702}, que se utiliza de uma série de comandos para iniciar um dos vários procedimentos de programação.
+Felizmente utilizaremos o controlador AXI4 HWICAP \cite{ds817}, que permite o controle da ICAP e ICAPE2 através do MicroBlaze.
 
-\paragraph{Inversão dos bytes} A interface ICAP e a ICAPE2, similares a interface SelectMAP \cite{wp374}, precisa de uma inversão na ordem dos bits nos bytes da configuração, incluindo a palavra de sincronia \cite{xapp502}.
-Esta inversão é necessária apenas no uso destas três interfaces.
-Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente \cite{ug470}.
+Estas interfaces, tanto a SelectMAP quanto a ICAP, possuem um largura de banda de 32 bits e frequência máxima de operação de 100 MHz, permitindo uma taxa de tranferência de até 3.2 Gbps \cite{ug702}.
+Esta taxa de transferência permite que configurações parciais como a do experimento 1 sejam programadas em apenas 1.65 milisegundos ($611288\text{ bytes }\cdot8\frac{\text{bits}}{\text{byte}}\div3.200.000.000\frac{\text{bits}}{\text{segundo}} = 0,00165 \text{ segundo}$).
 
-\subsubsection{Registrador de \textit{Status}}
-Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
+\paragraph{Inversão dos bytes}
+A SelectMAP necessita de uma inversão na ordem dos bits de cada byte do arquivo de configuração \cite{xapp502}, incluindo a palavra de sincronia, mencionada na seção \ref{sec:binario}.
+Esta inversão só é aplicavel no uso das interfaces Serial, SelectMAP, e por consequência ICAP e ICAPE2, e BPI \cite{ug470}.
+Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente.
+Não foi encontrada uma explicação para esta inversão.
+
+%\subsubsection{Registrador de \textit{Status}} Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
 
 \subsection{Conclusão}
 
