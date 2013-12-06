@@ -35,8 +35,6 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%% Apagar coisas acima
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\newcommand\dlq{\lq\lq{}}
-	\newcommand\drq{\rq\rq{}}
 	\newcommand\qt[1]{\lq\lq{}#1\rq\rq{}}
 	\newcommand\qti[1]{\lq\lq{}\textit{#1}\rq\rq{}}
 \fi
@@ -644,20 +642,31 @@ Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino defi
 \subsection{Teste}
 O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
 Este experimento contribuirá para a compreenção do processo de inicialização de memórias não-voláteis e do tratamento do cabeçalho dos arquivos binários.
-Usará-se os programas XPS e SDK, que fazem parte do Embedded Development Kit (EDK).
+Usará-se os programas XPS, SDK, que fazem parte do Embedded Development Kit (EDK), data2mem e iMPACT.
 
-\subsubsection{MicroBlaze}
+\subsubsection{XPS}
 Utilizou-se o mesmo microcontrolador MicroBlaze construido no experimento passado, não sendo necessária nenhuma modificação.
 A interface SPI utilizada aqui foi a padrão, x1, por motivos de simplificação do projeto.
-O uso de uma interface x4 diminuiria o tempo de programação em 4 vezes, o que não é fator crítico para este experimento.
+O uso de uma interface x4 diminuiria o tempo de programação em 4 vezes, o que não é fator crítico para este experimento, mas acarretaria na necessidade de recompilar todos os projetos desenvolvidos até agora.
+
+\subsubsection{SDK}
+Logo após a construção do microcontrolador, recomenda-se construir o projeto do programa embarcado.
+O procedimento para o SDK nesse caso é bem semelhante ao dos experimentos anteriores.
+Apenas as diferenças serão citadas a seguir.
+
+Desta vez, tem-se como objetivo fazer com que o sistema se carregue e entre em funcionamento de forma autônoma.
+Para isto, precisa-se, depois da inclusão dos devidos arquivos, presentes no anexo, gerar o \textit{linker script}.
+Este arquivo descreve como o arquivo binário do \textit{bootloader} deve ser armazenado na memória interna do FPGA para execução.
+Este \textit{script} pode ser gerado clicando-se com o botão direito sobre o projeto do prgrama embarcado e selecionando-se a opção \qti{Generate Linker Script...} ou selecionando-se o projeto, abrindo-se o menu \qti{Xilinx Tools} e selecionando-se a opção do mesmo nome.
+Para o escopo deste experimento, as configurações apresentadas na janela que se abre são suficientes, bastando clicar em \qti{Generate}.
+A criação deste \textit{script} permite agora que se utilize o programa \qt{data2mem} para construir um arquivo binário de configuração com um programa embarcado pré-programado.
+
+\subsubsection{data2mem}
+
 
 \subsubsection{Arquivo de Memória PROM}
 Para a construção de um arquivo de memória PROM como descrito anteriormente, faz-se necessário que todos os elementos sejam compilados para uma mesma interface SPI.
 O uso de interfaces diferentes pode gerar erros na programação da memória Flash.
-
-\subsubsection{SDK}
-O procedimento para o SDK nesse caso é igual ao do experimento passado.
-A única diferença são os arquivos adicionados, que agora 
 
 \subsection{Conclusão}
 
