@@ -81,7 +81,9 @@ Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descriç
 \chapter{Experimento 1 - Reconfiguração Dinâmica}
 De forma a dar validade a todo o projeto, foi preciso desenvolver um experimento para se entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
 
-\section{Fluxo de Ferramentas}
+\section{Introdução Teórica}
+
+\subsection{Fluxo de Ferramentas}
 A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
 Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
 Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
@@ -109,11 +111,11 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 Reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
-\section{Peculiaridades}
+\subsection{Peculiaridades}
 O kit de desenvolvimento utilizada apresenta algumas peculiaridades com relação aos kits comuns.
 A seguir serão apresentadas algumas destas peculiaridades.
 
-\subsection{Relógios}
+\subsubsection{Relógios}
 Diferentemente das FPGAs comuns, a que está presente neste kit contém um relógio diferencial, ou seja, dois sinais compoem tal relógio.
 A razão para tal é a presença de circuitos sensíveis a interferência, tais como \textit{transceivers}, que são muito menores em sinais diferenciais.
 O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
@@ -123,7 +125,7 @@ Por motivos de simplicidade, utilizou-se o SYSCLK.
 Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
 Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
 
-\section{Teste}
+\section{Experimento}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
 Para isso, implementou-se o sistema esquematizado na figura \ref{fig:ex1:componentes}.
 Este sistema contém o \qt{Top} para interfaceamento com a FPGA, o \qt{Clocks} para tratamento do sinal de relógio, a \qt{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qt{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
@@ -273,6 +275,7 @@ Este processo pode demorar.
 Em tentativas subsequentes, seleciona-se a opção de recomeçar todo o processo do zero, evitando erros gerados nos estágios iniciais.
 Uma região possível, que foi utilizada nesse projeto, foi a que contém as células (\textit{slice}) de X80Y244 a X139Y205.
 Os nomes das células ficam visíveis através da ampliação do dispositivo.
+Outra possibilidade é descrita na seção \ref{par:alocacao}.
 
 Uma vez terminado o \qt{\textit{Design Run}}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
 Para isso, clica-se em \qt{\textit{Synthesized Design}} novamente e seleciona-se a opção \qt{\textit{Add reconfigurable module}} do menu que aparece ao se clicar em \qt{dynamic\_i} no painel \qt{\textit{Netlist}} com o botão direito.
@@ -321,32 +324,47 @@ Este arquivo possui \qt{partial} em seu nome, o que o diferencia do arquivo bin�
 Note que utilizar os arquivos binários completos não gera erro, mas constitui reconfiguração total, não parcial.
 Após a seleção da configuração desejada, o último passo necessário é a programação, que pode ser realizada clicando-se com o botão direito no dispositivo e selecionando-se a opção \qt{\textit{Program}}.
 
-\section{Possíveis Erros}
-\paragraph{Erros no código-fonte} Este é um dos erros mais comuns.
+\subsection{Possíveis Erros}
+\subsubsection{Erros no código-fonte} Este é um dos erros mais comuns.
 A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
 Para acelerar o processo, realiza-se apenas a síntese.
 
-\paragraph{Erros na alocação de partições}
+\subsubsection{Erros na alocação de partições}
+\label{par:alocacao}
 Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\textit{AR\# 53290: Partial Reconfiguration - 7 series device layout of tiles (CLB, DSP, BRAM, INT) and a shared clocking structure of vertical clock spines between interconnect (routing) tiles}. Disponível em \url{http://www.xilinx.com/support/answers/53290.htm}}.
-Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições UCF ou alterando a região da partição.
+Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições (UCF) ou alterando a região da partição.
 A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \qt{INCLUSIVE=ROUTE} na linha que contém \qt{INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"}.
+
 A segunda forma é simplemente mudando a posição da região da partição para a direita, para a esquerda ou sua largura, de acordo com a mensagem de erro retornada.
 Esta método não é determinístico e pode ser necessárias várias tentativas antes de se conseguir uma partição mapeável. 
+Este processo pode também ser realizado através do arquivo de restrições (UCF).
+O código abaixo contém uma alocação de partição funcional para este experimento, podendo ser copiada sobre a definição atualmente existente no arquivo UCF.
+\begin{lstlisting}
+INST "dynamic_i" AREA_GROUP = "pblock_dynamic_i";
+AREA_GROUP "pblock_dynamic_i" RANGE=SLICE_X80Y205:SLICE_X139Y244;
+AREA_GROUP "pblock_dynamic_i" RANGE=DSP48_X3Y82:DSP48_X5Y97;
+AREA_GROUP "pblock_dynamic_i" RANGE=RAMB18_X3Y82:RAMB18_X5Y97;
+AREA_GROUP "pblock_dynamic_i" RANGE=RAMB36_X3Y41:RAMB36_X5Y48;
+\end{lstlisting}
 
-\paragraph{Esquecer de promover a partição}
+O arquivo UCF pode ser aberto pelo painel \qti{Sources} sob a árvore \qti{Constrains}.
+Em caso de mais de um arquivo UCF presente, o desejado pode ser identificado pela marcação \qti{(target)} ao lado.
+Dois cliques são suficientes para abrí-lo. 
+
+\subsubsection{Esquecer de promover a partição}
 A promoção da primeira configuração antes de se implementar as seguintes contribui para a implementação de configurações compatíveis.
 Esquecer de promover esta partição pode fazer com que erros sejam gerados na etapa de verificação das partições.
 
-\paragraph{O PlanAhead pode travar enquanto implementando uma configuração}
+\subsubsection{O PlanAhead pode travar enquanto implementando uma configuração}
 Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
 A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
 
-\paragraph{Erros na detecção da placa}
+\subsubsection{Erros na detecção da placa}
 Note que algum programa aberto pode interferir com a varredura realizada pelo iMPACT, fazendo-a falhar.
 Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
 Note ainda que a placa deve estar ligada para poder ser detectada.
 
-\section{Conclusão}
+\section{Resultados e Conclusão}
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto.
 
@@ -726,11 +744,23 @@ Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem te
 Não foi encontrada uma explicação para esta inversão.
 
 \section{Teste}
-Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos neste trabalho.
+Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos  neste trabalho.
 Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1, o microprocessador desenvolvido no experimento 2 e o programa desenvolvido no experimento 3, cada um com suas devidas modificações, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
-Note que pode ser necessária a criação de um projeto para interfaceamento entre os elementos externos da placa utilizados pelas partições reconfiguráveis, uma vez que, como mencionado no experimento 1, não é recomendado conectar módulos reconfiguráveis diretamente a pinos de entrada e saída.
+Todos estes elementos serão interfaceados entre si e com a placa através de um projeto do \textit{Project Navigator}.
 
-\subsection{XPS}
+\subsection{\textit{Project Navigator}}
+\todo{\textit{Project Navigator}}
+
+\subsubsection{\textit{Clock Generator}}
+\todo{\textit{Clock Generator}}
+
+\subsubsection{XPS}
+\todo{XPS}
+
+\subsubsection{XST}
+\todo{XST}
+
+\subsection{PlanAhead}
 
 %\subsection{Registrador de \textit{Status}} Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
 
@@ -748,6 +778,9 @@ ERROR:EDK - DDR3_SDRAM (axi_7series_ddrx) - The clock phase of the
    output of the clock connected to 'freq_refclk' to the recommended
    value. 
 \end{lstlisting}
+
+\section{Resultados}
+\todo{Resultados}
 
 \section{Conclusão}
 
