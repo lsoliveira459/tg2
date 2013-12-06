@@ -29,7 +29,7 @@
 	\begin{document}
 	\frontmatter
 	\listoftodos
-	%\tableofcontents
+	\tableofcontents
 	\mainmatter
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -727,7 +727,28 @@ Esta inversão só é aplicavel no uso das interfaces Serial, SelectMAP, e por c
 Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente.
 Não foi encontrada uma explicação para esta inversão.
 
+\subsection{Teste}
+Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos neste trabalho.
+Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1, o microprocessador desenvolvido no experimento 2 e o programa desenvolvido no experimento 3, cada um com suas devidas modificações, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
+Note que pode ser necessária a criação de um projeto para interfaceamento entre os elementos externos da placa utilizados pelas partições reconfiguráveis, uma vez que, como mencionado no experimento 1, não é recomendado conectar módulos reconfiguráveis diretamente a pinos de entrada e saída.
+
+\subsubsection{XPS}
+
 %\subsubsection{Registrador de \textit{Status}} Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
+
+\subsection{Possiveis Erros}
+\paragraph{Erro de fase do relógio}
+Um erro muito comum de se encontrar
+
+\begin{lstlisting}
+ERROR:EDK - DDR3_SDRAM (axi_7series_ddrx) - The clock phase of the
+   'freq_refclk' port as configured by Clock Generator does not
+   match the recommended value set by MIG. The phase of  'freq_refclk'
+   as set by Clock Generator is 1 and the MIG recommended value of
+   337.5.  This can be fixed by changing the Clock Generator phase
+   output of the clock connected to 'freq_refclk' to the recommended
+   value. 
+\end{lstlisting}
 
 \subsection{Conclusão}
 
