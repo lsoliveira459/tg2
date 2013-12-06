@@ -662,7 +662,9 @@ Para o escopo deste experimento, as configurações apresentadas na janela que s
 A criação deste \textit{script} permite agora que se utilize o programa \qt{data2mem} para construir um arquivo binário de configuração com um programa embarcado pré-programado.
 
 \subsubsection{data2mem}
-
+A ferramenta data2mem funciona através da linha de comando, mas normalmente é acionada através de programas com interfaces gráficas, tais como o ISE, o XPS, o SDK e o iMPACT.
+Sua função principal é o de mapear blocos contíguos de dados entre múltiplas \textit{Block RAMs} distribuídas pelo FPGA mantendo um acesso lógico contínuo, i.e., dados em endereços de memória adjacentes podem estar em blocos completamente diferentes.
+No caso em questão, ela mapeará o \textit{bootloader} desenvolvido nas \textit{Block RAMs} de forma que no momento da programação, o MicroBlaze embarcado já possua um programa carregado.
 
 \subsubsection{Arquivo de Memória PROM}
 Para a construção de um arquivo de memória PROM como descrito anteriormente, faz-se necessário que todos os elementos sejam compilados para uma mesma interface SPI.
