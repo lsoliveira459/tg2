@@ -584,6 +584,7 @@ Esta inversão é necessária apenas no uso destas três interfaces.
 Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente \cite{ug470}.
 
 \subsection{Inicialização da Memória SPI Flash}
+\label{sec:flash_indireta}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para o FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
 Este processo é conhecido como programação indireta da memória Flash \cite{xapp586}.
@@ -662,13 +663,31 @@ Para o escopo deste experimento, as configurações apresentadas na janela que s
 A criação deste \textit{script} permite agora que se utilize o programa \qt{data2mem} para construir um arquivo binário de configuração com um programa embarcado pré-programado.
 
 \subsubsection{data2mem}
-A ferramenta data2mem funciona através da linha de comando, mas normalmente é acionada através de programas com interfaces gráficas, tais como o ISE, o XPS, o SDK e o iMPACT.
+A ferramenta data2mem funciona através da linha de comando, mas normalmente é acionada através de programas com interfaces gráficas, tais como o ISE, o XPS, o SDK e o iMPACT \cite{ug658}.
 Sua função principal é o de mapear blocos contíguos de dados entre múltiplas \textit{Block RAMs} distribuídas pelo FPGA mantendo um acesso lógico contínuo, i.e., dados em endereços de memória adjacentes podem estar em blocos completamente diferentes.
 No caso em questão, ela mapeará o \textit{bootloader} desenvolvido nas \textit{Block RAMs} de forma que no momento da programação, o MicroBlaze embarcado já possua um programa carregado.
 
-\subsubsection{Arquivo de Memória PROM}
-Para a construção de um arquivo de memória PROM como descrito anteriormente, faz-se necessário que todos os elementos sejam compilados para uma mesma interface SPI.
-O uso de interfaces diferentes pode gerar erros na programação da memória Flash.
+Um comando típico do data2mem é construído com as opções \qt{-bm} para indicar o caminho para o arquivo do tipo \qti{Block RAM Memory MAP} (BMM), \qt{-bt} para indicar o caminho para o arquivo binário do tipo BIT, \qt{-bd} para indicar arquivos de programas do tipo ELF ou MEM, permitindo a inclusão de um identificador para associá-lo a algum dispositivo implementado, e \qt{-o b} para indicar o caminho do arquivo binário (BIT) de saída.
+Um exemplo de uso do comando é apresentado abaixo.
+\begin{lstlisting}[style=customVHDL]
+data2mem \
+-bm SDK/XPS_QSPI_Final_hw_platform/system_bd.bmm \
+-bt SDK/XPS_QSPI_Final_hw_platform/system.bit \
+-bd SDK/bootloader/Release/bootloader.elf tag microblaze_0 \
+-o b SDK/XPS_QSPI_Final_hw_platform/download.bit
+\end{lstlisting}
+
+O comando acima também pode, como foi dito anteriormente, ser executado através do SDK.
+Para isto, deve-se acessar o menu \qti{Xilinx Tools} e selecionar a opção \qti{Program Flash}.
+Uma janela aparece, onde deve-se selecionar os arquivos BIT e BMM gerados pelo XPS na compilação do sistema e o arquivo ELF gerado na compilação do programa embarcado.
+Este procedimento pode ser feito com a placa de desenvolvimento conectada ou não, gerando um erro que pode ser desprezado quando ela estiver desconectada.
+O arquivo gerado pode ser encontrado na pasta \qt{SDK/*\_hw\_platform} sob o nome \qt{download.bit}.
+
+\subsubsection{Programação Indireta da Memória Flash}
+Como todos os arquivos binários prontos, pode-se começar o processo de programação indireta da memória Flash como descrito na seção \ref{sec:flash_indireta}.
+Este processo começa criando-se um arquivo de memória PROM através da ferramenta iMPACT.
+Vale salientar apenas que, como mencionado anteriormente, faz-se necessário que todos os elementos sejam previamente compilados para uma mesma interface SPI.
+O uso de interfaces diferentes pode gerar erros durante a programação da memória Flash.
 
 \subsection{Conclusão}
 
