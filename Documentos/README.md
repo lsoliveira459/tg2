@@ -73,8 +73,9 @@
 2. [04_PR_Design] **Partial Reconfiguration Design Considerations**
 3. [10_Driving] **Driving ICAP Resource**
 
-#### Release Note Tables
+#### Outros
 1. [XTP025] **IP Release Notes Guide** (v4.03): Release note dos diferente IP Cores.
+2. [XTP104] **KC705 MultiBoot Design** v(14.2): Explica alguns detalhes do MultiBoot e do mapeamento de ELF em BMM através do BitGen.
 
 #### SW Manuals
 1. [Project Files](http://www.xilinx.com/support/documentation/sw_manuals/xilinx14_6/platform_studio/ps_r_gst_project_files.htm) **XPS Project Files** (v14.6): Explica onde mudar as informações do BitGen mesmo no XPS.
@@ -161,6 +162,7 @@
 [10_Driving]: 	./xilinx/others/10_Driving.pdf
 
 [XTP025]: ./xilinx/xtp/xtp025.pdf
+[XTP104]: ./xilinx/xtp/xtp104.pdf
 
 [fpt09lai]: 	./Artigos/fpt09lai.pdf
 [fpt12vipin]: 	./Artigos/fpt12vipin.pdf
@@ -168,7 +170,7 @@
 [microblaze_tutorial]: 	./Tutoriais/microblaze_tutorial.pdf
 [Bootloader]: 			./Tutoriais/Bootloader.pdf
 [fmt_xilinxbit]:		./Tutoriais/fmt_xilinxbit.pdf
-[kc705_qspi_flash_bootload] ./Tutoriais/kc705_qspi_flash_bootload.pdf
+[kc705_qspi_flash_bootload]: ./Tutoriais/kc705_qspi_flash_bootload.pdf
 
 [N25Q128]:		./Datasheet/N25Q128.pdf
 
