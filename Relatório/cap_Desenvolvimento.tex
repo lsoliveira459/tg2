@@ -538,7 +538,7 @@ Utilizará-se também o GPIO, que dá acesso aos pinos da placa, visto que é in
 \subsection{Arquivo Binário}
 O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
 O cabeçalho é formado por chaves e tamanhos, indicando diversos campos deste.
-Na tabela \ref{tab:ex3:hex_blank} pode-se observar os tamanhos e campos apresentados na figura \ref{fig:ex3:hex_blank}.
+Na tabela \ref{tab:ex3:hex_blank} pode-se observar os tamanhos e campos apresentados na figura \ref{fig:ex3:hex_blank} \footnote{\qti{FAQ: Tell me about the format of the .BIT files please}, \url{http://www.fpga-faq.com/FAQ_Pages/0026_Tell_me_about_bit_files.htm}}.
 A figura \ref{fig:ex3:hex_blank} possui os primeiros 112 bytes, dos quais os primeiros 98 estão selecionados, da configuração parcial vazia construida no experimento 1.
 O primeiro conjunto tamanho/chave indica, através da sequência de de palavras 0x0f, que a configuração é válida.
 Se estas palavras fossem 0x00 indicariam que a configuração não é mais válida, e se contivessem 0xff indicariam que a configuração está vazia.
@@ -603,42 +603,7 @@ Uma opção alternativa é utilizar um relógio externo através da opção \qt{
 \subsubsection{Arquivo de Memória PROM}
 Após compilado o projeto, seu arquivo binário e qualquer outra informação a ser programada na memória Flash precisa ser adicionada a um arquivo do tipo MCS.
 Este processo é necessário para que o iMPACT consiga carregar e programar a memória Flash de forma correta.
-
-Pode-se construir este arquivo de memória PROM através do iMPACT.
-No momento da criação do novo projeto do iMPACT, seleciona-se a opção \qt{\textit{Prepare a PROM File}}.
-Na janela seguinte, seleciona-se \qti{SPI Flash/Configure Single FPGA} no primeiro painel e \qt{128M} no segundo e modifica-se \qti{Add Non-Configuration Data Files} para \qt{Yes}, conforme mostrado na figura \ref{fig:ex3:prom_file}.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex3/PROM_File.pdf}
-\caption{Janela para criação de um arquivo de memória PROM com as configurações devidamente ajustadas.}
-\label{fig:ex3:prom_file}
-\end{figure}
-
-Em seguida, adicionam-se os arquivos binários que se deseja programar na memória Flash.
-O primeiro arquivo a se adicionar é o de configuração total.
-Este arquivo é carregado durante o procedimento de inicio do FPGA.
-Apenas um arquivo deste tipo precisa ser carregado neste experimento, apesar de ser possível realizar um projeto com diversas revisões de configurações ou múltiplas possibilidades de configurações de \textit{boot} \cite{xapp468, xapp1100}.
-Para rejeitar a adicão de outras configurações, deve-se clicar em \qti{No} na mensagem de título \qti{Add Device}.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex3/PROM_Addr.pdf}
-\caption{Janela para criação de um arquivo de memória PROM com as configurações devidamente ajustadas.}
-\label{fig:ex3:prom_addr}
-\end{figure}
-
-A mensagem seguinte, \qti{Add Data File}, faz referência a adição de arquivos de dados neste projeto.
-Clicando-se em \qti{Yes}, uma janela aparece com informações de endereçamento.
-Pode-se aceitar os valores iniciais.
-Estes arquivos podem ter qualquer conteúdo, mas o programa espera arquivos gerados pelo SDK, sendo necessário mudar a configuração de arquivos apresentados para \qti{All Files (*.*)}.
-Após adicionar-se todos os arquivos, deve-se clicar em \qti{No} na janela de inclusão de novos arquivos de dados.
-Ao se fazer isto, uma janela para indicação dos endereços é mostrada.
-Recomenda-se mudar os endereços de início (\qti{Start Address}) para valores arredondados, como 0xB00000, 0xC00000 e 0xD00000, obedecendo os endereços das revisões, de forma a facilitar o trabalho de programação do sistema embarcado.
-O botão \qti{Update Address} deve ser clicado para ajustar os endereços de fim (\qti{End Address}) antes de se prosseguir, obtendo-se algo similar a figura \ref{fig:ex3:prom_addr}.
-
-O último passo é gerar o arquivo, o que pode ser feito através do menu \qti{Operations} ou do painel \qti{iMPACT Processes}, selecionando-se a opção \qti{Generate File...}.
-Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino definida no passo da figura \ref{fig:ex3:prom_file}.
+Pode-se construir este arquivo de memória PROM através do próprio iMPACT, processo que será descrito mais a frente.
 
 \subsection{Teste}
 O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
@@ -652,8 +617,10 @@ O uso de uma interface x4 diminuiria o tempo de programação em 4 vezes, o que 
 
 \subsubsection{SDK}
 Logo após a construção do microcontrolador, recomenda-se construir o projeto do programa embarcado.
-O procedimento para o SDK nesse caso é bem semelhante ao dos experimentos anteriores.
-Apenas as diferenças serão citadas a seguir.
+O procedimento para o SDK nesse caso é bem semelhante ao dos experimentos anteriores, mudando-se apenas os arquivos importados e a geração do \textit{linker script}.
+Os arquivos a serem importados podem ser encontrados no CD de anexos.
+
+O projeto do bootloader consiste apenas de uma máquina de estados para ler o cabeçalho do arquivo binário e interfaces com os drivers controladores das memórias DDR3 e SPI Flash e da interface de comunicação através da porta UART.
 
 Desta vez, tem-se como objetivo fazer com que o sistema se carregue e entre em funcionamento de forma autônoma.
 Para isto, precisa-se, depois da inclusão dos devidos arquivos, presentes no anexo, gerar o \textit{linker script}.
@@ -683,16 +650,68 @@ Uma janela aparece, onde deve-se selecionar os arquivos BIT e BMM gerados pelo X
 Este procedimento pode ser feito com a placa de desenvolvimento conectada ou não, gerando um erro que pode ser desprezado quando ela estiver desconectada.
 O arquivo gerado pode ser encontrado na pasta \qt{SDK/*\_hw\_platform} sob o nome \qt{download.bit}.
 
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex3/PROM_File.pdf}
+\caption{Janela para criação de um arquivo de memória PROM com as configurações devidamente ajustadas.}
+\label{fig:ex3:prom_file}
+\end{figure}
+
 \subsubsection{Programação Indireta da Memória Flash}
-Como todos os arquivos binários prontos, pode-se começar o processo de programação indireta da memória Flash como descrito na seção \ref{sec:flash_indireta}.
-Este processo começa criando-se um arquivo de memória PROM através da ferramenta iMPACT.
-Vale salientar apenas que, como mencionado anteriormente, faz-se necessário que todos os elementos sejam previamente compilados para uma mesma interface SPI.
+Como todos os arquivos binários prontos, pode-se começar o processo de programação indireta da memória Flash.
+Este processo se inicia através da criação de um arquivo de memória PROM através da ferramenta iMPACT.
+Vale salientar apenas que faz-se necessário que todos os elementos (configurações totais e parciais) sejam previamente compilados para uma mesma interface SPI, seja ela x1, x2 ou x4.
 O uso de interfaces diferentes pode gerar erros durante a programação da memória Flash.
 
+No momento da criação do novo projeto do iMPACT, seleciona-se a opção \qt{\textit{Prepare a PROM File}}.
+Na janela seguinte, seleciona-se \qti{SPI Flash/Configure Single FPGA} no primeiro painel e \qt{128M} no segundo e modifica-se \qti{Add Non-Configuration Data Files} para \qt{Yes}, conforme mostrado na figura \ref{fig:ex3:prom_file}.
+
+Em seguida, adicionam-se os arquivos binários que se deseja programar na memória Flash.
+O primeiro arquivo a se adicionar é o de configuração total.
+Este arquivo é carregado durante o procedimento de inicio do FPGA.
+Apenas um arquivo deste tipo precisa ser carregado neste experimento, apesar de ser possível realizar um projeto com diversas revisões de configurações ou múltiplas possibilidades de configurações de \textit{boot} \cite{xapp468, xapp1100}.
+Para rejeitar a adicão de outras configurações, deve-se clicar em \qti{No} na mensagem de título \qti{Add Device}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex3/PROM_Addr.pdf}
+\caption{Janela para criação de um arquivo de memória PROM com as configurações devidamente ajustadas.}
+\label{fig:ex3:prom_addr}
+\end{figure}
+
+A mensagem seguinte, \qti{Add Data File}, faz referência a adição de arquivos de dados neste projeto.
+Clicando-se em \qti{Yes}, uma janela aparece com informações de endereçamento.
+Pode-se aceitar os valores iniciais.
+Estes arquivos podem ter qualquer conteúdo, mas o programa espera arquivos gerados pelo SDK, sendo necessário mudar a configuração de arquivos apresentados para \qti{All Files (*.*)}.
+Após adicionar-se todos os arquivos, deve-se clicar em \qti{No} na janela de inclusão de novos arquivos de dados.
+Ao se fazer isto, uma janela para indicação dos endereços é mostrada.
+Recomenda-se mudar os endereços de início (\qti{Start Address}) para valores arredondados, como 0xB00000, 0xC00000 e 0xD00000, obedecendo os endereços das revisões, de forma a facilitar o trabalho de programação do sistema embarcado.
+O botão \qti{Update Address} deve ser clicado para ajustar os endereços de fim (\qti{End Address}) antes de se prosseguir, obtendo-se algo similar a figura \ref{fig:ex3:prom_addr}.
+Note que é possível incluir também um programa para o MicroBlaze na memória Flash, a ser carregado em tempo de execução, para controlar a mudança de configurações.
+
+O último passo é gerar o arquivo, o que pode ser feito através do menu \qti{Operations} ou do painel \qti{iMPACT Processes}, selecionando-se a opção \qti{Generate File...}.
+Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino definida no passo da figura \ref{fig:ex3:prom_file}.
+
+\subsubsection{Resultado}
+Logo após a programação e após cada ciclo de energia (\textit{power cycle}), o programa embarcado envia dados da sua execução através da porta UART para o computador, gerando a saída mostrada na figura \ref{fig:ex3:resultado}.
+Pode-se observar que o programa foi executado perfeitamente.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/Resultado_UART.pdf}
+\caption{Resultado da execução do programa embarcado gravado na memória QSPI Flash.}
+\label{fig:ex3:resultado}
+\end{figure}
+
 \subsection{Conclusão}
+O experimento realizado funcionou como esperado, tendo carregado as informações do computador para a memória Flash e, em tempo de execução, da memória Flash para a memória DDR3.
+O processo de programação da memória Flash através do computador é bem demorado, chegando a levar 20 minutos, mas durante o \textit{boot} do sistema, ele é bem rápido, demorando apenas alguns poucos segundos.
 
+É relativamente complicado trabalhar com os periféricos e \textit{drivers} que os acompanham devido a documentação escassa e a grande disperção das informações.
+Este experimento só pode ser realizado devido a uma imensa pesquisa e compilação de guias de usuário, relatórios de aplicações, \textit{datasheets}, exemplos de projetos para diversos tipos de kits de desenvolvimento e comentários em fóruns de discussão.
 
-\todo{Explicar como fui para o próximo experimento}
+O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze.
+
 \section{Experimento 4 - Teste da Autoreconfiguração com \textit{Bootloader} Dedicado}
 \todo{Descrever o experimento 4}
 
