@@ -99,8 +99,9 @@ O primeiro possui uma frequência fixa de oscilação de 200 MHz.
 O segundo possui uma frequência original de 156,250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
 Nota-se porém que o uso do SYSCLK é bem mais simples que o do USER\_CLOCK, não sendo necessário nenhum circuito controlador/programador.
 
-Para poder se trabalhar com o sinal diferencial, construiu-se, utilizando as ferramentas do ISE, um componente para tratamento do sinal de relógio.
-Este componente recebe o sinal diferencial, reduz sua frequência para 20 MHz, que corresponde ao menor valor suportado pelas PLLs da placa, e emite um sinal convencional.
+O Xilinx Design Tools disponibiliza uma ferramenta chamada \textit{CORE Generator} para a construção de diversos tipos de circuitos de propriedade intelectual.
+Dentre eles se encontra o guia \textit{Clocking Wizard}, que pode construir elementos para transformar o sinal do relógio em um sinal simples.
+Através dele também é possivel utilizar as PLLs da placa para modificar a frequência deste sinal para valores entre 20 MHz e 800 MHz.
 
 \subsubsection{Estrutura de Pastas}
 A questão da organização do projeto em pastas bem específicas foi bem reforçado na literatura \cite{ug702, ug743, ug744}.
@@ -115,6 +116,13 @@ Projeto/
 \end{lstlisting}
 A principal razão para esta recomendação é o uso de ferramentas variadas, tais como \textit{scripts} em TCL, o XST e o PlanAhead.
 Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvolvimento limpo.
+
+\subsection{Fluxo de Ferramentas}
+A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
+Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
+Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
+No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
+Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.
 
 \begin{figure}[h]
 	\centering
@@ -133,13 +141,6 @@ Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvo
 	\caption{Comparação dos fluxos de ferramentas. Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.}
 	\label{fig:ex1:softwareflow:comparacao}
 \end{figure}
-
-\subsection{Fluxo de Ferramentas}
-A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
-Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
-Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
-No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
-Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.
 
 Reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
