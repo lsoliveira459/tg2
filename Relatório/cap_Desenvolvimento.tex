@@ -565,7 +565,7 @@ Sendo assim, optou-se por utilizar a memória QSPI Flash para uso na inicializa�
 \subsection{XPS}
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
 Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
-Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça 64 KB.
+Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça, 128 KB, 8 KB e 8 KB respectivamente.
 Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o \textit{Baud Rate} da interface UART para 115200 bits/s e o C\_SPI\_MODE da QSPI\_FLASH para \qti{Quad SPI Mode}.
 
 \begin{figure}[htp]
@@ -602,7 +602,8 @@ O projeto pode ser sintetizado através do botão \qt{\textit{Generate Netlist}}
 Este processo é demorado.
 Quando terminado, pode-se exportar o projeto através do botão \qt{\textit{Export Design}} para abrir o SDK com as informações deste processador.
 Na janela que aparecer, marque \qt{\textit{Include bitstream and BMM file}} e clique em \qt{\textit{Export \& Launch SDK}}.
-Após a implementação do arquivo binário, a ferramenta SDK será aberta.
+O arquivo binário contém informações da configuração da FPGA enquanto o arquivo BMM apresenta um mapeamento das unidades de memória onde o programa embarcado pode ser inserido.
+Após a execução desta etapa, se nenhum erro tiver acontecido, a ferramenta SDK será aberta.
 
 \subsection{SDK}
 Quando a janela do SDK aparecer, ela perguntará onde se quer colocar o \textit{workspace}.
