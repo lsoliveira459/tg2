@@ -55,7 +55,7 @@
 -- "Output    Output      Phase     Duty      Pk-to-Pk        Phase"
 -- "Clock    Freq (MHz) (degrees) Cycle (%) Jitter (ps)  Error (ps)"
 ------------------------------------------------------------------------------
--- CLK_OUT1____20.000______0.000______50.0______370.331____307.409
+-- CLK_OUT1___200.000______0.000______50.0_______98.146_____89.971
 --
 ------------------------------------------------------------------------------
 -- "Input Clock   Freq (MHz)    Input Jitter (UI)"
@@ -72,41 +72,43 @@ library unisim;
 use unisim.vcomponents.all;
 
 entity clocks is
-    port(-- Clock in ports
-        CLK_IN_P         : in     std_logic;
-        CLK_IN_N         : in     std_logic;
-        -- Clock out ports
-        CLK_OUT          : out    std_logic);
+port
+ (-- Clock in ports
+  CLK_IN_P         : in     std_logic;
+  CLK_IN_N         : in     std_logic;
+  -- Clock out ports
+  CLK_OUT          : out    std_logic
+ );
 end clocks;
 
 architecture xilinx of clocks is
-    attribute CORE_GENERATION_INFO : string;
-    attribute CORE_GENERATION_INFO of xilinx : architecture is "clocks,clk_wiz_v3_6,{component_name=clocks,use_phase_alignment=false,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=1,clkin1_period=5.000,clkin2_period=10.0,use_power_down=false,use_reset=false,use_locked=false,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}";
-    -- Input clock buffering / unused connectors
-    signal clkin1      : std_logic;
-    -- Output clock buffering / unused connectors
-    signal clkfbout         : std_logic;
-    signal clkfboutb_unused : std_logic;
-    signal clkout0          : std_logic;
-    signal clkout0b_unused  : std_logic;
-    signal clkout1_unused   : std_logic;
-    signal clkout1b_unused  : std_logic;
-    signal clkout2_unused   : std_logic;
-    signal clkout2b_unused  : std_logic;
-    signal clkout3_unused   : std_logic;
-    signal clkout3b_unused  : std_logic;
-    signal clkout4_unused   : std_logic;
-    signal clkout5_unused   : std_logic;
-    signal clkout6_unused   : std_logic;
-    -- Dynamic programming unused signals
-    signal do_unused        : std_logic_vector(15 downto 0);
-    signal drdy_unused      : std_logic;
-    -- Dynamic phase shift unused signals
-    signal psdone_unused    : std_logic;
-    -- Unused status signals
-    signal locked_unused    : std_logic;
-    signal clkfbstopped_unused : std_logic;
-    signal clkinstopped_unused : std_logic;
+  attribute CORE_GENERATION_INFO : string;
+  attribute CORE_GENERATION_INFO of xilinx : architecture is "clocks,clk_wiz_v3_6,{component_name=clocks,use_phase_alignment=false,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=1,clkin1_period=5.000,clkin2_period=10.0,use_power_down=false,use_reset=false,use_locked=false,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}";
+  -- Input clock buffering / unused connectors
+  signal clkin1      : std_logic;
+  -- Output clock buffering / unused connectors
+  signal clkfbout         : std_logic;
+  signal clkfboutb_unused : std_logic;
+  signal clkout0          : std_logic;
+  signal clkout0b_unused  : std_logic;
+  signal clkout1_unused   : std_logic;
+  signal clkout1b_unused  : std_logic;
+  signal clkout2_unused   : std_logic;
+  signal clkout2b_unused  : std_logic;
+  signal clkout3_unused   : std_logic;
+  signal clkout3b_unused  : std_logic;
+  signal clkout4_unused   : std_logic;
+  signal clkout5_unused   : std_logic;
+  signal clkout6_unused   : std_logic;
+  -- Dynamic programming unused signals
+  signal do_unused        : std_logic_vector(15 downto 0);
+  signal drdy_unused      : std_logic;
+  -- Dynamic phase shift unused signals
+  signal psdone_unused    : std_logic;
+  -- Unused status signals
+  signal locked_unused    : std_logic;
+  signal clkfbstopped_unused : std_logic;
+  signal clkinstopped_unused : std_logic;
 begin
 
 
@@ -130,11 +132,11 @@ begin
     CLKOUT4_CASCADE      => FALSE,
     COMPENSATION         => "ZHOLD",
     STARTUP_WAIT         => FALSE,
-    DIVCLK_DIVIDE        => 10,
-    CLKFBOUT_MULT_F      => 42.375,
+    DIVCLK_DIVIDE        => 1,
+    CLKFBOUT_MULT_F      => 5.000,
     CLKFBOUT_PHASE       => 0.000,
     CLKFBOUT_USE_FINE_PS => FALSE,
-    CLKOUT0_DIVIDE_F     => 42.375,
+    CLKOUT0_DIVIDE_F     => 5.000,
     CLKOUT0_PHASE        => 0.000,
     CLKOUT0_DUTY_CYCLE   => 0.500,
     CLKOUT0_USE_FINE_PS  => FALSE,

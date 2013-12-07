@@ -1,3 +1,4 @@
 vhdl work "../../Sources/static/top.vhd"
 vhdl work "../../Sources/static/static.vhd"
 vhdl work "../../Sources/static/clocks.vhd"
+vhdl work "../../Sources/static/clock_station.vhd"

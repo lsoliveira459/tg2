@@ -53,6 +53,7 @@
 }
                       
 \chapter{Introdu\c{c}\~{a}o}
+\label{cap:introducao}
 \resumodocapitulo{Este capítulo trata da concepção dos experimentos realizados. Nele serão descritos com detalhes cada um dos experimentos, ficando a parte de análise reservada ao capítulo \ref{CapExperimentos}.}
 \vspace{0.8cm}
 
@@ -77,7 +78,9 @@ Este kit possui FPGA modelo XC7K325T-2FFG900C, leitor de cartão de memória, co
 
 Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descrição de \textit{hardware} ao invés da Verilog.
 
-\todo{Reestruturar capítulos para terem introdução teórica, desenvolvimento, resultados e conclusão.}
+\section{Experimentos}
+\todo{Escrever sobre os experimentos, colocando uma pequena motivação.}
+
 \chapter{Experimento 1 - Reconfiguração Dinâmica}
 De forma a dar validade a todo o projeto, desenvolveu-se um experimento para entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
 Este experimento tem como objetivo a construção de um projeto que se utilize de reconfiguração dinâmica para reprogramar um FPGA.
@@ -456,53 +459,56 @@ A etapa do iMPACT também foi bem sucedida.
 A programação da configuração completa levou 10 segundos e a programação da configuração parcial levou 1 segundo.
 
 \section{Conclusão}
-O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
-Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto.
+O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado e compreendido com sucesso.
+Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto, bem como alguns erros comuns e suas soluções.
 
 \chapter{Experimento 2 - Teste de Memórias}
-Seguindo o raciocínio apresentado no início do capítulo, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
-Esta etapa abre caminho para que se armazene os \textit{bitfiles} de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
+Seguindo o raciocínio apresentado no capítulo \ref{cap:introducao}, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
+Esta etapa abre caminho para que se armazene os arquivos binários de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
 
-\section{Tipos de Mémoria}
+\section{Introdução Teórica}
+Para o desenvolvimento deste experimento, faz-se necessário o estudo dos diferentes tipos de memórias, citando seus pontos fracos e fortes.
+Também é necessário o estudo das ferramentas XPS e SDK, visto que a forma mais direta de se trabalhar com memória em FPGAs é através do uso de microcontroladores embarcados.
 
+\subsection{Tipos de Mémoria}
 No kit utilizado existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades \cite{ug810}.
 Este experimento foi dedicado à compreenção do funcionamento dos diversos tipos de memórias e à escolha da solução mais adequada.
 
-\subsection{Memória \textit{Block RAM}}
+\subsubsection{Memória \textit{Block RAM}}
 A memória do tipo \textit{Block RAM} é construída usando-se os blocos de memória RAM restantes da FPGA.
 Esta memória consegue alcançar velocidades de leitura na ordem de várias centenas de hertz, mas possui uma capacidade de armazenamento bem reduzida, de apenas 445 blocos de 36 Kb para este kit, totalizando um máximo de aproximadamente 2 MB \cite{ug473, wp377}.
 Note que a configuração total da FPGA necessita de aproximadamente 11 MB, ou exatamente 91.548.896 bits, para sua programação total \cite{ug470}.
 Pode-se programá-la através do iMPACT, dentre outras formas \footnote{\textit{Memory Initialization Methods}, escrito por Jim Wu em 31 de dezembro de 2011. Dísponível em \url{http://myfpgablog.blogspot.com.br/2011/12/memory-initialization-methods.html}}.
 
-\subsection{Memória \textit{Distributed RAM}}
+\subsubsection{Memória \textit{Distributed RAM}}
 A memória \textit{Distributed RAM} é construida utilizando-se das LUTs disponíveis nas célula lógicas \cite{ug473, wp377}.
 Também são muito rápidas, apesar de síncronas, e também possuem pouca capacidade de armazenamento.
 Pode-se programá-la através do iMPACT, dentre outras formas.
 
-\subsection{Memória \textit{Linear BPI Flash}}
+\subsubsection{Memória \textit{Linear BPI Flash}}
 A memória \textit{Linear BPI Flash} disponibiliza 128 Mb de memória não-volátil \cite{ug810}, acessadas em palavras de 16 bits.
 Apesar disso, sua velocidade de leitura máxima é de 33 MHz.
 Convertendo tal velocidade para a leitura de 32 bits, tem-se uma velocidade de leitura de aproximadamente 16 MHz.
 Pode-se programá-la através do iMPACT.
 
-\subsection{Memória \textit{SPI Flash}}
+\subsubsection{Memória \textit{SPI Flash}}
 A memória SPI Flash é diferente na sua forma de acesso, que acontece através da interface SPI.
 Esta memória fornece 128 Mb de memória não volátil \cite{ug810}.
 Ela aceita três modos de operação, x1, x2 e x4, que corresponde a largura da palavra lida/escrita a cada pulso de relógio \cite{N25Q128}.
 A frequência de operação é de no máximo 50 MHz \cite{xapp586}.
 Pode-se programá-la através do iMPACT.
 
-\subsection{Cartão de Memória SD}
+\subsubsection{Cartão de Memória SD}
 O cartão de memória SD dá acesso a uma memória não-volátil de tamanho arbitrário.
 Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4 bits a frequências de até 50 MHz \cite{ug810}.
 A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
 Note que também não existe a possibilidade de programação do cartão através do iMPACT, o que resolveria o problema do sistema de arquivos.
 
-\paragraph{\textit{CompactFlash} e o \textit{System ACE}}
+\subsubsection{\textit{CompactFlash} e o \textit{System ACE}}
 \textit{SystemAce} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
 Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão.
 
-\subsection{Memória DDR3}
+\subsubsection{Memória DDR3}
 A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
 Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
 

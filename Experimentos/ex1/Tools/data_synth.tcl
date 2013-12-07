@@ -5,7 +5,7 @@
 set PART xc7k325t-2-ffg900
 
 # 3:constraints file
-set UCF ../../Source/UCF/KC705_Rev1_0_U1_ucf.ucf
+set UCF ../../Source/UCF/KC705_Rev1_0_U1.ucf
 
 # 4:Partition names
 # These names must match the actual instance names in the design
@@ -36,8 +36,8 @@ set RMs [list $DYNCOUNTER $DYNFSM $TOP]
 ##############################################################################
 
 set PartitionAttrsList {
-  {/top }
-  {/top/dynamic  {Reconfigurable true}}
+    {/top }
+    {/top/dynamic  {Reconfigurable true}}
 }
 # 8:Configuration Information
 ##############################################################################
@@ -57,30 +57,39 @@ set PartitionAttrsList {
 # Configuration Cfg_First_CW settings.
 # Everything is implemented and `
 #there is no import location
-set CONFIG_First {
-  {ConfigName CounterConfig}
-  {Settings
-    {/top	{State implement} }
-    {/top/DynCounter	{State implement} {NetlistDir DynCounter} {ModName DynCounter } }
-  }
+set CONFIG_Blank {
+    {ConfigName BlankConfig}
+    {Settings
+        {/top   {State implement} }
+        {/top/dynamic  {State implement} {NetlistDir Blank} {ModName Blank } }
+    }
 }
 
 # Configuration Cfg_Second_CCW settings.
 # Everything is implemented and `
 #there is no import location
-set CONFIG_Second {
-  {ConfigName FSMConfig}
-  {Settings
-    {/top	{State import} {ImportLocation ../XCfg_First_CW} }
-    {/top/U1_RP_Bram	{State implement} {NetlistDir DynFSM} {ModName DynFSM } }
-  }
+set CONFIG_FSM {
+    {ConfigName FSMConfig}
+    {Settings
+        {/top   {State import} {ImportLocation ../XBlankConfig} }
+        {/top/dynamic   {State implement} {NetlistDir DynFSM} {ModName DynFSM } }
+    }
+}
+
+# Configuration BlankConfig settings.
+set CONFIG_Counter {
+    {ConfigName CounterConfig}
+    {Settings
+        {/top {State import} {ImportLocation ../XBlankConfig} }
+        {/top/dynamic {State implement} {NetlistDir DynCounter} {ModName DynCounter } }
+    }
 }
 
 # 9:List of configurations in order of implementation
 # finally, build the list of all the configuration data.
 # This list will drive the implementation of all configurations,
 # in the order they are listed
-set ALL_CFGS [list $CONFIG_First $CONFIG_Second]
+set ALL_CFGS [list $CONFIG_Blank $CONFIG_FSM $CONFIG_Counter]
 
 # 10:Implementation options
 # set the optional implementation data flags.
@@ -98,14 +107,14 @@ set ALL_CFGS [list $CONFIG_First $CONFIG_Second]
 # PAR_OPTS=<par_command_line_options> optional command line options for Par
 # RUN_BITGEN=NO if you do not want to generate bitstreams
 array set IMPLEMENTATION_DATA { \
-                               SYNTH_TOOL "xst" \
-                               RUN_RM_SYNTH YES \
-                               RUN_CFG_SYNTH NO \
-                               NGDBUILD_TOP ../../Synth/Top/Top.ngc \
-                               RUN_NGDBUILD NO \
-                               RUN_MAP NO \
-                               RUN_PAR NO \
-                               RUN_BITGEN NO \
-			       			      }
+    SYNTH_TOOL "xst" \
+    RUN_RM_SYNTH YES \
+    RUN_CFG_SYNTH NO \
+    NGDBUILD_TOP ../../Synth/Top/Top.ngc \
+    RUN_NGDBUILD NO \
+    RUN_MAP NO \
+    RUN_PAR NO \
+    RUN_BITGEN NO \
+}
 
 #--END DESIGN SPECIFIC DATA------------------------------------------------

@@ -1,20 +1,18 @@
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.std_logic_1164.ALL;
 
 entity static is
-	port(	clk_in	: in 	std_logic;
-        	led		: out 	std_logic);
+    port(
+        clk_5hz : in  std_logic;
+        clk_2hz : in  std_logic;
+        clk_1hz : in  std_logic;
+        leds    : out std_logic_vector(2 downto 0)
+    );
 end static;
 
 architecture Behavioral of static is
-	signal output	: std_logic := '0';
 begin
-	process (clk_in)
-	begin
-		if rising_edge(clk_in) then
-			output <= not(output);
-		end if;
-
-		led <= output;
-	end process;
+    leds(0) <= clk_1hz;
+    leds(1) <= clk_2hz;
+    leds(2) <= clk_5hz;
 end Behavioral;
