@@ -290,17 +290,26 @@ Uma região já testada e comprovada para este experimento é a que contém as c
 Ela pode ser selecionada na aba \qti{Device}, após se ampliar o mapa de recursos até que os nomes dos elementos lógicos, em cinza, fiquem visíveis.
 Outra possibilidade, um pouco mais determinística, é descrita na seção \ref{par:alocacao}.
 
-Uma vez terminado o \qti{Design Run}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
+Ao final do \qti{Design Run} aparece uma janela que pergunta o que fazer em seguida.
+Deve-se selecionar a opçao \qti{Promote Partitions} para exportar o resultado do mapeamento e roteamento da parte estática e informações da partição reconfigurável.
+Estas informações serão utilizadas nos passos seguintes para construir configurações alternativas compatíveis com a primeira.
+Na janela que se abre, deve-se marcar as configurações implementadas.
+
+Após promover a primeira configuração, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
 Para isso, clica-se em \qti{Synthesized Design} novamente e seleciona-se a opção \qti{Add reconfigurable module} do menu que aparece ao se clicar em \qt{dynamic\_i} no painel \qti{Netlist} com o botão direito.
 O processo é o mesmo da definição da partição, sendo a única mudança na seleção do arquivo sintetizado e do nome do módulo.
-O módulo vazio pode ser criado usando esta mesma opção, mas selecionando-se a opção que indica a inclusão de uma \textit{blackbox} sem o uso de uma \textit{netlist}.
+O módulo vazio pode ser criado usando esta mesma opção, mas selecionando-se a opção que indica a inclusão de uma \textit{black box} sem o uso de uma \textit{netlist}.
 
 Com as possibilidades de módulos reconfiguráveis definidas, pode-se construir várias configurações.
 Isso é feito através do clique com botão direito na \qti{Design Runs} do painel inferior e selecionando-se a opção \qti{Create Runs...}.
 A janela que abre possui um painel chamado \qti{Create Implementation Runs}.
 Nesse painel, na coluna \qti{Partition Action}, define-se, na coluna \qti{Module Variant} da nova janela que aparece, o módulo desejado.
-Voltando para a primeira janela, clica-se em \qt{\textit{More}} para adicionar a última configuração desejada.
-Em seguida, as duas novas configurações serão criadas através de \qti{Design Runs}.
+Voltando para a primeira janela, clica-se em \qti{More} para adicionar a última configuração desejada.
+Note que, quando definindo o \qti{Partition Action}, a linha referente a \qti{Static Logic} deve possuir \qti{Import} na coluna \qti{Action}, indicando que a parte estática não será implementada, mas sim importada de implementações anteriores.
+
+
+Em seguida, uma janela aparece perguntando o que fazer com estas novas configurações.
+Deve-se selecionar a opção \qti{Launch runs on local host} para iniciar suas implementações.
 É necessário promover neste momento a primeira configuração implementada.
 O processo de promoção será comentado a seguir.
 Note que os avisos que aparecerem podem ser ignorados.
