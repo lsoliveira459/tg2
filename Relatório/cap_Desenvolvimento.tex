@@ -118,10 +118,11 @@ A principal razão para esta recomendação é o uso de ferramentas variadas, ta
 Esta estrutura de pastas foi obedecida por ajudar a manter o ambiente de desenvolvimento limpo.
 
 \subsection{Fluxo de Ferramentas}
-A primeira coisa que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
-Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais.
+Uma das primeiras coisas que se destaca no desenvolvimento de dispositivos dinamicamente reconfiguráveis é a diferença no fluxo de ferramentas, também conhecido como \textit{software tools flow}, em relação ao fluxo tradicional \cite{ug743}.
+Esta diferença é motivada pela necessidade de construção de diversos \textit{bitfiles} parciais, ao contrário de outros projetos, onde objetivo final é um arquivo binário completo.
+
 Como pode-se ver da figura \ref{fig:ex1:softwareflow}, o fluxo tradicional requer apenas o uso do programa ISE, e opcionalmente do XPS e do SDK, para a construção de um projeto de \textit{hardware} e o iMPACT para a programação da FPGA.
-No fluxo para reconfiguração dinâmica mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} e do PlanAhead para a definição de partições e configurações.
+No fluxo para reconfiguração dinâmica, porém, mostrado na figura \ref{fig:ex1:prsoftwareflow}, além das ferramentas do fluxo tradicional, faz-se necessário o uso da ferramenta XST para a síntese do \textit{netlist} dos comportamentos das partições reconfiguráveis e do PlanAhead para a definição de partições e configurações.
 Note que estes fluxos não apresentam as únicas opções de fluxo de ferramentas, mas as que foram utilizadas neste projeto.
 
 \begin{figure}[h]
@@ -142,7 +143,7 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 	\label{fig:ex1:softwareflow:comparacao}
 \end{figure}
 
-Reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
+Note que a reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo-se primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
 Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
 \section{Experimento}
@@ -347,11 +348,7 @@ Esta método não é determinístico e pode ser necessárias várias tentativas 
 Este processo pode também ser realizado através do arquivo de restrições (UCF).
 O código abaixo contém uma alocação de partição funcional para este experimento, podendo ser copiada sobre a definição atualmente existente no arquivo UCF.
 \begin{lstlisting}
-INST "dynamic_i" AREA_GROUP = "pblock_dynamic_i";
-AREA_GROUP "pblock_dynamic_i" RANGE=SLICE_X80Y205:SLICE_X139Y244;
-AREA_GROUP "pblock_dynamic_i" RANGE=DSP48_X3Y82:DSP48_X5Y97;
-AREA_GROUP "pblock_dynamic_i" RANGE=RAMB18_X3Y82:RAMB18_X5Y97;
-AREA_GROUP "pblock_dynamic_i" RANGE=RAMB36_X3Y41:RAMB36_X5Y48;
+				
 \end{lstlisting}
 
 O arquivo UCF pode ser aberto pelo painel \qti{Sources} sob a árvore \qti{Constrains}.
