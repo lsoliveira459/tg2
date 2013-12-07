@@ -50,6 +50,7 @@
 2. [UG628] **Command Line Tools User Guide** (v14.5): Explica o comando BitGen.
 3. [UG631] **ISE Design Suite 14: Release Notes, Installation, and Licensing** (v14.6):
 3. [UG658] **Data2MEM User Guide** (v2012.4): Como inicializar as block rams do processador com um arquivo elf (binário do SDK) para gerar um bitfile final.
+4. [UG687] **XST User Guide for Virtex-6, Spartan-6, and 7 Series Devices** (v14.5): Explica o XST.
 3. [UG695] **ISE In-Depth Tutorial** (v14.1):
 3. [UG702] **Partial Reconfiguration User Guide** (v14.5): Explica tudo sobre reconfiguração parcial e muita coisa sobre reconfiguração dinâmica. Possui o _Design Flow_ e informações sobre a configuração de _bitstreams_ parciais.
 3. [UG743] **Partial Reconfiguration Tutorial - PlanAhead Design Tool** (v14.6): Exemplo muito bom de reconfiguração dinâmica. Usa Virtex-6, mas é fácil adaptar.
@@ -147,6 +148,7 @@
 [UG628]: ./Xilinx/ug/ug628.pdf
 [UG631]: ./Xilinx/ug/ug631.pdf
 [UG658]: ./Xilinx/ug/ug658.pdf
+[UG687]: ./Xilinx/ug/ug687.pdf
 [UG695]: ./Xilinx/ug/ug695.pdf
 [UG702]: ./Xilinx/ug/ug702.pdf
 [UG743]: ./Xilinx/ug/ug743.pdf
