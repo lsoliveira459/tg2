@@ -194,12 +194,11 @@ end component;
 O módulo \qt{Top} possui também um divisor de frequência para reduzir a frequência devolvida por \qt{Clocks} para 1 e 2 Hz.
 
 \subsection{Síntese}
-Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese.
-Este passo é necessário uma vez que o próximo passo, referente ao PlanAhead, não aceita como entrada códigos-fonte.
+Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese, identificada no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como XST.
+Este passo é necessário uma vez que o próximo passo, referente ao PlanAhead, não aceita como entrada códigos-fonte, mas arquivos conhecidos como \textit{netlists}.
 Os códigos-fonte precisam passar por uma etapa de síntese separada para poderem ser importados no PlanAhead.
-Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como XST.
 
-O comando XST recebe tipicamente um \textit{script} contendo o endereço dos códigos-fonte, o nome do arquivo de saída, o tipo do arquivo de saida, o modelo da FPGA utilizada e uma indicação do código-fonte principal.
+O comando XST (\textit{Xilinx Synthesis Tool}), responsável por realizar a síntese, recebe tipicamente um \textit{script} contendo o endereço dos códigos-fonte, o nome do arquivo de saída, o tipo do arquivo de saida, o modelo da FPGA utilizada e uma indicação do código-fonte principal.
 O comando para iniciar o processo é o seguinte.
 \begin{lstlisting}[style=customVHDL]
 xst.exe -ifn Top.xst
@@ -218,6 +217,7 @@ O arquivo \qt{Top.prj} contém os endereços dos arquivos, conforme a seguir.
 vhdl work "../../Sources/static/top.vhd"
 vhdl work "../../Sources/static/static.vhd"
 vhdl work "../../Sources/static/clocks.vhd"
+vhdl work "../../Sources/static/clock_station.vhd"
 \end{lstlisting}\
 
 Note que estes comandos e arquivos indicados acima são para síntese dos componentes estáticos.
@@ -236,14 +236,14 @@ run
 -top dynamic
 -iobuf NO
 \end{lstlisting}
-Note que o arquivo \qt{DynFSM.prj} contém informações sobre o cógigo-fonte do componente dinâmico, como mostrado a seguir.
+Note que o arquivo \qt{DynFSM.prj} contém informações sobre o código-fonte do componente dinâmico, como mostrado a seguir.
 \begin{lstlisting}[style=customVHDL]
 vhdl work "../../Sources/dynamic_fsm/dynamic.vhd"
 \end{lstlisting}
 
 Existe também a possibilidade de construção de um \textit{script} para a síntese automática de todos os arquivos.
-Utilizou-se aqui uma adaptação do arquivo em linguagem TCL usado pela Xilinx em seus manuais \cite{ug702, ug743, ug744}.
-A única coisa que se faz neste \textit{script} é a construção dinâmica dos comandos com base em listas de arquivos pré-informados.
+Utilizou-se aqui uma adaptação do arquivo em linguagem TCL usado pela Xilinx em seus manuais e exemplos \cite{ug702, ug743, ug744}.
+A única função deste \textit{script} é a construção dinâmica dos comandos com base em listas de arquivos pré-informados.
 
 \subsection{PlanAhead}
 Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
@@ -344,7 +344,8 @@ Para acelerar o processo, realiza-se apenas a síntese.
 Outra possibilidade é o uso do XST diretamente \, reduzindo ainda mais o tempo desta verificação. 
 
 \subsubsection{Erro no carregamento do módulo reconfigurável}
-Este erro em geral
+Este erro, do PlanAhead, em geral acontece quando o componente instanciado no \qti{Top} possuem sinais diferentes do instanciado no \qti{Dynamic}.
+Para corrigí-lo, deve-se verificar os códigos-fonte, síntetizá-los novamente, limpar a pasta \qt{PlanAhead} e recomeçar este passo (PlanAhead) novamente.
 
 \subsubsection{Erros na alocação de partições}
 \label{par:alocacao}
