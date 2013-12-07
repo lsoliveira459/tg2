@@ -307,32 +307,30 @@ Nesse painel, na coluna \qti{Partition Action}, define-se, na coluna \qti{Module
 Voltando para a primeira janela, clica-se em \qti{More} para adicionar a última configuração desejada.
 Note que, quando definindo o \qti{Partition Action}, a linha referente a \qti{Static Logic} deve possuir \qti{Import} na coluna \qti{Action}, indicando que a parte estática não será implementada, mas sim importada de implementações anteriores.
 
-
 Em seguida, uma janela aparece perguntando o que fazer com estas novas configurações.
 Deve-se selecionar a opção \qti{Launch runs on local host} para iniciar suas implementações.
-É necessário promover neste momento a primeira configuração implementada.
-O processo de promoção será comentado a seguir.
+Este processo é demorado, mas mais rápido que o da primeira configuração.
 Note que os avisos que aparecerem podem ser ignorados.
 
-Ao final dos \qt{\textit{Design Runs}}, recomenda-se fazer a verificação das configurações através do painel \qt{\textit{Configurations}}.
-Clicando-se com o botão direito, encontra-se a opção \qt{\textit{Verify Configuration...}}, que faz com que uma janela seja aberta.
-Selecionado-se todos os itens e clicando em \qt{\textit{OK}}, a verificação se inicia.
-Nenhum erro deve ser encontrado.
-
-Devemos agora promover as configurações.
-No menu de quando se clica com o botão direito sobre as configurações já existentes do painel \qt{\textit{Configurations}}, seleciona-se \qt{\textit{Promote Configuration...}}.
+Também é necessário promover estas novas configurações.
+No menu de quando se clica com o botão direito sobre as configurações já existentes do painel \qti{{Configurations}}, seleciona-se \qti{{Promote Configuration...}}.
 A promoção de uma configuração é o equivalente a sua exportação \cite{ug748}.
 Promover a primeira configuração antes de implementar novas contribui para manter a parte estática, compartilhada, igual em todas as configurações, uma vez que elas não mais são sintetizadas e sim importadas.
 
-O último passo necessário para a criação dos \textit{bitfiles} é o \qt{\textit{Generate Bitstream}}, localizado no menu a esquerda.
+Recomenda-se ainda fazer a verificação das configurações através do painel \qti{{Configurations}}.
+Clicando-se com o botão direito, encontra-se a opção \qti{{Verify Configuration...}}, que faz com que uma janela seja aberta.
+Selecionado-se todos os itens e clicando em \qti{{OK}}, a verificação se inicia.
+Nenhum erro deve ser encontrado.
+
+O último passo necessário para a criação dos \textit{bitfiles} é o \qti{{Generate Bitstream}}, localizado no menu a esquerda.
 Este passo recebe o resultado das sínteses e implementações e transforma-os em \textit{bitfiles}.
 Esta etapa precisa ser realizada com cada uma das configurações realizadas, ou alguma delas não terá seus \textit{bitfiles} gerados.
 Tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta *.runs.
 Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que contém a configuração completa, e outro menor que possui a configuração parcial.
 
 \subsection{iMPACT}
-Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através auxilio da ferramenta iMPACT. 
-A primeira coisa a se fazer após abrir o programa é permitir que o sistema automaticamente crie um projeto.
+Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através da ferramenta iMPACT. 
+A primeira coisa a se fazer após abrir o programa é permitir que o sistema crie um projeto automaticamente.
 Na janela que se abre, escolhe-se a opção \qt{\textit{Automatically connect to a cable and identify Boundary-Scan chain}} do item \qt{\textit{Configure devices using Boundary-Scan (JTAG)}}.
 Quando pergunta-se se deseja-se atribuir uma nova configuração, pode-se clicar que sim e escolher um arquivo binário completo gerado na etapa anterior.
 Normalmente escolhe-se a configuração vazia como configuração inicial para poupar energia.
@@ -393,7 +391,49 @@ Note que algum programa aberto pode interferir com a varredura realizada pelo iM
 Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
 Note ainda que a placa deve estar ligada para poder ser detectada.
 
-\section{Resultados e Conclusão}
+\section{Resultados}
+\paragraph{Síntese}
+A síntese ocorreu como esperado, gerando os arquivos sintetisados (NGC).
+A figura \ref{fig:ex1:sintese} mostra o resultado do processo de síntese utilizando o \textit{script} Tcl.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex1/Sintese.pdf}
+\caption{Resultado da síntese.}
+\label{fig:ex1:sintese}
+\end{figure}
+
+\paragraph{PlanAhead}
+O passo do PlanAhead foi bem sucedido, tendo gerado os arquivos binários como esperado.
+O relatório de utilização do sistema, copiado abaixo, mostra que menos de 1\% dos recursos do dispositivo foi utilizado.
+\begin{lstlisting}
+Slice Logic Utilization:
+  Number of Slice Registers:                    67 out of 407,600    1%
+    Number used as Flip Flops:                  67
+    Number used as Latches:                      0
+    Number used as Latch-thrus:                  0
+    Number used as AND/OR logics:                0
+  Number of Slice LUTs:                        165 out of 203,800    1%
+    Number used as logic:                      162 out of 203,800    1%
+      Number using O6 output only:              87
+      Number using O5 output only:              72
+      Number using O5 and O6:                    3
+      Number used as ROM:                        0
+    Number used as Memory:                       0 out of  64,000    0%
+    Number used exclusively as route-thrus:      3
+      Number with same-slice register load:      0
+      Number with same-slice carry load:         3
+      Number with other load:                    0
+\end{lstlisting}
+A parte estática do dispositivo foi alocada como mostrado na figura \ref{fig:ex1:device}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex1/Device.pdf}
+\caption{Alocação da parte estática do projeto no dispositivo. Em azul claro estão os elementos lógicos utilizados.}
+\label{fig:ex1:device}
+\end{figure}
+
+\section{Conclusão}
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto.
 
