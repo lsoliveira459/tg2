@@ -143,8 +143,11 @@ Note que estes fluxos não apresentam as únicas opções de fluxo de ferramenta
 	\label{fig:ex1:softwareflow:comparacao}
 \end{figure}
 
-Note que a reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a implementação acontece construindo-se primeiro a interface com o sistema e depois os componentes auxiliares, mas a síntese precisa ser realizada no sentido oposto.
-Esta implementação é equivalente a se construir diversos projetos tradicionais com alguma lógica em comum, onde a síntese deve garantir que esta lógica em comum seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
+Note que a reconfiguração parcial pede uma síntese utilizando o método \qt{de baixo para cima} (\textit{bottom-up}), mas uma implementação \qt{de cima para baixo} (\textit{top-down}) \cite{ug743}, ou seja, a síntese acontece primeiro nos elementos de mais baixo nível, mas a implementação deve começar pelos de mais alto nível.
+Isto acontece para que os requisitos de interfaceamento dos componentes reconfiguráveis sejam encontrados antes de se determinar como incluí-los no projeto, a partir de onde se continua o processo normal de implementação.
+Note também que a implementação deve garantir que a lógica em comum, ou estática, seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
+
+\todo{Alguma palavras sobre síntese e implementação?}
 
 \section{Experimento}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
