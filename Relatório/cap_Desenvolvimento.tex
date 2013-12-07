@@ -317,9 +317,9 @@ Nenhum erro deve ser encontrado.
 
 O último passo necessário para a criação dos \textit{bitfiles} é o \qti{{Generate Bitstream}}, localizado no menu a esquerda.
 Este passo recebe o resultado das sínteses e implementações e transforma-os em \textit{bitfiles}.
-Esta etapa precisa ser realizada com cada uma das configurações realizadas, ou alguma delas não terá seus \textit{bitfiles} gerados.
-Tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta *.runs.
-Existem dois arquivos \textit{bitfile} dentro de cada pasta, um maior, que contém a configuração completa, e outro menor que possui a configuração parcial.
+Ele precisa ser realizado com todas as configurações do \qti{Design Runs} selecionados ou alguma delas não terá seus arquivos binários gerados.
+Após o termino deste processo, os tais \textit{bitfiles} podem ser encontrados na pasta do projeto, dentro das pastas com nome de cada configuração que ficam dentro de da pasta \qt{*.runs}.
+Existem dois arquivos \textit{.bit} dentro de cada pasta, um maior, que contém a configuração completa, e outro menor, que possui a configuração parcial.
 
 \subsection{iMPACT}
 Com os \textit{bitfiles} em mãos, usa-se-os para programar a FPGA através da ferramenta iMPACT. 
@@ -388,17 +388,17 @@ Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa q
 Note ainda que a placa deve estar ligada para poder ser detectada.
 
 \section{Resultados}
-\paragraph{Síntese}
+\subsection{Síntese}
 A síntese ocorreu como esperado, gerando os arquivos sintetisados (NGC).
 A figura \ref{fig:ex1:sintese} mostra o resultado do processo de síntese utilizando o \textit{script} Tcl.
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex1/Sintese.pdf}
+\includegraphics[width=0.6\textwidth]{fig/c3_desenvolvimento/ex1/Sintese.pdf}
 \caption{Resultado da síntese.}
 \label{fig:ex1:sintese}
 \end{figure}
 
-\paragraph{PlanAhead}
+\subsection{PlanAhead}
 O passo do PlanAhead foi bem sucedido, tendo gerado os arquivos binários como esperado.
 O relatório de utilização do sistema, copiado abaixo, mostra que aproximadamente 1\% dos recursos do dispositivo foi utilizado.
 \begin{lstlisting}
@@ -450,6 +450,10 @@ A parte estática do dispositivo foi alocada como mostrado na figura \ref{fig:ex
 \caption{Alocação da parte estática do projeto no dispositivo. Em azul claro estão os elementos lógicos utilizados.}
 \label{fig:ex1:device}
 \end{figure}
+
+\subsection{iMPACT}
+A etapa do iMPACT também foi bem sucedida.
+A programação da configuração completa levou 10 segundos e a programação da configuração parcial levou 1 segundo.
 
 \section{Conclusão}
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado com sucesso.
