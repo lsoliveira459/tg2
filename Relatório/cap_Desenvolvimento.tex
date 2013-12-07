@@ -247,13 +247,13 @@ A única função deste \textit{script} é a construção dinâmica dos comandos
 
 \subsection{PlanAhead}
 Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
-Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, criaremos configurações alternativas, promoremos tais configurações e geraremos os \textit{bitfiles} para a programação do dispositivo.
-Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial.
+Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, cria-se configurações alternativas, promove-se tais configurações e gera-se os \textit{bitfiles} para a programação do dispositivo.
+Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial para a realização desta etapa.
 
 O primeiro passo necessário no PlanAhead é a criação do projeto.
 Para isso, após a abertura do programa, clica-se no ícone superior esquerdo mostrado na figura \ref{fig:ex1:planahead}, onde se lê \qt{Create New Project}.
-Na janela que aparece, indicamos o nome do projeto e seu caminho, lembrando que foi criada uma pasta anteriormente especificamente para conter este projeto.
-Indicamos também que o projeto é do tipo \qt{\textit{Post-synthesis Project}} e que desejamos habilitar a reconfiguração parcial, indicamos quais \textit{netlists} compõe o comportamento do projeto e qual corresponde ao arquivo principal, qual é o arquivo de restrições (\textit{constrains}) e qual é o modelo da FPGA.
+Na janela que aparece, indica-se o nome do projeto e seu caminho, lembrando que foi criada uma pasta anteriormente especificamente para conter este projeto.
+Indica-se também que o projeto é do tipo \qti{Post-synthesis Project} e que deseja-se habilitar a reconfiguração parcial, indica-se quais \textit{netlists} compõe o comportamento estático do sistema e qual destes corresponde ao arquivo principal (\qti{Top}), qual é o arquivo de restrições (\textit{constrains}) e qual é o modelo da FPGA.
 
 \begin{figure}[h]
 \centering
@@ -262,8 +262,9 @@ Indicamos também que o projeto é do tipo \qt{\textit{Post-synthesis Project}} 
 \label{fig:ex1:planahead}
 \end{figure}
 
-Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \qt{\textit{Open Synthesized Design}}, mostrado na figura \ref{fig:ex1:planahead_open_synthesized_design}.
+Após a criação do projeto, carregam-se os arquivos sintetizados abrindo \qti{Open Synthesized Design}, presente no painel \qti{Flow Navigator} sob a opção \qti{Netlist Analysis}.
 Duas janelas de avisos aparecem, informando que existe uma partição não implementada e aviso sobre alguns pinos.
+Estes avisos podem ser desconsiderados.
 
 \begin{figure}[h]
 \centering
@@ -272,35 +273,34 @@ Duas janelas de avisos aparecem, informando que existe uma partição não imple
 \label{fig:ex1:planahead_open_synthesized_design}
 \end{figure}
 
-
 Pode-se agora definir a partição que armazenará o componente dinâmico.
-Isso é feito através do painel \qt{\textit{Netlist}}, selecionando a opção \qt{\textit{Set Partition}} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
-Na janela que aparece, selecionamos a opção referente à partição reconfigurável, nomeamos o módulo reconfigurável de acordo com o componente que será carregado e indicamos o arquivo que corresponde ao arquivo sintetizado do componente reconfigurável.
+Isso é feito através do painel \qt{\textit{Netlist}}, selecionando-se a opção \qt{\textit{Set Partition}} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
+Na janela que aparece, seleciona-se a opção referente à partição reconfigurável, nomea-se o módulo reconfigurável de acordo com o componente que será carregado e indica-se o arquivo (NGC) que corresponde ao arquivo sintetizado do componente reconfigurável.
 Não é necessário informar restrições, visto que o componente, seguindo recomendações, não acessa os pinos de entrada e saída diretamente.
 Note ainda que é recomendado que o primeiro módulo a ser incluído seja o mais complexo e sucetível a falhas, permitindo que erros e falhas na definição da região a seguir sejam identificados mais cedo.
 
-Precisa-se definir também uma região para a partição recém definida.
-Isto pode ser feito pelo mesmo painel \qt{\textit{Netlist}}, selecionando a opção \qt{\textit{Set Pblock Size}} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
-Nesse momento, precisa-se selecionar na aba \qt{\textit{Device}} uma região do dispositivo que contenha uma quantidade de recursos maior que a requerida pelo projeto.
+Precisa-se definir também uma região para a partição recém criada.
+Isto pode ser feito pelo mesmo painel \qti{Netlist}, selecionando-se a opção \qti{Set Pblock Size} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
+Nesse momento, precisa-se selecionar na aba \qti{Device} uma região do dispositivo que contenha uma quantidade de recursos maior que a requerida pelo projeto.
 Note que o processo de escolha dessa região não é bem definido, o que abre espaço para diversos erros de alocação.
-Para testar se a região foi bem alocada, abre-se a aba \qt{\textit{Design Runs}} do painel inferior, clica-se com o botão direito na única configuração disponível no momento e seleciona-se \qt{\textit{Run Launch}}.
+Para testar se a região foi bem alocada, abre-se a aba \qti{Design Runs} do painel inferior, clica-se com o botão direito na única configuração disponível no momento e seleciona-se \qti{Run Launch}.
 Este processo pode demorar.
-Em tentativas subsequentes, seleciona-se a opção de recomeçar todo o processo do zero, evitando erros gerados nos estágios iniciais.
-Uma região possível, que foi utilizada nesse projeto, foi a que contém as células (\textit{slice}) de X80Y244 a X139Y205.
-Os nomes das células ficam visíveis através da ampliação do dispositivo.
-Outra possibilidade é descrita na seção \ref{par:alocacao}.
+Em tentativas subsequentes, seleciona-se a opção de recomeçar todo o processo do zero, evitando de se utilizar arquivos gerados em execução anteriores.
+Uma região já testada e comprovada para este experimento é a que contém as células (\textit{slice}) de X80Y244 a X139Y205.
+Ela pode ser selecionada na aba \qti{Device}, após se ampliar o mapa de recursos até que os nomes dos elementos lógicos, em cinza, fiquem visíveis.
+Outra possibilidade, um pouco mais determinística, é descrita na seção \ref{par:alocacao}.
 
-Uma vez terminado o \qt{\textit{Design Run}}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
-Para isso, clica-se em \qt{\textit{Synthesized Design}} novamente e seleciona-se a opção \qt{\textit{Add reconfigurable module}} do menu que aparece ao se clicar em \qt{dynamic\_i} no painel \qt{\textit{Netlist}} com o botão direito.
+Uma vez terminado o \qti{Design Run}, adiciona-se duas novas possibilidades de módulos reconfiguráveis para esta partição: um com comportamento definido e outro vazia.
+Para isso, clica-se em \qti{Synthesized Design} novamente e seleciona-se a opção \qti{Add reconfigurable module} do menu que aparece ao se clicar em \qt{dynamic\_i} no painel \qti{Netlist} com o botão direito.
 O processo é o mesmo da definição da partição, sendo a única mudança na seleção do arquivo sintetizado e do nome do módulo.
-Um módulo vazio pode ser criado usando esta mesma opção, mas selecionando a opção que indica a inclusão de uma \textit{blackbox} sem o uso de uma \textit{netlist}.
+O módulo vazio pode ser criado usando esta mesma opção, mas selecionando-se a opção que indica a inclusão de uma \textit{blackbox} sem o uso de uma \textit{netlist}.
 
 Com as possibilidades de módulos reconfiguráveis definidas, pode-se construir várias configurações.
-Isso é feito através do clique com botão direito na \qt{\textit{Design Runs}} do painel inferior e selecionando-se a opção \qt{\textit{Create Runs...}}.
-A janela que abre possui um painel chamado \qt{\textit{Create Implementation Runs}}.
-Nesse painel, na coluna \qt{\textit{Partition Action}}, define-se, na coluna \qt{\textit{Module Variant}} da nova janela que aparece, o módulo desejado.
+Isso é feito através do clique com botão direito na \qti{Design Runs} do painel inferior e selecionando-se a opção \qti{Create Runs...}.
+A janela que abre possui um painel chamado \qti{Create Implementation Runs}.
+Nesse painel, na coluna \qti{Partition Action}, define-se, na coluna \qti{Module Variant} da nova janela que aparece, o módulo desejado.
 Voltando para a primeira janela, clica-se em \qt{\textit{More}} para adicionar a última configuração desejada.
-Em seguida, as duas novas configurações serão criadas através de \qt{\textit{Design Runs}}.
+Em seguida, as duas novas configurações serão criadas através de \qti{Design Runs}.
 É necessário promover neste momento a primeira configuração implementada.
 O processo de promoção será comentado a seguir.
 Note que os avisos que aparecerem podem ser ignorados.
@@ -358,7 +358,11 @@ Esta método não é determinístico e pode ser necessárias várias tentativas 
 Este processo pode também ser realizado através do arquivo de restrições (UCF).
 O código abaixo contém uma alocação de partição funcional para este experimento, podendo ser copiada sobre a definição atualmente existente no arquivo UCF.
 \begin{lstlisting}
-				
+INST "dynamic_i" AREA_GROUP = "pblock_dynamic_i";
+AREA_GROUP "pblock_dynamic_i" RANGE=SLICE_X80Y205:SLICE_X139Y244;
+AREA_GROUP "pblock_dynamic_i" RANGE=DSP48_X3Y82:DSP48_X5Y97;
+AREA_GROUP "pblock_dynamic_i" RANGE=RAMB18_X3Y82:RAMB18_X5Y97;
+AREA_GROUP "pblock_dynamic_i" RANGE=RAMB36_X3Y41:RAMB36_X5Y48;
 \end{lstlisting}
 
 O arquivo UCF pode ser aberto pelo painel \qti{Sources} sob a árvore \qti{Constrains}.
