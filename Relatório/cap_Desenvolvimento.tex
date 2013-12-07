@@ -151,32 +151,34 @@ Note também que a implementação deve garantir que a lógica em comum, ou est�
 
 \section{Experimento}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
-Para isso, implementou-se o sistema esquematizado na figura \ref{fig:ex1:componentes}.
-Este sistema contém o \qt{Top} para interfaceamento com a FPGA, o \qt{Clocks} para tratamento do sinal de relógio, a \qt{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qt{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
+Implementou-se para isto o sistema esquematizado na figura \ref{fig:ex1:componentes}.
+Este sistema contém o \qti{Top} para interfaceamento com a FPGA, o \qti{Clock\_Station} e o \qti{Clocks} para tratamento do sinal de relógio, a \qti{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qti{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
+A interface \qti{Top} possui conexões com os LEDs e o SYSCLK do dispositivo FPGA, bem como conexões de entrada e saída com os componentes instanciados nela.
+O componente \qti{Clock\_Station} recebe a entrada de relógio diferencial e retorna 3 sinais de relógios simples, um com 1 Hz, outro com 2 Hz e o último com 5 Hz.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{fig/c3_desenvolvimento/ex1/componentes.pdf}
-\caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos e os em azul são dinâmicos.}
+\caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos, os em azul são dinâmicos e o em amarelo corresponde a um componente gerado automaticamente com o através das ferramentas da Xilinx.}
 \label{fig:ex1:componentes}
 \end{figure}
 
 \subsection{Comportamento}
-Como explicado anteriormente, o projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
+O projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
 Seguindo essa lógica, dois projetos com comportamentos diferentes foram construídos usando como base a figura \ref{fig:ex1:componentes}.
 O comportamento individual de cada módulo ou componente será descrito a seguir.
-Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como ISE.
+Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como ISE, visto que esta ferramenta da Xilinx é a mais utilizada para projetos comuns.
 
-O componente \qt{Static} possui uma entrada para um relógio pulsando a 2 Hz e uma saída para um LED.
-Seu comportamento apenas faz com que o LED pisque a uma frequência de 2 Hz, o que permite observar seu funcionamento durante a reconfiguração do componente \qt{Dynamic}.
+O componente \qti{Static} possui 3 entradas para relógios, um pulsando a 1 Hz, outro a 2 Hz e o teceiro a 5 Hz, e 3 saída paras LEDs.
+Ele simplesmente liga as entradas (relógios) às saídas (LEDs), criando assim uma forma visual de comprovar que a reconfiguração do componente \qti{Dynamic} acontecerá dinamicamente.
 
-O componente \qt{Dynamic} possui dois comportamentos distintos.
+O componente \qti{Dynamic} possui dois comportamentos distintos.
 O primeiro deles é o de um simples contador crescente de 4 bits.
 O segundo é uma máquina de estados que alterna os 4 bits de saída entre "1100" e "0011" a cada pulso de relógio.
-Este componente possui uma entrada para um relógio pulsando a 1 Hz e uma palavra de 4 bits de saída.
-A frequência de operação deste componente foi escolhida para ser a metade da frequência da \qt{Static} para poder ser visualmente comprovado que \qt{Static} não para de funcionar quando \qt{Dynamic} está sendo reconfigurado.
+Este componente possui uma entrada para um relógio pulsando a 1 Hz, que acionará as transições, e uma palavra de 4 bits de saída.
+A frequência de operação deste componente foi escolhida para, junto com as frequências do \qti{Static}, permitir a visualação de que \qti{Static} não para de funcionar quando \qti{Dynamic} está sendo reconfigurado.
 
-O componente \qt{Clocks} recebe os sinais diferenciais de relógio e o transformam em um sinal comum.
+O componente \qti{Clocks} recebe os sinais diferenciais de relógio e o transformam em um sinal comum.
 O bloco lógico utilizado para isso foi construído usando ferramentas presentes no ISE.
 Uma vez que a ferramenta permitia a construção de um relógio com divisor de frequência, a frequência do relógio da placa, que nesse caso é de 200 MHz, foi reduzida para 20 MHz.
 
@@ -339,6 +341,10 @@ Após a seleção da configuração desejada, o último passo necessário é a p
 \subsubsection{Erros no código-fonte} Este é um dos erros mais comuns.
 A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
 Para acelerar o processo, realiza-se apenas a síntese.
+Outra possibilidade é o uso do XST diretamente \, reduzindo ainda mais o tempo desta verificação. 
+
+\subsubsection{Erro no carregamento do módulo reconfigurável}
+Este erro em geral
 
 \subsubsection{Erros na alocação de partições}
 \label{par:alocacao}
@@ -365,6 +371,8 @@ Esquecer de promover esta partição pode fazer com que erros sejam gerados na e
 \subsubsection{O PlanAhead pode travar enquanto implementando uma configuração}
 Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
 A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
+
+\todo{Erro BitGen:342, \url{http://www.xilinx.com/support/answers/51813.html}. Acontece no BitGen do PlanAhead. Mandar olhar o Pad Report e modificar algumas informações de pinos.}
 
 \subsubsection{Erros na detecção da placa}
 Note que algum programa aberto pode interferir com a varredura realizada pelo iMPACT, fazendo-a falhar.
@@ -774,6 +782,7 @@ Todos estes elementos serão interfaceados entre si e com a placa através de um
 \section{Possiveis Erros}
 \todo{Pensar nos erros que aconteceram e como os consertei}
 \todo{PlanAhead: Lembrar de colocar "RESET\_AFTER\_RECONFIG=TRUE" no UCF, na linha do comando "AREA\_GROUP". Explicação em ug702, página 110.}
+\todo{Erro BitGen:342, \url{http://www.xilinx.com/support/answers/51813.html}. Acontece no BitGen do PlanAhead.}
 \paragraph{Erro de fase do relógio}
 Um erro muito comum de se encontrar
 
