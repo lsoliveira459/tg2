@@ -250,7 +250,7 @@ A única função deste \textit{script} é a construção dinâmica dos comandos
 
 \subsection{PlanAhead}
 Com os arquivos síntetisados, pode-se começar a etapa referente ao PlanAhead.
-Nela, importaremos os arquivos da etapa anterior, criaremos a partição reconfigurável, mapearemos esta partição no dispositivo, cria-se configurações alternativas, promove-se tais configurações e gera-se os \textit{bitfiles} para a programação do dispositivo.
+Nela, importa-se os arquivos da etapa anterior, cria-se a partição reconfigurável, mapea-se esta partição no dispositivo, cria-se configurações alternativas, promove-se tais configurações e gera-se os \textit{bitfiles} para a programação do dispositivo.
 Note que é preciso uma licença do ISE que permita o uso do PlanAhead e de reconfiguração parcial para a realização desta etapa.
 
 O primeiro passo necessário no PlanAhead é a criação do projeto.
@@ -462,13 +462,14 @@ A programação da configuração completa levou 10 segundos e a programação d
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado e compreendido com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto, bem como alguns erros comuns e suas soluções.
 
+%%%%%%%%%%%%%%%%%% Experimento 2
 \chapter{Experimento 2 - Teste de Memórias}
 Seguindo o raciocínio apresentado no capítulo \ref{cap:introducao}, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os arquivos binários de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
 
 \section{Introdução Teórica}
 Para o desenvolvimento deste experimento, faz-se necessário o estudo dos diferentes tipos de memórias, citando seus pontos fracos e fortes.
-Também é necessário o estudo das ferramentas XPS e SDK, visto que a forma mais direta de se trabalhar com memória em FPGAs é através do uso de microcontroladores embarcados.
+Também é necessário o estudo do MicroBlaze e das ferramentas XPS e SDK, visto que a forma mais direta de se trabalhar com memória em FPGAs é através do uso de microcontroladores embarcados.
 
 \subsection{Tipos de Mémoria}
 No kit utilizado existem vários tipos de memórias que poderiam ser usados, cada um com suas peculiaridades \cite{ug810}.
@@ -504,30 +505,17 @@ Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4
 A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
 Note que também não existe a possibilidade de programação do cartão através do iMPACT, o que resolveria o problema do sistema de arquivos.
 
-\subsubsection{\textit{CompactFlash} e o \textit{System ACE}}
-\textit{SystemAce} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
-Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão.
+\subsection{\textit{CompactFlash} e o \textit{System ACE}}
+\textit{System ACE} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
+Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão, o que não é o caso desta.
 
 \subsubsection{Memória DDR3}
 A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
 Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
-
-\section{Teste}
-Notou-se no primeiro experimento que os \textit{bitfiles} parciais gerados possuem 645 KB, totalizando 1935 KB, ou 1,89 MB.
-Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
-Caso se escolha esta opção, apenas os \textit{bitfiles} parciais poderiam ser armazenados, necessitando da ajuda do computador para a programação inicial.
-Este típo de memória é mais útil como memória de dados e de programa em microcontroladores embarcados na FPGA, devido a sua altíssima velocidade de acesso e capacidade de acesso de vários canais em paralelo.
-
-Observa-se que a interface de reprogramação dinâmica, ICAPE2, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s \cite{ug702}.
-Por causa disso, todas as interfaces não-voláteis apresentadas acima acabariam por ser o gargalo do tempo da programação.
-Uma solução é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica.
-A forma mais fácil de implementar tal funcionalidade é através do uso de um microcontrolador MicroBlaze funcionando como \textit{bootloader}.
-
-Antes de implementar o \textit{bootloader}, precisamos entender como funcionam as memórias do escolhidas.
-Este teste, então, tem por objetivo entender o fluxo de projeto para o uso do MicroBlaze, o funcionamento deste microcontrolador e as formas corretas de se acessar as memórias do sistema.
+Ela possui restrições de temporização extremamente apertadas e necessita do uso de componentes bastante escassos no FPGA.
 
 \subsection{Fluxo de Projeto}
-O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}, no que diz respeito ao XPS e ao SDK.
+O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}.
 A figura \ref{fig:ex2:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
 Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
 Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT através do SDK.
@@ -556,6 +544,23 @@ O MicroBlaze permite o uso de diversas interfaces para comunicação com seus di
 A interface mais atual suportada, e que foi utilizada neste experimento, é a Advanced eXtensible Interface 4 (AXI4) \cite{ug081, ug761}.
 A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibilidade e disponibilidade.
 Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
+
+\section{Experimento}
+Este experimento tem por objetivo o desenvolvimento de um sistema que instancie e acesse memórias capazes de armazenar as configurações parciais geradas no experimento anterior.
+Para isto, deve-se entender o processo de construção de um processador embarcado MicroBlaze, com periféricos para acesso às memórias, e de construção de programa embarcado.
+Deve-se ainda, antes de qualquer coisa, definir que tipo de memória é a mais apropriada para o objetivo traçado.
+
+\subsection{Escolha da Memória}
+Nota-se do primeiro experimento que os \textit{bitfiles} parciais gerados possuiam 645 KB cada, totalizando 1935 KB, ou 1,89 MB.
+Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
+Observa-se também que a interface de reprogramação dinâmica, ICAPE2, utilizada em experimentos mais a frente, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s \cite{ug702}.
+Por causa disso, todas as interfaces não-voláteis disponíveis acabariam se tornando gargalos no tempo de programação.
+
+A única memória com tamanho e velocidade suficientemente grandes para este projeto é a memória DDR3.
+Apesar disto, esta memória é volátil, necessitando ser inicializada sempre que o sistema é ligado.
+Uma solução para este problema é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica, ou seja, através do uso de um \textit{bootloader}.
+
+Sendo assim, optou-se por utilizar a memória QSPI Flash para uso na inicialização e a memória DDR3 para uso na execução.
 
 \subsection{XPS}
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
@@ -829,7 +834,7 @@ Para isto, deve-se entender o processo de criação de periféricos reconfigurá
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
 Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sitemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
 Estas portas de configuração se utilizam de um protocolo identico ao da interface SelectMAP \cite{wp374, ug702}, que se utiliza de uma série de comandos para iniciar um dos vários procedimentos de programação.
-Felizmente utilizaremos o controlador AXI4 HWICAP \cite{ds817}, que permite o controle da ICAP e ICAPE2 através do MicroBlaze.
+Felizmente utiliza-se o controlador AXI4 HWICAP \cite{ds817}, que permite o controle da ICAP e ICAPE2 através do MicroBlaze.
 
 Estas interfaces, tanto a SelectMAP quanto a ICAP, possuem um largura de banda de 32 bits e frequência máxima de operação de 100 MHz, permitindo uma taxa de tranferência de até 3.2 Gbps \cite{ug702}.
 Esta taxa de transferência permite que configurações parciais como a do experimento 1 sejam programadas em apenas 1.65 milisegundos ($611288\text{ bytes }\cdot8\frac{\text{bits}}{\text{byte}}\div3.200.000.000\frac{\text{bits}}{\text{segundo}} = 0,00165 \text{ segundo}$).
