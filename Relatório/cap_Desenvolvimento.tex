@@ -150,8 +150,6 @@ Note que a reconfiguração parcial pede uma síntese utilizando o método \qt{d
 Isto acontece para que os requisitos de interfaceamento dos componentes reconfiguráveis sejam encontrados antes de se determinar como incluí-los no projeto, a partir de onde se continua o processo normal de implementação.
 Note também que a implementação deve garantir que a lógica em comum, ou estática, seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
-\todo{Alguma palavras sobre síntese e implementação?}
-
 \section{Experimento}
 Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
 Implementou-se para isto o sistema esquematizado na figura \ref{fig:ex1:componentes}.
@@ -383,12 +381,16 @@ Esquecer de promover esta partição pode fazer com que erros sejam gerados na e
 Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
 A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
 
-\todo{Erro BitGen:342, \url{http://www.xilinx.com/support/answers/51813.html}. Acontece no BitGen do PlanAhead. Mandar olhar o Pad Report e modificar algumas informações de pinos.}
-
 \subsubsection{Erros na detecção da placa}
 Note que algum programa aberto pode interferir com a varredura realizada pelo iMPACT, fazendo-a falhar.
 Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
 Note ainda que a placa deve estar ligada para poder ser detectada.
+
+\subsubsection{Erro na geração do arquivo binário}
+Na geração do arquivo binário, o erro BitGen:342 pode aparecer \footnote{\qti{AR\# 51813
+14.2 BitGen - "ERROR:Bitgen:342 occurs after adding probes to the design in the case of 7 series devices"}, \url{http://www.xilinx.com/support/answers/51813.html}}.
+Este erro aparece devido ao uso de pinos não explicitados no arquivo UCF, fazendo com que o PlanAhead tenha que usar as configurações padrões nestes pinos.
+Uma forma de solucionar este problema é acrescentando a opção \qt{-g UnconstrainedPins:Allow} no comando do BitGen. 
 
 \section{Resultados}
 \subsection{Síntese}
@@ -505,7 +507,7 @@ Esta interface permite o uso de cartões de alto desempenho, lendo palavras de 4
 A limitação desta interface é a dificuldade de leitura e escrita devido ao sistema de arquivos inerente ao cartão.
 Note que também não existe a possibilidade de programação do cartão através do iMPACT, o que resolveria o problema do sistema de arquivos.
 
-\subsection{\textit{CompactFlash} e o \textit{System ACE}}
+\subsubsection{\textit{CompactFlash} e o \textit{System ACE}}
 \textit{System ACE} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
 Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão, o que não é o caso desta.
 
@@ -588,7 +590,7 @@ Estas restrições são devido aos tamanhos das memórias e o alinhamento dos es
 \label{fig:ex2:xps_enderecos}
 \end{figure}
 
-Precisa-se agora modificar as posições de memória cobertas pela memória \textit{cache}.
+Precisa-se ainda modificar as posições de memória cobertas pela memória \textit{cache}.
 Isto é feito clicando-se duas vezes sobre \qt{microblaze\_0} na aba \qt{\textit{Bus Interfaces}} do painel \qt{\textit{System Assembly View}}.
 Na janela que se abre, clica-se  \qt{\textit{Next}} 3 vezes para chegar página sobre \textit{caches}.
 Modifique os endereços nas duas colunas para 0xc0000000 e 0xffffffff, indicando que a memória de instruções e memória de dados podem acessar os endereços da memória DDR3.
@@ -634,34 +636,43 @@ Clica-se em \qt{\textit{Program}} para inciar a programação.
 Para se transferir o programa criado com o auxílio do SDK, seleciona-se o projeto deste programa, clica-se com o botão direito, seleciona-se o submenu \qt{\textit{Run As...}} e escolhe-se a opção \qt{\textit{1 Launch on Hardware (GDB)}}.
 No caso dos códigos-exemplo, algumas informações são imprimidas no console caso tudo tenha ocorrido confome o esperado.
 
+\section{Resultados}
+
+\subsection{}
+
 \section{Conclusão}
 Conclui-se assim o experimento para o teste de programação das memórias.
 Notou-se que existe muita pouca literatura no assunto, forçando o programador a fazer uso dos forúns de discussão e conhecimentos gerais de programação embarcada.
 Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
 \chapter{Experimento 3 - Teste do \textit{Bootloader}}
-O \textit{bootloader}, como mencionado acima, é um sistema que carrega as informações de uma memória lenta, a SPI Flash foi escolhida, para uma memória rápida, a memória DDR3.
+O \textit{bootloader}, como mencionado no experimento anterior, é um sistema que carrega as informações de uma memória lenta, como a SPI Flash, para uma memória rápida, como a DDR3.
 Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flash e DDR3.
 O experimento 2 foi dedicado a aprender a utilizar estas memórias.
-Neste experimento, espera-se entender como é formado o arquivo binário para assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
+Neste experimento, espera-se entender como é formado o arquivo binário, permitindo assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
+
+\section{Introdução Teórica}
+Para se alcançar o objetivo proposto, faz-se necessário entender como é construido o arquivo binário, como se inicializa a memória não-volátil.
+
+\todo{Escrever mais?}
+
+\subsection{Arquivo Binário}
+\label{sec:binario}
+O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
+A figura \ref{fig:ex3:hex_blank} apresenta o início deste arquivo, contendo as partes mais importante do cabeçalho.
+Os bytes selecionados correspondem ao conteúdo legível do cabeçalho.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/hex_blank.pdf}
+\includegraphics[width=0.75\textwidth]{fig/c3_desenvolvimento/ex3/hex_blank.pdf}
 \caption{Cabeçalho do arquivo binário gerado no primeiro experimento para a configuração vazia.}
 \label{fig:ex3:hex_blank}
 \end{figure}
 
-\section{Arquivo Binário}
-\label{sec:binario}
-O arquivo binário é formado por três partes: um cabeçalho, uma palavra para sincronia e a configuração propriamente dita \cite{ug470, xapp583}.
-O cabeçalho é formado por chaves e tamanhos, indicando diversos campos deste.
-Na tabela \ref{tab:ex3:hex_blank} pode-se observar os tamanhos e campos apresentados na figura \ref{fig:ex3:hex_blank} \footnote{\qti{FAQ: Tell me about the format of the .BIT files please}, \url{http://www.fpga-faq.com/FAQ_Pages/0026_Tell_me_about_bit_files.htm}}.
-A figura \ref{fig:ex3:hex_blank} possui os primeiros 112 bytes, dos quais os primeiros 98 estão selecionados, da configuração parcial vazia construida no experimento 1.
-O primeiro conjunto tamanho/chave indica, através da sequência de de palavras 0x0f, que a configuração é válida.
-Se estas palavras fossem 0x00 indicariam que a configuração não é mais válida, e se contivessem 0xff indicariam que a configuração está vazia.
+O cabeçalho é formado por chaves e tamanhos, indicando os diversos campos deste.
+Ele contém pelo menos duas informações muito interessantes: o identificador do dispositivo alvo, que permite verificar a compatibilidade entre a configuração e o dispositivo que a está recebendo, e o tamanho da configuração, que permite que ela seja carregada de forma dinâmica sem necessidade de mais informações.
 
-O cabeçalho descrito na tabela \ref{tab:ex3:hex_blank} contém pelo menos duas informações muito interessantes: o identificador do dispositivo alvo, que permite verificar a compatibilidade entre a configuração e o dispositivo que a está recebendo, e o tamanho da configuração, que permite que ela seja carregada de forma dinâmica sem necessidade de mais informações.
+Na tabela \ref{tab:ex3:hex_blank} pode-se observar os tamanhos e campos apresentados na figura \ref{fig:ex3:hex_blank} \footnote{\qti{FAQ: Tell me about the format of the .BIT files please}, \url{http://www.fpga-faq.com/FAQ_Pages/0026_Tell_me_about_bit_files.htm}}.
 
 \begin{table}[htp]
 \centering
@@ -689,21 +700,20 @@ Tamanho & Chave & Significado\\ \hline
 \label{tab:ex3:hex_blank}
 \end{table}
 
-Ainda no cabeçalho, tem-se um 32 bytes de espaçamento preenchidos por com \qt{0xff}.
-Em seguida, tem-se os bytes para autodetecção de largura de banda \cite{ug470, xapp583}.
-Estes bytes (\qt{0x00 00 00 bb 11 22 00 44}) são usados no modo de configuração paralelo para detectar automaticamente a largura de banda do arquivo de configuração.
+Existe ainda no cabeçalho 32 bytes de espaçamento preenchidos por com \qt{0xff} e bytes para autodetecção de largura de banda \cite{ug470, xapp583}.
+Estes bytes (\qt{0x00 00 00 bb 11 22 00 44}) são usados no modo de configuração paralela para detectar automaticamente a largura de banda do arquivo de configuração.
 O modo serial ignora todos os bits anteriores a palavra de sincronia \cite{xapp583}.
 Estes bits são então usados apenas para pré-processamento do arquivo binário.
 
 A palavra de sincronia (\qt{0xaa 99 ff 66}), encontrada a seguida, serve para indicar o inicio da configuração proprimamente dita e para alinhar o fluxo de dados nos registradores internos.
 
-\section{Inicialização da Memória SPI Flash}
+\subsection{Inicialização da Memória SPI Flash}
 \label{sec:flash_indireta}
 A memória SPI Flash, assim como todas as outras, precisa de um procedimento especial para poder ser inicializada com informações arbitrárias \cite{xapp694}.
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para o FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
 Este processo é conhecido como programação indireta da memória Flash \cite{xapp586}.
 
-\subsection{Compilação} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
+\subsubsection{Compilação} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
 Este procedimento é realizado na etapa de construção do processador.
 Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita,  e relógio de frequência 3 MHz.
 Com estas configurações, a programação do sistema demora apenas 1 minutos e 30 segundos \cite{xapp586}, mas pode ser ainda mais reduzido.
@@ -714,13 +724,13 @@ Pode-se ainda forçar a opção \qt{-g ConfigRate\_en:Y}, onde Y pode ser 3, 6, 
 Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
 Uma opção alternativa é utilizar um relógio externo através da opção \qt{-g ExtMasterCclk\_en:Z}, onde Z pode ser \qt{Disable}, \qt{div-8}, \qt{div-4}, \qt{div-2} e \qt{div-1}.
 
-\subsection{Arquivo de Memória PROM}
+\subsubsection{Arquivo de Memória PROM}
 Após compilado o projeto, seu arquivo binário e qualquer outra informação a ser programada na memória Flash precisa ser adicionada a um arquivo do tipo MCS.
 Este processo é necessário para que o iMPACT consiga carregar e programar a memória Flash de forma correta.
 Pode-se construir este arquivo de memória PROM através do próprio iMPACT, processo que será descrito mais a frente.
 
-\section{Teste}
-O teste deste experimento compreende a construção de um sistema microprocessado que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
+\section{Experimento}
+O teste deste experimento compreende a construção de um sistema microprocessador que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
 Este experimento contribuirá para a compreenção do processo de inicialização de memórias não-voláteis e do tratamento do cabeçalho dos arquivos binários.
 Usará-se os programas XPS, SDK, que fazem parte do Embedded Development Kit (EDK), data2mem e iMPACT.
 
@@ -806,7 +816,7 @@ Note que é possível incluir também um programa para o MicroBlaze na memória 
 O último passo é gerar o arquivo, o que pode ser feito através do menu \qti{Operations} ou do painel \qti{iMPACT Processes}, selecionando-se a opção \qti{Generate File...}.
 Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino definida no passo da figura \ref{fig:ex3:prom_file}.
 
-\subsection{Resultado}
+\section{Resultados}
 Logo após a programação e após cada ciclo de energia (\textit{power cycle}), o programa embarcado envia dados da sua execução através da porta UART para o computador, gerando a saída mostrada na figura \ref{fig:ex3:resultado}.
 Pode-se observar que o programa foi executado perfeitamente.
 
@@ -827,11 +837,17 @@ Este experimento só pode ser realizado devido a uma imensa pesquisa e compilaç
 
 O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze utilizando-se do \textit{bootloader} já desenvolvido.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% Experimento 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \chapter{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
 Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP e integrar tudo de forma satisfatória.
 
-\section{ICAP e ICAPE2}
+\section{Introdução Teórica}
+
+\subsection{ICAP e ICAPE2}
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
 Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sitemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
 Estas portas de configuração se utilizam de um protocolo identico ao da interface SelectMAP \cite{wp374, ug702}, que se utiliza de uma série de comandos para iniciar um dos vários procedimentos de programação.
@@ -840,13 +856,13 @@ Felizmente utiliza-se o controlador AXI4 HWICAP \cite{ds817}, que permite o cont
 Estas interfaces, tanto a SelectMAP quanto a ICAP, possuem um largura de banda de 32 bits e frequência máxima de operação de 100 MHz, permitindo uma taxa de tranferência de até 3.2 Gbps \cite{ug702}.
 Esta taxa de transferência permite que configurações parciais como a do experimento 1 sejam programadas em apenas 1.65 milisegundos ($611288\text{ bytes }\cdot8\frac{\text{bits}}{\text{byte}}\div3.200.000.000\frac{\text{bits}}{\text{segundo}} = 0,00165 \text{ segundo}$).
 
-\paragraph{Inversão dos bytes}
+\subsubsection{Inversão dos bytes}
 A SelectMAP necessita de uma inversão na ordem dos bits de cada byte do arquivo de configuração \cite{xapp502}, incluindo a palavra de sincronia, mencionada na seção \ref{sec:binario}.
 Esta inversão só é aplicavel no uso das interfaces Serial, SelectMAP, e por consequência ICAP e ICAPE2, e BPI \cite{ug470}.
 Note que alguns tipos de arquivos sintetisados, como o MCS e o HEX, já podem ter estes bytes invertidos não sendo necessário invertê-los novamente.
 Não foi encontrada uma explicação para esta inversão.
 
-\section{Teste}
+\section{Experimento}
 Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos  neste trabalho.
 Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1, o microprocessador desenvolvido no experimento 2 e o programa desenvolvido no experimento 3, cada um com suas devidas modificações, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
 Todos estes elementos serão interfaceados entre si e com a placa através de um projeto do \textit{Project Navigator}.
@@ -864,8 +880,6 @@ Todos estes elementos serão interfaceados entre si e com a placa através de um
 \todo{XST}
 
 \subsection{PlanAhead}
-
-%\subsection{Registrador de \textit{Status}} Este registrador, acessado através de uma sequência predefinida de comandos pela interface ICAPE2 \cite{ug470 - pp108}, informa 
 
 \section{Possiveis Erros}
 \todo{Pensar nos erros que aconteceram e como os consertei}
@@ -893,8 +907,7 @@ Observa-se que ainda é possível construir um sistema totalmente independente d
 Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader} está implementado em uma partição reconfigurável e pode ser apagado após o início do sistema, restando assim apenas entender o funcionamento da interface ICAP ou ICAPE2 e do controlador de DDR3 criado pelo MIG.
 
 \ifx\compilewholereport\undefined
-	\bibliographystyle{plain} 
-	%\bibliography{bibliografia.bib}
+	\bibliographystyle{plain}
 	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
 
 	\listoftodos
