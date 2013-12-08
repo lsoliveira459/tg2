@@ -1011,17 +1011,86 @@ Um exemplo de como se modificar este arquivo está presente no anexo.
 Após modificado o periférico, deve-se reescanear a pasta de periféricos do usuário através da opção \qti{Rescan User Repositories} do menu \qti{Project}.
 Em seguida pode-se adicionar este periférico ao sistema.
 
+Após a inclusão do periférico, as suas portas estarão toda desconectadas.
+Pode-se conectá-las através da aba \qti{Ports}, expandindo a árvore referente a este periférico, clicando sobre a porta \qt{LEDs\_8Bits\_TRI\_O} com o botão direito e selecionando a opção \qti{Make External}.
+Com isto um pino, cria-se um pino conjunto de pinos de saída conforme necessitado pelo componente.
+Este pino pode ter seu nome modificado através da árvore \qti{External Ports}, isto não é obrigatório.
+O pino \qt{clk\_200MHz} será configurado mais a seguir.
+
 É necessário também a inclusão do periférico \qti{FPGA Internal Configuraion Access Port} (AXI\_HWICAP).
 Na adição, deve-se marcar a opção \qti{Instantiate STARTUP primitive in the HWICAP core} para que o pino EOS (\textit{End of Startup}) não seja mais necessário.
 Por causa disso, devido a presença de apenas uma primitiva STARTUP, também é necessárip a mudança da opção \qti{Use Startup} para falso nas configurações da memória QSPI Flash.
 
-É preciso ainda executar o assistente de configuração de relógios, 
+É preciso ainda executar o assistente de configuração de relógios, aberto através do menu \qti{Hardware} selecionando-se a opção \qti{Launch Clock Wizard...}.
+Na janela que se abre, deve ajustar todas os \qti{Clock Sources} para \qt{<AUTO>}, e a o relógio do periférico customizado \qt{clk\_200MHz} para 200.
+Pode-se verificar a correta realização deste passo através da aba \qti{Ports}.
 
-\subsection{XST}
-\todo{XST}
+Por último, deve-se ajustar os endereços e tamanhos das memórias.
+Para tal, deve-se ir a aba \qt{Addresses} e alterar o tamnho da memória \qt{QSPI\_FLASH} para 128M e seu endereço-base para 0x80000000.
+Pode-se surgir algum erro indicando a interseção de espaços de memória, fazendo-se necessário a mudança do endereço base de algum componente.
+Note que este passo não é obrigatório, apenas indicado.
+
+\subsubsection{Compilação e Exportação}
+Precisa-se agora gerar os arquivos NGC e BMM para que possam ser importados mais a frente pelo PlanAhead.
+Isto pode é realizado clicando-se no botão \qti{Generate Netlist} no painel \qti{Navigator} ou no menu \qti{Hardware}.
+
+A exportação do projeto serve para que as informações deste projeto sejam transmitidas para o SDK.
+Ela pode ser feita pelo botão \qti{Export Design} no painel \qti{Navigator} ou pelo item \qti{Export Hardware Design to SDK...} no menu \qti{Project}.
+Note que a opção \qti{Include bistream and BMM file}, presente na janela que se abre, deve ser desmarcado.
+A exportação do projeto para um arquivo binário acarretará em erro, visto que o periférico reconfigurável possui componentes não definidos.
+Clica-se então no botão \qti{Export \& Launch SDK}.
+
+Ao final deste processo de exportação, o SDK será aberto.
+Pode-se porém adiar este passo até que seja completamente necessário.
+A etapa do PlanAhead é mais urgente e importante, visto que permite a criação das diversas configurações.
 
 \subsection{PlanAhead}
-\todo{PlanAhead}
+O procedimento do PlanAhead para este experimento é muito similar ao do experimento 1.
+Ao abrir o programa, cria-se um novo projeto, lembrando de se selecionar a opção de projeto pós-síntese (\qti{Post-synthesis Project}) e de habilitar a reconfiguração parcial (\qti{Enable Partial Reconfiguration}).
+Deve-se ainda incluir os arquivos NGC do projeto do microprocessador e suas restrições, presentes na presentes na pasta \qti{implementations} e \qti{data} do projeto do XPS, respectivamente.
+
+Após a criação do projeto, deve-se abrir o o arquivo sintetizado através do botão \qti{Open Synthesized Design}.
+Alguns avisos podem aparecer, mas pode-se ignorá-los.
+Este processo faz com que os componentes do projeto possam ser visualizados e manipulados.
+
+A primeira coisa a se fazer com o projeto aberto é definir-se a partição reconfigurável que comportará o componente mutável.
+Para tal, expande-se o item referente ao periférico da lista no painel \qti{Netlist} e clica-se com o botão direito sobre o componente identificado por \qti{USER\_LOGIC\_I} e seleciona-se a opção \qti{Set Partition}.
+Adiciona-se então uma partição reconfigurável com o \textit{netlist} de alguma das configurações criadas no experimento 1.
+Deve-se verificar o experimento 1 para o procedimento para compilar os diferentes \textit{netlists}.
+
+Em seguida, aloca-se esta partição clicando-se o botão direito sobre mesmo item identificado por \qti{USER\_LOGIC\_I} e selecionando-se o item \qti{Set Pblock Size}.
+Com isso, a aba device deve ser posta em primeiro plano.
+Nela deve-se selecionar a partição desejada.
+Para este experimento, utilizou-se o bloco X1Y0, apesar de outros blocos poderem ser utilizados.
+Deve-se verificar o experimento 1 para técnicas de alocação de partições.
+
+Antes de implementar a esta partição reconfigurável, deve-se habilitar a opção a função de resetar as células lógicas após reconfiguração.
+Isto pode ser feito selecionando-se a restrição física (\textit{physical constrain}) e alterando seus atributos, acessados através das configurações desta restrição.
+Na aba atributos, dentro do painel Pblock Properties, clica-se no símbolo de adição localizado a esquerda.
+Da janela que aparece, seleciona-se a opção \qti{RESET\_AFTER\_RECONFIG} e aceita-se a escolha.
+Note que o projeto deve ser salvo ou esta modificação será perdida.
+
+Precisa-se ainda, antes da implementação da configuração, informar ao programa que tal implementação deve incluir informações de memória do processador embarcado.
+Para isto, acessa-se o item \qti{Options} do menu \qti{Flow}.
+Na janela que se abre, escolhe-se a aba \qti{Strategies}, onde muda-se o \textit{droplist} \qti{Flow} para ISE14.
+As opções de estratégia na árvore abaixo mudam, apresentando a opção \qti{ISE Defaults}.
+Seleciona-se esta opção e clica-se no símbolo de adição localizado abaixo, de forma que uma nova estratégia seja criada nos moldes da selecionada.
+Deve-se então adicionar o comando \qt{-bm ../../../implementation/system.bmm} no campo \qti{More Options}.
+Note que este endereço corresponde ao endereço relativo que liga a pasta \qt{Projeto/PlanAhead/PlanAhead.runs/config\_1} à pasta \qt{Projeto/implementation}.
+Precisa-se ainda indicar que a configuração a ser implementada deve usar a estratégia recém-definida, ao invés da padrão.
+Para isto, clica-se sobre a configuração no painel \qti{Design Runs}, clica-se com o botão direito sobre a configuração em questão selecionando-se a opção \qti{Implementation Run Properties}, vai-se até a aba \qti{Options} e seleciona-se a nova estratégia.
+Deve-se lembrar de aplicar (\textit{Apply}) esta mudança de estratégia ou ela será esquecida.
+
+Pode-se agora implementar a configuração através do painel \qti{Design Runs}.
+Clica-se na configuração desejada com o botão direito e seleciona-se \qti{Launch run...}.
+Este processo é demorado, chegando a levar mais de 20 minutos em um computador com quatro núcleos e 12 GB de memória RAM.
+Ao final, deve-se selecionar a promoção da partição.
+
+\subsection{data2mem}
+\todo{data2mem}
+
+\subsection{iMPACT}
+\todo{iMPACT}
 
 \section{Resultados}
 \todo{Resultados}
@@ -1041,6 +1110,7 @@ Por causa disso, devido a presença de apenas uma primitiva STARTUP, também é 
 \end{figure}
 
 \section{Conclusão}
+\todo{Conclusão}
 
 Observa-se que ainda é possível construir um sistema totalmente independente de microcontroladores, apesar de isto aumentar muito a complexidade do projeto.
 Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader} está implementado em uma partição reconfigurável e pode ser apagado após o início do sistema, restando assim apenas entender o funcionamento da interface ICAP ou ICAPE2 e do controlador de DDR3 criado pelo MIG.
