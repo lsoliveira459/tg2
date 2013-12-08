@@ -40,7 +40,7 @@
 \chapter{Revis\~{a}o Bibliogr\'{a}fica}\label{CapRevisaoBibliografica}
 
 % Resumo opcional. Comentar se não usar.
-\resumodocapitulo{Este capítulo visa apresentar o estado-da-arte da reconfiguração dinâmica e da auto-reconfiguração e as ferramentas necessárias para sua realização.}
+\resumodocapitulo{Este capítulo visa apresentar uma breve descrição sobre reconfiguração dinâmica, autorreconfiguração e as ferramentas necessárias para suas realizações.}
 
 %\section{Introdução}
 \vspace{0.8cm}
@@ -102,8 +102,6 @@ Para que a autorreconfigura\c{c}\~ao aconte\c{c}a, os \textit{bitstreams}, resul
 O circuito controlador identifica ent\~ao um padr\~ao que defina a necessidade de reconfigura\c{c}\~ao e transfere o \textit{bitstream} correspondente a esta nova necessidade para a parti\c{c}\~ao destino, que assim muda seu comportamento.
 Note que para tal, as entradas e sa\'i­das das parti\c{c}\~oes tem que ser fixas, para que a mudan\c{c}a nas configura\c{c}\~oes das parti\c{c}\~oes n\~ao danifique o FPGA em si.
 
-\todo{Apresentar o estado-da-arte}
-
 \section{Ferramentas}
 Diversas ferramentas foram utilizadas para a realização deste trabalho.
 Dentre eles pode-se citar os programas da Xilinx, interpretadores da linguagem Python, Perl e Tcl, compiladores de \LaTeX~e a ferramenta de controle de versão Git.
@@ -119,33 +117,39 @@ Através do \textit{Project Navigator}, sua principal ferramenta, é possivel ac
 
 \paragraph{\textit{Project Navigator}} O \textit{Project Navigator} é a principal ferramenta do \textit{ISE Design Tools}.
 Através dela é possível criar projetos, incluir arquivos de descrição de \textit{hardware}, seja em VHDL, Verilog ou esquemáticos, construir componentes de propriedade intelectual, impor restrições e compilá-los, dentre outras coisas.
+Em geral, todo o desenvolvimento começa através desta ferramenta para fins de verificação de lógica.
 
 \paragraph{iMPACT}
-\paragraph{\textit{Core Generator}}
+O iMPACT é utilizado para se construir arquivos para a inicialização de memórias Flash e para a programação de FPGAs e suas memórias.
+Ele pode ser acessado por linha de comando, permitindo que outras ferramentas incorporem suas funções.
+
+\paragraph{\textit{CORE Generator}}
+O \textit{CORE Generator} é uma ferramenta muito útil, utilizada para a construção de blocos lógicos prontos de funções variadas.
+Em geral, seus blocos instanciam algum componente de propriedade intelectual da Xilinx.
 
 \subsection{\textit{Embedded Development Kit}}
-\paragraph{Xilinx Platform Studio}
-\paragraph{Xilinx Software Development Kit}
+O \textit{Embedded Development Kit} é um conjunto de ferramentas voltados para o desenvolvimento de sistemas microprocessados embarcados em FPGA.
+
+\paragraph{\textit{Xilinx Platform Studio}}
+A \textit{Xilinx Platform Studio} permite a construção de sistemas microprocessados.
+Ela possui uma gama muito grande de componentes periféricos que podem acrescentados a este sistema e integrados de forma automática ou manual.
+
+\paragraph{\textit{Xilinx Software Development Kit}}
+Com as informações do sistema microprocessado, é possível utilizar \textit{Xilinx Software Development Kit} para a criação do programa que será embarcado.
+Esta ferramenta permite a programação do dispositivo, bem como da memória Flash, com ou sem o programa já adicionado, tornando-se uma ferramenta muito simples e útil.
 
 \subsection{PlanAhead}
-%\subsection{ChipScope}
-%\subsection{System Generator}
+O PlanAhead é uma das ferramentas mais poderosas de toda a \textit{suite}.
+Ele permite que projetos sejam integrados e pré-alocados em FPGAs, bem como gerenciar, modificar e verificar restrições de tempo, alocação e mapeamento, dentre outros.
+Ele permite ainda que módulos reconfiguráveis sejam acrescentados ao projeto, tornando a reconfiguração dinâmica um problema bem mais acessível.
+
 \subsection{Ferramentas de Linha de Comando}
 \paragraph{Xilinx Sinthesis Tool (XST)}
 
 
-\section{Componentes}
-\section{\textit{Intellectual Property}}
-\todo{Clock}
-\todo{Memória DDR3, MIG, MIS}
-\section{Interfaces}
-\todo{SelectMAP}
-\todo{ICAP e ICAPE2}
-
 \ifx\compilewholereport\undefined
 	\bibliographystyle{authordate1} 
-	%\bibliography{bibliografia}
 	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
-	\listoftodos
+	%\listoftodos
 	\end{document}
 \fi
