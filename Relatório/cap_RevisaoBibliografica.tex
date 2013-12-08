@@ -44,13 +44,11 @@
 
 %\section{Introdução}
 \vspace{0.8cm}
-Os temas reconfiguração dinâmica, parcial e autoreconfiguração 
-
-\section{Classes de Reconfigura\c{c}\~ao}
 Com a chegada de CPLDs e FPGAs, requisitos cada vez mais complexos foram sendo introduzidos ao projeto de sistemas digitais.
 Tais requisitos for\c{c}aram as ferramentas de s\'i­ntese a suportar diferentes classes de reconfigura\c{c}\~ao.
 Note que reconfigura\c{c}\~ao diz respeito, como dito anteriormente, a modifica\c{c}\~ao do comportamento, ou configura\c{c}\~ao, de um dispositivo reconfigur\'avel.
 
+\section{Classes de Reconfigura\c{c}\~ao}
 \subsection{Reconfigura\c{c}\~ao Total}
 A reconfigura\c{c}\~ao total, herdada da tecnologia tradicional, compreende a mudan\c{c}a do comportamento de todo o dispositivo reconfigur\'avel, sem exce\c{c}\~ao de blocos l\'ogicos.
 Tal reconfigura\c{c}\~ao \'e bastante dispendiosa, visto que maior parte das alterações realizadas são incrementais e dizem respeito \`a apenas uma pequena parte do dispositivo.
@@ -107,11 +105,11 @@ Diversas ferramentas foram utilizadas para a realização deste trabalho.
 Dentre eles pode-se citar os programas da Xilinx, interpretadores da linguagem Python, Perl e Tcl, compiladores de \LaTeX~e a ferramenta de controle de versão Git.
 Abaixo segue uma pequena descrição sobre as ferramentas mais críticas destas.
 
-\section{Xilinx ISE Design Suite}
+\subsection{Xilinx ISE Design Suite}
 O \textit{ISE Design Suite} é um conjunto de ferramentas da Xilinx para o desenvolvimento de projetos de \textit{hardware}.
 Estes programas estão apresentados a seguir.
 
-\subsection{Xilinx ISE Design Tools}
+\subsubsection{Xilinx ISE Design Tools}
 O \textit{ISE Design Tools}, disponível para os sistemas Windows XP (32 e 64 bits), Windows 7 (32 e 64 bits), Windows Server 2008 (64 bits), Red Hat Enterprise 5 e 6 (32 e 64 bits) e SUSE Linux Enterprise 11 (32 e 64 bits) \cite{ug631}, controla todos os aspectos do fluxo de projeto \cite{ug695}.
 Através do \textit{Project Navigator}, sua principal ferramenta, é possivel acessar todas as configurações e ferramentas de implementação de configurações.
 
@@ -127,7 +125,7 @@ Ele pode ser acessado por linha de comando, permitindo que outras ferramentas in
 O \textit{CORE Generator} é uma ferramenta muito útil, utilizada para a construção de blocos lógicos prontos de funções variadas.
 Em geral, seus blocos instanciam algum componente de propriedade intelectual da Xilinx.
 
-\subsection{\textit{Embedded Development Kit}}
+\subsubsection{\textit{Embedded Development Kit}}
 O \textit{Embedded Development Kit} é um conjunto de ferramentas voltados para o desenvolvimento de sistemas microprocessados embarcados em FPGA.
 
 \paragraph{\textit{Xilinx Platform Studio}}
@@ -138,14 +136,19 @@ Ela possui uma gama muito grande de componentes periféricos que podem acrescent
 Com as informações do sistema microprocessado, é possível utilizar \textit{Xilinx Software Development Kit} para a criação do programa que será embarcado.
 Esta ferramenta permite a programação do dispositivo, bem como da memória Flash, com ou sem o programa já adicionado, tornando-se uma ferramenta muito simples e útil.
 
-\subsection{PlanAhead}
+\subsubsection{PlanAhead}
 O PlanAhead é uma das ferramentas mais poderosas de toda a \textit{suite}.
 Ele permite que projetos sejam integrados e pré-alocados em FPGAs, bem como gerenciar, modificar e verificar restrições de tempo, alocação e mapeamento, dentre outros.
 Ele permite ainda que módulos reconfiguráveis sejam acrescentados ao projeto, tornando a reconfiguração dinâmica um problema bem mais acessível.
 
-\subsection{Ferramentas de Linha de Comando}
-\paragraph{Xilinx Sinthesis Tool (XST)}
+\subsubsection{Ferramentas de Linha de Comando}
+Além de todas as ferramentas já apresentadas, a plataforma da Xilinx ainda oferece ferramentas de linha de comando, acessadas pelo \textit{prompt} to Windows.
+Através destas ferramentas é possível realizar qualquer tarefa realizavel pela ferramentas com interface gráfica e mais algumas outras.
+Abaixo menciona-se a ferramenta mais importante e mais utilizada deste conjunto.
 
+\paragraph{Xilinx Sinthesis Tool (XST)}
+A XST é o equivalente ao compilador para a programação convencional.
+Ele realiza verificações léxicas e sintáticas dos arquivos para gerar na saída algum arquivo compilado, tipicamente NGC ou BIT.
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{authordate1} 
