@@ -85,6 +85,10 @@ Em seguida, para suportar o requisito de memória da autorreconfiguração, estu
 Logo depois, espera-se entender a formação dos arquivos binários utilizados na reconfiguração e desenvolver um experimento que consiga interpretar algum cabeçalho existente.
 Por último, a autorrenconfiguração se tornará o objetivo principal de um experimento visando entender as interfaces utilizadas para este fim. 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 Experimento 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \chapter{Experimento 1 - Reconfiguração Dinâmica}
 De forma a dar validade a todo o projeto, desenvolveu-se um experimento para entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
 Este experimento tem como objetivo a construção de um projeto que se utilize de reconfiguração dinâmica para reprogramar um FPGA.
@@ -468,8 +472,11 @@ A programação da configuração completa levou 10 segundos e a programação d
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado e compreendido com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto, bem como alguns erros comuns e suas soluções.
 
-%%%%%%%%%%%%%%%%%% Experimento 2
-\chapter{Experimento 2 - Teste de Memórias}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 Experimento 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Experimento 2 - Memórias}
 Seguindo o raciocínio apresentado no capítulo \ref{cap:introducao}, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os arquivos binários de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
 
@@ -694,7 +701,11 @@ Conclui-se assim o experimento para o teste de programação das memórias.
 Notou-se que existe muita pouca literatura no assunto, forçando o programador a fazer uso dos forúns de discussão e conhecimentos gerais de programação embarcada.
 Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
-\chapter{Experimento 3 - Teste do \textit{Bootloader}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 Experimento 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Experimento 3 - \textit{Bootloader}}
 O \textit{bootloader}, como mencionado no experimento anterior, é um sistema que carrega as informações de uma memória lenta, como a SPI Flash, para uma memória rápida, como a DDR3.
 Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flash e DDR3.
 O experimento 2 foi dedicado a aprender a utilizar estas memórias.
@@ -886,11 +897,11 @@ Este experimento só pode ser realizado devido a uma imensa pesquisa e compilaç
 
 O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze utilizando-se do \textit{bootloader} já desenvolvido.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%% Experimento 4
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					 Experimento 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Experimento 4 - Teste da Autoreconfiguração com \textit{MicroBlaze}}
+\chapter{Experimento 4 - Autoreconfiguração}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
 Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP e integrar tudo de forma satisfatória.
 
