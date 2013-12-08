@@ -694,7 +694,7 @@ Slice Logic Distribution:
 \end{lstlisting}
 
 \subsection{SDK}
-\todo{SDK}
+Os resultados apresentados pelo SDK se resumem a uma compilação e uma programação de dispositivos bem sucedidas.
 
 \section{Conclusão}
 Conclui-se assim o experimento para o teste de programação das memórias.
@@ -712,7 +712,8 @@ O experimento 2 foi dedicado a aprender a utilizar estas memórias.
 Neste experimento, espera-se entender como é formado o arquivo binário, permitindo assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
 
 \section{Introdução Teórica}
-Para se alcançar o objetivo proposto, faz-se necessário entender como é construido o arquivo binário, como se inicializa a memória não-volátil.
+Para se alcançar o objetivo proposto, faz-se necessário entender como é construido o arquivo binário e como se inicializa a memória não-volátil.
+O fluxo de projeto é o mesmo do experimento anterior.
 
 \todo{Escrever mais?}
 
@@ -880,12 +881,8 @@ Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino defi
 Logo após a programação e após cada ciclo de energia (\textit{power cycle}), o programa embarcado envia dados da sua execução através da porta UART para o computador, gerando a saída mostrada na figura \ref{fig:ex3:resultado}.
 Pode-se observar que o programa foi executado perfeitamente.
 
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/Resultado_UART.pdf}
-\caption{Resultado da execução do programa embarcado gravado na memória QSPI Flash.}
-\label{fig:ex3:resultado}
-\end{figure}
+Note que a programação da FPGA através do iMPACT demorou sempre entre 800 e 1200 segundos, ou seja, entre 13 e 20 minutos, independente da largura de banda utilizada da interface utilizada.
+O motivo para esta demora não é informado, mas suspeita-se que seja devido a velocidade de transmissão da porta JTAG ou devido a velocidade de escrita na memória SPI Flash.
 
 \section{Conclusão}
 O experimento realizado funcionou como esperado, tendo carregado as informações do computador para a memória Flash e, em tempo de execução, da memória Flash para a memória DDR3.
@@ -895,17 +892,29 @@ O processo de programação da memória Flash através do computador é bem demo
 É relativamente complicado trabalhar com os periféricos e \textit{drivers} que os acompanham devido a documentação escassa e a grande disperção das informações.
 Este experimento só pode ser realizado devido a uma imensa pesquisa e compilação de guias de usuário, relatórios de aplicações, \textit{datasheets}, exemplos de projetos para diversos tipos de kits de desenvolvimento e comentários em fóruns de discussão.
 
-O próximo passo natural no desenvolvimento deste projeto é a tentativa de autorreconfiguração através do MicroBlaze utilizando-se do \textit{bootloader} já desenvolvido.
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/c3_desenvolvimento/ex3/Resultado_UART.pdf}
+\caption{Resultado da execução do programa embarcado gravado na memória QSPI Flash.}
+\label{fig:ex3:resultado}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					 Experimento 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Experimento 4 - Autoreconfiguração}
+\chapter{Experimento 4 - Autoreconfiguração com \textit{MicroBlaze}}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
 Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP e integrar tudo de forma satisfatória.
 
 \section{Introdução Teórica}
+O desenvolvimento de sistemas que suportem a autorreconfiguração ainda não é totalmente suportado pelas ferramentas da Xilinx.
+Algumas tarefas, como a inclusão de um executável em um processador instanciado em um sistema com módulos reconfiguráveis, precisam ser feitas a mão.
+Apesar disso, as ferramentas suportam algumas outras opções, como a inclusão direta de um módulo reconfigurável como periférico em um microcontrolador.
+Por motivos de simplicidade, buscou-se esta segunda opção.
+
+A autorreconfiguração se utiliza de componentes não convencionais, tais como o ICAP ou o ICAPE2.
+Estes componentes, que serão descritos a seguir, podem ser controlados através do MicroBlaze pelo periférico AXI4 HWICAP.
 
 \subsection{ICAP e ICAPE2}
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
@@ -913,8 +922,12 @@ Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{Mul
 Estas portas de configuração se utilizam de um protocolo identico ao da interface SelectMAP \cite{wp374, ug702}, que se utiliza de uma série de comandos para iniciar um dos vários procedimentos de programação.
 Felizmente utiliza-se o controlador AXI4 HWICAP \cite{ds817}, que permite o controle da ICAP e ICAPE2 através do MicroBlaze.
 
-Estas interfaces, tanto a SelectMAP quanto a ICAP, possuem um largura de banda de 32 bits e frequência máxima de operação de 100 MHz, permitindo uma taxa de tranferência de até 3.2 Gbps \cite{ug702}.
+Estas interfaces, tanto a SelectMAP quanto as ICAP e ICAPE2, possuem um largura de banda de 32 bits e frequência máxima de operação de 100 MHz, permitindo uma taxa de tranferência de até 3.2 Gbps \cite{ug702}.
 Esta taxa de transferência permite que configurações parciais como a do experimento 1 sejam programadas em apenas 1.65 milisegundos ($611288\text{ bytes }\cdot8\frac{\text{bits}}{\text{byte}}\div3.200.000.000\frac{\text{bits}}{\text{segundo}} = 0,00165 \text{ segundo}$).
+
+A única diferença entre as interfaces ICAP e ICAPE2 é a ausência de um sinal de espera na segunda.
+A ICAPE2, apesar de ter um comportamente mais determinístico no que diz respeito aos tempos de escrita e leitura, não está disponível para alguns dispositivos.
+A série de FPGAs 7 possui suporte a ICAPE2.
 
 \subsubsection{Inversão dos bytes}
 A SelectMAP necessita de uma inversão na ordem dos bits de cada byte do arquivo de configuração \cite{xapp502}, incluindo a palavra de sincronia, mencionada na seção \ref{sec:binario}.
@@ -925,38 +938,17 @@ Não foi encontrada uma explicação para esta inversão.
 \section{Experimento}
 Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos  neste trabalho.
 Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1, o microprocessador desenvolvido no experimento 2 e o programa desenvolvido no experimento 3, cada um com suas devidas modificações, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
-Todos estes elementos serão interfaceados entre si e com a placa através de um projeto do \textit{Project Navigator}.
 
-\subsection{\textit{Project Navigator}}
-\todo{\textit{Project Navigator}}
+A partição reconfigurávvel fará parte de um periférico do 
 
-\subsubsection{\textit{Clock Generator}}
-\todo{\textit{Clock Generator}}
-
-\subsubsection{XPS}
+\subsection{XPS}
 \todo{XPS}
 
-\subsubsection{XST}
+\subsection{XST}
 \todo{XST}
 
 \subsection{PlanAhead}
-
-\section{Possiveis Erros}
-\todo{Pensar nos erros que aconteceram e como os consertei}
-\todo{PlanAhead: Lembrar de colocar "RESET\_AFTER\_RECONFIG=TRUE" no UCF, na linha do comando "AREA\_GROUP". Explicação em ug702, página 110.}
-\todo{Erro BitGen:342, \url{http://www.xilinx.com/support/answers/51813.html}. Acontece no BitGen do PlanAhead.}
-\paragraph{Erro de fase do relógio}
-Um erro muito comum de se encontrar
-
-\begin{lstlisting}
-ERROR:EDK - DDR3_SDRAM (axi_7series_ddrx) - The clock phase of the
-   'freq_refclk' port as configured by Clock Generator does not
-   match the recommended value set by MIG. The phase of  'freq_refclk'
-   as set by Clock Generator is 1 and the MIG recommended value of
-   337.5.  This can be fixed by changing the Clock Generator phase
-   output of the clock connected to 'freq_refclk' to the recommended
-   value. 
-\end{lstlisting}
+\todo{PlanAhead}
 
 \section{Resultados}
 \todo{Resultados}
