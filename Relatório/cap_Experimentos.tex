@@ -1,35 +1,94 @@
-﻿%TCIDATA{LaTeXparent=0,0,relatorio.tex}
+%TCIDATA{LaTeXparent=0,0,relatorio.tex}
+\ifx\compilewholereport\undefined  
+	\documentclass[11pt,a4paper,oneside]{book}
+	
+	% Escolher um dos seguintes formatos:
+	\usepackage{ft2unb} % segue padrão de fontes do Latex
+	
+	% Pacotes
+	\usepackage{graphicx}
+	\usepackage{amsfonts}
+	\usepackage{amsmath}
+	\usepackage{amssymb}
+	\usepackage[thmmarks,amsmath]{ntheorem}
+	\usepackage{boxedminipage}
+	\usepackage{theorem}
+	\usepackage{fancybox}
+	\usepackage{fancyhdr}
+	\usepackage{url}
+	\usepackage{afterpage}
+	\usepackage{xcolor}
+	\usepackage{rotating}
+	\usepackage{makeidx}
+	\usepackage{indentfirst}
+	\usepackage{subcaption}
+	\usepackage{todonotes}
+	\usepackage{listings}
+	\presetkeys{todonotes}{inline}{} 
+	
+	\begin{document}
+	\frontmatter
+	\tableofcontents
+	\mainmatter 
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%% Apagar coisas acima
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newcommand\qt[1]{\lq\lq{}#1\rq\rq{}}
+	\newcommand\qti[1]{\lq\lq{}\textit{#1}\rq\rq{}}
+\fi
                       
-\chapter{Resultados Experimentais}\label{CapExperimentos}
+\chapter{Resultados}\label{CapExperimentos}
 
 % Resumo opcional. Comentar se não usar.
-\resumodocapitulo{Resumo opcional.}
+\resumodocapitulo{Este capítulo tem como objetivo apresentar um resumo dos resultados alcançados pelos vários experimentos realizados, uma vez que os resultados específicos estão contidos nos capítulos dos respectivos experimentos.}
+\vspace{0.8cm}
 
-\section{Introdução}
+Os experimentos realizados neste trabalhos serviram para construir um conhecimento profundo em torno do desenvolvimento de aplicações reconfiguráveis baseadas em FPGAs.
+Entende-se que as partes mais importantes deste conhecimento, além da capacidade de resolução de problemas relacionados, é o entendimento do fluxo de desenvolvimento necessário.
+Este fluxo, resumido na figura \ref{fig:res:prfileflow}, não é descrito claramente na literatura, tornando esta tecnologia complicada de se estudar e utilizar.
+O que buscou-se fazer com os experimentos foi determinar uma linha de pensamento sólida e lógica, que ajudasse a determinar este fluxo mais facilmente.
 
-Na introdução deverá ser feita uma descrição geral dos experimentos realizados. 
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{fig/resultados/prfileflow.pdf}
+\caption{Fluxo de projeto para aplicações reconfiguráveis usando as ferramentas da Xilinx. Cada bloco representa um arquivo gerado com o auxílio de alguma ferramentas. As arestas indicam que tal arquivo foi utilizado para gerar o seguinte. Arquivos gerados pelas mesmas ferramentas estão agrupados com uma linha contínuo, no caso de um arquivo de construção obrigatória, ou com uma linha tracejada, no caso de arquivos cuja construção depende dos requisitos do projeto. Estão indicados ainda os tempos, incluindo os tempos das interações necessárias com o usuário, estimados para a construção de cada arquivo. Note que este fluxo é apenas o indicado para a maioria dos projetos, mas que existem projetos que seguem fluxos diferentes, seja por opção ou necessidade.}
+\label{fig:res:prfileflow}
+\end{figure}
 
-Para cada experimentação apresentada, descrever as condições de experimentação (e.g., instrumentos, ligações específicas, configurações dos programas), os resultados obtidos na forma de tabelas, curvas ou gráficos. Por fim, tão importante quando ter os resultados é a análise que se faz deles. Quando os resultados obtidos não forem como esperados, procurar justificar e/ou propor alteração na teoria de forma a justificá-los.
+Devido ao caráter de estudo de um tecnologia, não se faz necessária a inclusão de relatórios de utilização ou desempenho.
+Estes elementos podem ser estudados mais a fundo de forma separada.
+Sua inclusão neste trabalho poderia acarretar na perda do foco principal, quiça autorreconfiguração.
 
-\section{Avaliação do algoritmo de resolução da equação algébrica de Riccati}
+É interessante notar que um dos experimentos, especificamente o quarto, teve de ser reavaliado, tendo sido considerado mal sucedido.
+O motivo para tal foi o encontro de diversos problemas graves que desaceleraram o desenvolvimento, comprometendo a realização deste trabalho.
+Estes problemas foram causados em parte pela má integração entre as diversas ferramentas da Xilinx, mas em maior parte por problemas relacionados a memória DDR3 e seus requisitos de temporização.
+Apesar disso, conseguiu-se perceber este impasse a tempo e reformular este experimento de tal forma que ele fosse alcançavel.
 
-O algoritmo proposto para solução da equação algébrica de Riccati foi avaliado em diferentes máquinas. Os tempos de execução são mostrados na Tabela \ref{TabDesempenho}. Nesta tabela, os algoritmos propostos receberam a denominação $CH$ para Chandrasekhar e $CH+LYAP$ para Chandrasekhar com Lyapunov. As implementações foram feitas em linguagem \textit{script} MATLAB.
+Através da realização dos experimentos de 1 a 4, juntou-se o conhecimento necessário que culminou na realização do experimento 5.
+Este por sua vez, serviu para clarificar alguns detalhes referentes a integração de projetos do XPS e do PlanAhead, abrindo um leque de possibilidades de continuação deste trabalho.
 
-\begin{table}[tbp]
-\caption{Tempos de execução em segundos para diferentes máquinas}
-\label{TabDesempenho}
-\begin{center}
-\begin{tabular}{c|c|c|c|c}
-\hline
-\textbf{Algoritmo} & \textbf{Laptop} & \textbf{Desktop} & \textbf{Desktop} & 
-\textbf{Laptop} \\ 
-& \textbf{1.8 GHz} & \textbf{PIII 850 MHz} & \textbf{MMX 233} & \textbf{600
-MHz} \\ \hline
-Matlab ARE & 649,96 & 1.857,5 & 7.450,5 & 9.063,9 \\ 
-$CH$ & 259,44 & 606,4 & 2.436,5 & 2.588,5 \\ 
-$CH+LYAP$ & 357,86 & 952,9 & 3.689,2 & 3.875,0 \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
+\section{Análise de Tempo}
+O fator mais explicitamente influenciador dos resultados deste projeto foi o tempo, especialmente quando aliado ao caráter experimental deste projeto.
+Pode-se observar da figura \ref{fig:res:prfileflow} que cada ferramenta possui um tempo máximo e mínimo necessários para seu uso.
+Estes tempos foram estimados com base nos tempos gastos nos experimentos, considerando-se que nenhum erro grave tenha acontecido.
 
-Observa-se que o algoritmo $CH+LYAP$ apresenta tempos de execução superiores com relação ao algoritmo $CH$. Entretanto, era esperado que o algoritmo $CH$ fosse mais rápido. Este resultado se justifica pelo fato de o algoritmo $CH$ fazer uso de funções embutidas do MATLAB. Já o aloritmo $CH+LYAP$ faz uso também de funções \textit{script} externas, aumentando bastante seu tempo computacional.
+A figura \ref{fig:res:prtimeflow} possui uma representação alternativa, que mostra a construção do projeto como um \textit{pipeline}.
+As informações acima deste grafo direcionado representam os tempos, máximo e mínimo, gastos em cada etapa e as informações abaixo mostram o tempo gasto acumulado, máximo e mínimo, desde o início do projeto.
+Note que, mesmo desconsiderando-se os tempos de desenvolvimento de periféricos, programas embarcados e comportamento do \textit{hardware}, leva-se no mínimo 1 hora e 47 minutos.
+Considerando-se ainda que a maior parte dos erros é apresentada na etapa final da ferramenta PlanAhead, pode-se observar que gastou-se pelo menos 1 hora e 30 minutos por tentativa de implementação.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{fig/resultados/prtimeflow.pdf}
+\caption{Representação do fluxo de projeto através de um \textit{pipeline}. As informações acima dele indicam o tempo mínimo e máximo gasto em cada etapa, sendo que as etapas que possuem alguma fase de desenvolvimento apresentam um \lq\lq{}(??)\rq\rq{} para indicar que não tem como estimar o tempo gasto. As informações abaixo indicam o tempo mínimo e máximo gasto acumulado desde o início do projeto. A presença do sinal \lq\lq{}+\rq\rq{} indica que o valor apresentado é apenas uma estimativa empírica do valor máximo, podendo este ser ainda maior.}
+\label{fig:res:prtimeflow}
+\end{figure}
+
+\ifx\compilewholereport\undefined
+	\bibliographystyle{plain}
+	\newsavebox\mytempbib\savebox\mytempbib{\parbox{\textwidth}{\bibliography{bibliografia}}}
+
+	\listoftodos
+	\end{document}
+\fi
