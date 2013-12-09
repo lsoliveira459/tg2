@@ -1070,6 +1070,24 @@ Na aba atributos, dentro do painel Pblock Properties, clica-se no símbolo de ad
 Da janela que aparece, seleciona-se a opção \qti{RESET\_AFTER\_RECONFIG} e aceita-se a escolha.
 Note que o projeto deve ser salvo ou esta modificação será perdida.
 
+Uma modificação que deve ser feita para evitar erros na geração dos arquivos binários é a inclusão dos pinos do periférico que acessam o dispositivo diretamente.
+Pode-se identificar estes pinos através da opção \qti{I/O Ports} presente no menu \qti{Windows}.
+Eles estão marcados em vermelho, significando que foram inicializados com valores aleatórios.
+Para corrigir este erro, deve-se ir ao painel \qti{Sources}, árvore \qti{Constraints} e procurar o arquivo identificado com \qti{(target)}.
+Clica-se duas vezes sobre ele para abrí-lo.
+Deve-se adicionar os comandos apresentados abaixo, onde \qt{LEDs\_8Bits\_TRI\_O} deve ser substituído pelo nome cuja marcação está em vermelho no painel \qti{I/O Ports}.
+\begin{lstlisting}
+NET "LEDs_8Bits_TRI_O[0]" LOC = "AB8"  |  IOSTANDARD = "LVCMOS15";
+NET "LEDs_8Bits_TRI_O[1]" LOC = "AA8"  |  IOSTANDARD = "LVCMOS15";
+NET "LEDs_8Bits_TRI_O[2]" LOC = "AC9"  |  IOSTANDARD = "LVCMOS15";
+NET "LEDs_8Bits_TRI_O[3]" LOC = "AB9"  |  IOSTANDARD = "LVCMOS15";
+NET "LEDs_8Bits_TRI_O[4]" LOC = "AE26"  |  IOSTANDARD = "LVCMOS25";
+NET "LEDs_8Bits_TRI_O[5]" LOC = "G19"  |  IOSTANDARD = "LVCMOS25";
+NET "LEDs_8Bits_TRI_O[6]" LOC = "E18"  |  IOSTANDARD = "LVCMOS25";
+NET "LEDs_8Bits_TRI_O[7]" LOC = "F16"  |  IOSTANDARD = "LVCMOS25";
+\end{lstlisting}
+Os comandos apresentados acima apresentam restrições de alocação e de energia para estes pinos.
+
 Precisa-se ainda, antes da implementação da configuração, informar ao programa que tal implementação deve incluir informações de memória do processador embarcado.
 Para isto, acessa-se o item \qti{Options} do menu \qti{Flow}.
 Na janela que se abre, escolhe-se a aba \qti{Strategies}, onde muda-se o \textit{droplist} \qti{Flow} para ISE14.
@@ -1086,8 +1104,49 @@ Clica-se na configuração desejada com o botão direito e seleciona-se \qti{Lau
 Este processo é demorado, chegando a levar mais de 20 minutos em um computador com quatro núcleos e 12 GB de memória RAM.
 Ao final, deve-se selecionar a promoção da partição.
 
+Note que o sistema desenvolvido neste exercício possui restrições de tempo que não puderam ser satisfeitas, mas isto não impede o correto funcionamento do sistema.
+A figura \ref{fig:exp5:timing} mostra uma indicação de ocorrência deste erro.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.95\textwidth]{fig/c3_desenvolvimento/ex5/timing.pdf}
+\caption{Conteúdo da aba \textit{Design Runs} appós a implementação da primeira configuração e durante a implementação das seguintes. Note que o valor em vermelo indica que as restrições de tempo não foram atingidas, necessitando revisão.}
+\label{fig:ex5:timing}
+\end{figure}
+
+Após a promoção da primeira configuração, outras podem ser adicionadas da mesma forma.
+Para tal, importa-se os arquivos NGC e cria-se novos \textit{Design Runs}, conforme apresentado no experimento 1, atentando apenas para a seleção da nova estratégia de compilação.
+Esta estratégia pode ser definida diretamente durante a criação dos novos \textit{Design Runs}.
+Adicionou-se então um segundo módulo com comportamento definido e um vazio.
+
+O último passo a ser desenvolvido através da ferramenta PlanAhead é a geração de arquivos binários.
+Isto pode ser feito através da opção \qti{Generate Bitstream} no menu lateral esquerdo.
+Este processo demorar alguns minutos e deve ser realizado para todas as configurações.
+
+\subsection{SDK}
+É recomendado abrir o SDK através do XPS, pelo comando de exportação apresentado anteriormente.
+Depois de aberto, o procedimento para programação é o mesmo dos experimentos passados.
+
+Nesta etapa do experimento, desenvolveu-se, com o auxílio da API do \textit{driver} para o periférico AXI HWICAP, um programa que carregasse informações da memória QSPI Flash e diretamente para o periférico controlador do ICAP.
+Este processo foi relativamente fácil, especialmente porque o ICAP não possui muitas formas de configuração.
+Sendo assim, o programa lê 32 bits da memória Flash e os envia diretamente para o periférico, que faz todo o controle necessário para que a reconfiguração seja realizada.
+
+Várias formas podem ser utilizadas para a transferência deste programa para a FPGA para fins de teste, duas das quais foram exploradas.
+A primeira utiliza o comando \qti{Program FPGA} do menu \qti{Xilinx Tools} para programar a FPGA já com o programa embarcado.
+Para que este método funcione, deve-se selecionar o arquivo BMM utilizado no passo do PlanAhead, algum dos arquivos binários gerados por ele e o arquivo ELF gerado na compilação deste projeto.
+O segundo, mais fácil de se repetir mais vezes, utiliza o mesmo procedimento do anterior, a não ser a seleção do arquivo ELF.
+Neste caso, seleciona-se a opção \qti{bootloop} como ELF para inciar a memória \textit{Block RAM}.
+Com isto, as opções \qti{Run As} e \qti{Debug As} apresentadas no experimento 2 e 3 são habilitadas, e a cada execução, apenas o novo arquivo ELF é enviado ao invés de toda a programação da FPGA.
+
 \subsection{data2mem}
-\todo{data2mem}
+Uma forma mais permanente de se inicializar um arquivo binário com um arquivo ELF é utilizando da ferramenta de linha de comando \qti{data2mem}.
+Neste comando, indica-se qual configuração completa deve ser inicializada, qual é seu mapa de memória (arquivo BMM) e com que programa ela deve ser inicializada.
+Um exemplo de uso desta ferramenta está copiada abaixo.
+\begin{lstlisting}
+data2mem -bm ..\implementation\system_bd.bmm
+-bt ..\PlanAhead\PlanAhead.runs\fsm\fsm.bit
+-bd ..\SDK\teste\Debug\teste.elf tag microblaze_0 –o b download.bit
+\end{lstlisting}
 
 \subsection{iMPACT}
 \todo{iMPACT}
