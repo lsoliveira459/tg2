@@ -2,8 +2,22 @@
                       
 
 \chapter{Conclus\~{o}es}\label{CapConclusoes}
+No decorrer do desenvolvimento deste trabalho, pode-se observar a forma correta de se realizar projetos para autorrenconfiguração.
+Por causa disso, considera-se que o trabalho foi bem sucedido.
 
-No decorrer do desenvolvimento deste ca
+O experimento 1 mostra e explica como realizar a reconfiguração dinâmica através de um computador.
+Este experimento foi importante para comprovar o conceito e a capacidade do kit de suportar esta tecnologia.
+O experimento 2 aborda o desenvolvimento de um microcontrolador MicroBlaze com periféricos para o controle de memórias QSPI Flash e DDR3.
+Como foi explicado, memórias apresentam um papel extremamente importante na autorreconfiguração uma vez que nela a placa deve usar apenas recursos próprios para tudo.
+O experimento 3 apresenta um estudo sobre o arquivo binário carregado pelas interfaces de reconfiguração, bem como o desenvolvimento de um programa capaz de interpretá-lo.
+Este experimento permitiu ainda um maior entendimento sobre a inicialização da memória Flash para que ela fosse acessada em execuções subsequêntes.
+O experimento 4, o único que fracassou, foi uma tentiva de se construir um sistema que carregasse as configurações da memória Flash para a memória DDR3 para então transmití-la as interfaces de reconfiguração.
+Diversos problemas surgiram com relação a memória DDR3, forçando a removê-la do sistema, e algumas dúvidas surgiram com relação a inicialização arquivo binário final com o programa embarcado.
+No experimento 5, conseguiu-se solucionar o problema da inicialização do arquivo binário, obtendo-se ao final um sistema autenticamente autorreconfigurável.
+O módulo reconfigurável, porém, fazia parte do microcontrolador, interagindo com ele através da interface AXI Lite.
 
+Sabe-se que existem formas mais eficientes e interessantes de se implementar a autorreconfiguração.
+Um exemplo é a repetição do experimento 5 onde o módulo reconfigurável não esteja atrelado ao microcontrolador, mas apenas a um componente de interfaceamento \lq\lq{}Top\rq\rq{}.
+Outra possibilidade é a implementação do microcontrolador com controladores para a memória DDR3 dentro de uma partição reconfigurável.
+Sendo assim, durante o início do sistema, o microcontrolador poderia carregar e interpretar as configurações da memória Flash para a memória DDR3 e sinalizar o término para um controlador externo, que então reconfiguraria o microcontrolador para um controlador de memória DDR3, permitindo que as configurações fossem lidas pelo \textit{hardware}.
 Observa-se que ainda é possível construir um sistema totalmente independente de microcontroladores, apesar de isto aumentar muito a complexidade do projeto.
-Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader} está implementado em uma partição reconfigurável e pode ser apagado após o início do sistema, restando assim apenas entender o funcionamento da interface ICAP ou ICAPE2 e do controlador de DDR3 criado pelo MIG.
