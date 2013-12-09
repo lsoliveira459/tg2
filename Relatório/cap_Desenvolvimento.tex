@@ -1119,6 +1119,11 @@ Para tal, importa-se os arquivos NGC e cria-se novos \textit{Design Runs}, confo
 Esta estratégia pode ser definida diretamente durante a criação dos novos \textit{Design Runs}.
 Adicionou-se então um segundo módulo com comportamento definido e um vazio.
 
+Note que é interessante executar a verificação das configurações antes de qualquer outra coisa.
+Para isto, entra-se na aba \qti{Configurations}, clica-se com o botão direito e seleciona-se a opção \qti{Verify Configuration...}.
+Na janela que se abre, deve-se selecionar todas as configurações disponíveis antes de continuar.
+Nenhum erro deve ser encontrado.
+
 O último passo a ser desenvolvido através da ferramenta PlanAhead é a geração de arquivos binários.
 Isto pode ser feito através da opção \qti{Generate Bitstream} no menu lateral esquerdo.
 Este processo demorar alguns minutos e deve ser realizado para todas as configurações.
@@ -1138,6 +1143,11 @@ O segundo, mais fácil de se repetir mais vezes, utiliza o mesmo procedimento do
 Neste caso, seleciona-se a opção \qti{bootloop} como ELF para inciar a memória \textit{Block RAM}.
 Com isto, as opções \qti{Run As} e \qti{Debug As} apresentadas no experimento 2 e 3 são habilitadas, e a cada execução, apenas o novo arquivo ELF é enviado ao invés de toda a programação da FPGA.
 
+Note que é interessante observar o tamanho dos arquivos binários gerados na etapa do PlanAhead.
+Estes arquivos influenciam diretamente nas posições acessadas pelo programa.
+É recomendado que estas posições sejam ser escolhidas de tal forma que sejam espaçadas uniformemente entre o final da configuração completa, que no caso deste dispositivo é a posição 0xAEA68C, e o final da memória Flash, que acontece em 0xFFFFFF.
+Caso as configurações não caibam na memória, pode-se alterar a região de alocação da partição reconfigurável, diminuindo assim a quantidade de elementos lógicos que precisariam ser programados dinamicamente, ou utilizar alguma outra forma de armazenamento, o que se mostrou muito complicado.
+
 \subsection{data2mem}
 Uma forma mais permanente de se inicializar um arquivo binário com um arquivo ELF é utilizando da ferramenta de linha de comando \qti{data2mem}.
 Neste comando, indica-se qual configuração completa deve ser inicializada, qual é seu mapa de memória (arquivo BMM) e com que programa ela deve ser inicializada.
@@ -1145,11 +1155,31 @@ Um exemplo de uso desta ferramenta está copiada abaixo.
 \begin{lstlisting}
 data2mem -bm ..\implementation\system_bd.bmm
 -bt ..\PlanAhead\PlanAhead.runs\fsm\fsm.bit
--bd ..\SDK\teste\Debug\teste.elf tag microblaze_0 –o b download.bit
+-bd ..\SDK\teste\Debug\teste.elf tag microblaze_0 -o b download.bit
 \end{lstlisting}
+Este comando foi usado enquanto na pasta PlanAhead, justificando os caminhos.
+Ao final, ele gerou o arquivo \qt{download.bit}, composto pela configuração correspondente a máquina de estados desenvolvida no experimento 1 e o programa embarcado chamado teste.
+Note que este processo não precisa ser realizado nas configurações parciais, visto que elas não possuem um microcontrolador embarcado.
+De fato, apenas uma configuração completa, a que será carregada inicialmente, precisa passar por esta etapa, visto que na reconfiguração dinâmica, apenas a parte dinâmica precisa ser programada e ela não contém \textit{Block RAMs}.
 
 \subsection{iMPACT}
-\todo{iMPACT}
+A última ferramenta necessária do fluxo de ferramentas é a iMPACT.
+Com ela, criar-se-á um arquivo MCS para inicialização da memória Flash e transmitir-se-á este arquivo para ela.
+
+\subsubsection{Preparação da Memória Flash}
+Ao se abrir o iMPACT, deve-se aceitar a opção do sistema de criar e salvar um projeto automaticamente.
+Na janela que se abre, escolhe-se a opção \qti{Prepare a PROM File}.
+Escolhe-se as opções conforme mostrado na figura \ref{fig:ex5:prom}.
+Deve-se atentar especialmente para o campo \qti{Add Non-Configuration Files}, que deve estar setado como \qti{Yes}, uma vez que ele é quem permite a inclusão das configurações parciais ao arquivo.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex5/PROM_File.pdf}
+\caption{Fluxo de ferramentas para desenvolvimennto do projeto.}
+\label{fig:ex5:prom}
+\end{figure}
+
+
 
 \section{Resultados}
 \todo{Resultados}
