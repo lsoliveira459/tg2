@@ -778,7 +778,7 @@ Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1,
 Com estas configurações, a programação do sistema demora apenas 1 minutos e 30 segundos \cite{xapp586}, mas pode ser ainda mais reduzido.
 
 No PlanAhead, as configurações de compilação podem ser modificadas através do arquivo \qt{bitgen.ut} localizado na pasta \qt{etc} do projeto.
-Através da opção \qt{-g SPI\_buswidth:X}, onde X pode ser 1, 2 ou 4, pode-se alterar a interface utilizada neste tipo de programação \cite{ug628, xapp576}, sendo a x4 a mais eficiente.
+Através da opção \qt{-g SPI\_buswidth:X}, onde X pode ser 1, 2 ou 4, pode-se alterar a interface utilizada neste tipo de programação \cite{ug628, xapp586}, sendo a x4 a mais eficiente.
 Pode-se ainda forçar a opção \qt{-g ConfigRate\_en:Y}, onde Y pode ser 3, 6, 9, 12, 16, 22, 26, 33, 40, 50 ou 66, para se utilizar de relógios de variadas frequências e obter assim o modo de configuração mais adequado para a memória em questão \cite{xapp586, ug628, ug810}.
 Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
 Uma opção alternativa é utilizar um relógio externo através da opção \qt{-g ExtMasterCclk\_en:Z}, onde Z pode ser \qt{Disable}, \qt{div-8}, \qt{div-4}, \qt{div-2} e \qt{div-1}.
@@ -877,7 +877,7 @@ Este processo é rapido e resulta em um arquivo MCS gerado na pasta destino defi
 
 \section{Resultados}
 Logo após a programação e após cada ciclo de energia (\textit{power cycle}), o programa embarcado envia dados da sua execução através da porta UART para o computador, gerando a saída mostrada na figura \ref{fig:ex3:resultado}.
-Pode-se observar que o programa foi executado perfeitamente.
+Pode-se observar que o programa, que quando compilado possuiu 104 KB, foi executado perfeitamente.
 
 Note que a programação da FPGA através do iMPACT demorou sempre entre 800 e 1200 segundos, ou seja, entre 13 e 20 minutos, independente da largura de banda utilizada da interface utilizada.
 O motivo para esta demora não é informado, mas suspeita-se que seja devido a velocidade de transmissão da porta JTAG ou devido a velocidade de escrita na memória SPI Flash.
@@ -1017,7 +1017,7 @@ Com isto um pino, cria-se um pino conjunto de pinos de saída conforme necessita
 Este pino pode ter seu nome modificado através da árvore \qti{External Ports}, isto não é obrigatório.
 O pino \qt{clk\_200MHz} será configurado mais a seguir.
 
-É necessário também a inclusão do periférico \qti{FPGA Internal Configuraion Access Port} (AXI\_HWICAP).
+É necessário também a inclusão do periférico \qti{FPGA Internal Configuraion Access Port} (AXI\_\-HW\-ICAP).
 Na adição, deve-se marcar a opção \qti{Instantiate STARTUP primitive in the HWICAP core} para que o pino EOS (\textit{End of Startup}) não seja mais necessário.
 Por causa disso, devido a presença de apenas uma primitiva STARTUP, também é necessárip a mudança da opção \qti{Use Startup} para falso nas configurações da memória QSPI Flash.
 
@@ -1105,7 +1105,7 @@ Este processo é demorado, chegando a levar mais de 20 minutos em um computador 
 Ao final, deve-se selecionar a promoção da partição.
 
 Note que o sistema desenvolvido neste exercício possui restrições de tempo que não puderam ser satisfeitas, mas isto não impede o correto funcionamento do sistema.
-A figura \ref{fig:exp5:timing} mostra uma indicação de ocorrência deste erro.
+A figura \ref{fig:ex5:timing} mostra uma indicação de ocorrência deste erro.
 
 \begin{figure}[htp]
 \centering
