@@ -51,16 +51,21 @@
 	  identifierstyle=\itshape\color{blue!40!black},
 	  stringstyle=\itshape\color{blue!40!black},
 }
-                      
+
 \chapter{Introdu\c{c}\~{a}o}
 \label{cap:introducao}
+
 \resumodocapitulo{Este capítulo trata da concepção dos experimentos realizados. Nele serão descritos com detalhes cada um dos experimentos, ficando a parte de análise reservada ao capítulo \ref{CapExperimentos}.}
 \vspace{0.8cm}
 
-Devido ao caráter experimental e exploratório do objetivo proposto na seção \ref{sec:projeto}, decidiu-se dividir o projeto em vários experimentos menores.
+\section{Objetivos}
+O projeto aqui desenvolvido tem por objetivo o estudo de autoreconfiguração parcial, incluindo as ferramentas e periféricos necessários para tal.
+Tentará-se, no decorrer dos próximos capítulos, apresentar o resultado das pesquisas bibliográficas, estudo de ferramentas, estudo de periféricos, estudo de tecnologias e análise dos resultados obtidos.
+
+Devido ao caráter experimental e exploratório do objetivo proposto, decidiu-se dividir o projeto em vários experimentos menores.
 Desta forma, além de garantir algum material mesmo que tudo dê errado, consegue-se simplificar o processo de pesquisa e desenvolvimento através dos pequenos passos e análises frequentes.
 
-Como o objetivo final do projeto é a familiarização com as ferramentas e processos envolvidos na autoreconfiguração, decidiu-se começar estudando os elementos necessários para se realizar a reconfiguração dinâmica.
+Como o objetivo final é a familiarização com as ferramentas e processos envolvidos na autoreconfiguração, decidiu-se começar estudando os elementos necessários para se realizar a reconfiguração dinâmica.
 O passo seguinte mais lógico é o de estudar como funciona as memórias dos sistema e de que jeito elas seriam melhor utilizadas.
 O último passo seria entender como funciona a autoreconfiguração em baixo nível, ou seja, como os dados devem ser entregues aos devidos componentes para que ela aconteça.
 Para cada um destes experimentos foi proposto um teste que validasse o completo entendimento do mesmo.
@@ -70,13 +75,13 @@ Para cada um destes experimentos foi proposto um teste que validasse o completo 
 \includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/intro/kintex-7_kc705}
 \caption{Foto ilustrativa do kit de desenvolvimento Kintex-7 KC705 extraida do site da Xilinx.}
 \label{fig:kc705}
-\end{figure}
+\end{figure} 
 
 Para o desenvolvimento desse projeto, escolheu-se utilizar o kit de desenvolvimento da Xilinx\textregistered{} chamado Kintex-7 KC705.
 O único critério utilizado foi a disponibilidade dos equipamentos no início do projeto e a capacidade do dispositivo de realizar a reconfiguração parcial dinâmica.
 Este kit possui FPGA modelo XC7K325T-2FFG900C, leitor de cartão de memória, conector PCIe\textregistered{}, memória DDR3, visor de 7-segmentos e porta ethernet, dentre outros.
 
-Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descrição de \textit{hardware} ao invés da Verilog.
+Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descrição de \textit{hardware} ao invés da Verilog e a plataforma de desenvolvimento \textit{ISE Design Suite}, ao invés da \textit{Vivado Design Suite}.
 
 \section{Experimentos}
 Os experimentos desenvolvidos nos capítulos a seguir tem como objetivo o estudo da implementação da autorreconfiguração e todos os elementos que a acompanham.
