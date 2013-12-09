@@ -1135,6 +1135,7 @@ Depois de aberto, o procedimento para programação é o mesmo dos experimentos 
 Nesta etapa do experimento, desenvolveu-se, com o auxílio da API do \textit{driver} para o periférico AXI HWICAP, um programa que carregasse informações da memória QSPI Flash e diretamente para o periférico controlador do ICAP.
 Este processo foi relativamente fácil, especialmente porque o ICAP não possui muitas formas de configuração.
 Sendo assim, o programa lê 32 bits da memória Flash e os envia diretamente para o periférico, que faz todo o controle necessário para que a reconfiguração seja realizada.
+A troca de configurações é controlada por um simples sistema de espera, que conta um número considerável de vezes depois que configuração anterior foi programada.
 
 Várias formas podem ser utilizadas para a transferência deste programa para a FPGA para fins de teste, duas das quais foram exploradas.
 A primeira utiliza o comando \qti{Program FPGA} do menu \qti{Xilinx Tools} para programar a FPGA já com o programa embarcado.
@@ -1175,34 +1176,96 @@ Deve-se atentar especialmente para o campo \qti{Add Non-Configuration Files}, qu
 \begin{figure}[htp]
 \centering
 \includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex5/PROM_File.pdf}
-\caption{Fluxo de ferramentas para desenvolvimennto do projeto.}
+\caption{Janela para criação do arquivo de inicialização de memória Flash do tipo MCS.}
 \label{fig:ex5:prom}
 \end{figure}
 
+Em seguida, os arquivos são adicionados.
+O primeiro arquivo deve ser o \qt{download.bit} gerado na etapa do \qti{data2mem}.
+Após a inclusão deste, deve-se negar a inclusão de outros arquivos de configuração e aceitar a inclusão de arquivos de dados.
+Será solicitado o endereço-base de cada arquivo antes do seu carregamento, sendo importante tê-los em mãos.
+Ao final da inclusão de todas as configurações parciais, deve-se confirmar os endereços e gerar o arquivo MCS.
+Este processo pode ser iniciado pelo comando \qti{Generate File...} do painel \qti{iMPACT Processes} ou pelo comando de mesmo nome do menu \qti{Operations}.
 
+Com o arquivo MCS em mãos, pode-se abrir um novo projeto do iMPACT, selecionando-se desta vez a opção \qti{Configure devices using Boundary-Scan (JTAG)}, com a opção de se conectar automaticamente ao cabo e identificar a cadeia de varredura habilitada.
+Note que a placa de desenvolvimento deve estar ligada e que não devem existir prorgamas que possam acessar as portas USB abertos.
+Não é necessário adicionar o arquivo de configuração completo da FPGA, visto que durante o processo de programação da memória Flash, ela também é inicializada.
+Sendo assim, pode-se rejeitar a primeira solicitação que for mostrada.
+
+Com o iMPACT esperando a próxima ação, deve-se clicar no ícone do dispositivo, mostrado na figura \ref{fig:exp5:disp_impact}, com o botão direito e escolher a opção \qti{Add SPI/BPI Flash...}.
+Na janela que se abre, procure o arquivo MCS criado a pouco.
+Depois de carregado, pode-se executar a programação do dispositivo clicando-se novamente com o botão direito sobre o símbolo da figura \ref{fig:exp5:disp_impact} e selecionando-se a opção \qti{Program}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.25\textwidth]{fig/c3_desenvolvimento/ex5/disp_impact.pdf}
+\caption{Imagem do ícone representativo do dispositivo a ser programado.}
+\label{fig:exp5:disp_impact}
+\end{figure}
 
 \section{Resultados}
-\todo{Resultados}
+Apresenta-se abaixo os resultados gerados em cada ferramenta utilizada.
+
+\subsection{XPS}
+Esta ferramenta não gerou relatórios.
+Apesar disso, pode-se comentar que a execução da etapa referente a ela demorou 30 a 40 minutos, incluindo construção do sistema, modificações e síntese.
+
+\subsection{PlanAhead}
+Tendo sido a ferramenta que demandou mais tempo, devido a suas compilações extremamente complexas, o PlanAhead gerou relatórios de utilização do dispositivo.
+A figura \ref{fig:ex5:netlist} apresenta o relatório de utilização com base apenas nas informações dos \textit{netlists} e a figura \ref{fig:ex5:implemented} apresenta o relatório de utilização após a implementação da configurações.
+
+\begin{figure}[htp]
+        \centering
+        \begin{subfigure}[b]{0.75\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/c3_desenvolvimento/ex5/netlist_estimation.pdf}
+		\caption{Relatório de uso do dispositivo pré-implementação de configurações.}
+		\label{fig:ex5:netlist}
+        \end{subfigure} \\
+        \begin{subfigure}[b]{0.75\textwidth}
+        		\centering
+		\includegraphics[width=\textwidth]{fig/c3_desenvolvimento/ex5/implemented_utilization.pdf}
+		\caption{Relatório de uso do dispositivo pós-implementação de configurações.}
+		\label{fig:ex5:implemented}
+        \end{subfigure}
+        \caption{Relatórios de uso do dispositivo.}
+\end{figure}
+
+Alguns pontos que valem ser comentados sobre o relatório dizem respeito a utilização do recurso \qt{ICAP}.
+Este é um recurso escasso em FPGAs, existindo apenas 1 ou 2 por dispositivo.
+Neste caso, 1 ICAP de 2 foram utilizados, justificando a alta utilização deste.
+ 
+A alocação de recursos no dispositivo ficou distribuída como mostrado na figura \ref{fig:ex5:device}.
+Note que o MicroBlaze, que utiliza os elementos destacados em azul, não foi restrito a uma partição específica, ficando bastante espalhado no dispositivo.
+Este fato contribuiu para o não cumprimento de um dos requisitos de tempo.
+Este requisito, porém, não afetou o funcionamento do sistema.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex5/netlist_estimation.pdf}
-\caption{Fluxo de ferramentas para desenvolvimennto do projeto.}
-\label{fig:ex5:prsoftwareflow}
+\includegraphics[width=0.6\textwidth]{fig/c3_desenvolvimento/ex5/device.pdf}
+\caption{Resultado da implementação do sistema no dispositivo. Os pontos em azul claro representam os elementos lógicos utilizados. O retangulo roxo no canto inferior direito delimita a partição reconfigurável.}
+\label{fig:ex5:device}
 \end{figure}
 
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/ex5/implemented_utilization.pdf}
-\caption{Fluxo de ferramentas para desenvolvimennto do projeto.}
-\label{fig:ex5:prsoftwareflow}
-\end{figure}
+\subsection{SDK}
+Esta ferramenta não apresentou relatórios.
+Seu tempo de execução médio, considerando-se que o programa embarcado já tenha sido desenvolvido, é de 10 minutos.
+
+\subsection{data2mem}
+Esta ferramenta não apresentou relatórios, tendo sido bem sucedida.
+Seu tempo de execução médio foi de 30 segundos.
+
+\subsection{iMPACT}
+Esta ferramenta não apresentou relatórios, tendo sido bem sucedida.
+Seu tempo de execução médio foi de 5 minutos para a construção do arquivo MCS e de 15 minutos para a programação da memória QSPI Flash.
 
 \section{Conclusão}
-\todo{Conclusão}
+Conclui-se este experimento verificando que ele foi bem sucedido.
+Conseguiu-se implementar a autorreconfiguração através de um microcontrolador MicroBlaze conforme esperado.
+Alguns dos elementos do fluxo de projeto, como o desenvolvimento de um periférico reconfigurável e o uso do mapa de memória (BMM) através do PlanAhead, estão muito mal explicados na literatura, tornando este um grande feito.
 
-Observa-se que ainda é possível construir um sistema totalmente independente de microcontroladores, apesar de isto aumentar muito a complexidade do projeto.
-Um bom balanço pode ser um sistema onde um MicroBlaze com um \textit{bootloader} está implementado em uma partição reconfigurável e pode ser apagado após o início do sistema, restando assim apenas entender o funcionamento da interface ICAP ou ICAPE2 e do controlador de DDR3 criado pelo MIG.
+Acredita-se ter absorvido e transpassado os conhecimentos necessários para a construção de projetos mais complexos utilizando esta tecnologia.
+Apesar disto, nota-se uma clara limitação em projetos deste tipo, especialmente no que diz respeito a dificuldade de se utilizar a memória DDR3, reduzindo drasticamente o número de configurações possíveis de serem armazenadas em tempo de execução, o tamanho possível da memória local do processador (que com a DDR3 é virtualmente infinita), e reduzindo o desempenho geral do sistema.
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{plain}
