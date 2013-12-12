@@ -56,11 +56,12 @@ Nos anos que se seguiram, a substituição das válvulas por transistores de sil
 Tal mudan\c{c}a permitiu um aumento na popularidade destes dispositivos para o uso pessoal, efeito que impulsionou a ind\'ustria de produ\c{c}\~ao de processadores \cite{Hennessy2011}.
 As empresas da \'epoca come\c{c}aram ent\~ao a guerra de miniaturiza\c{c}\~oes de transistores, marcada pelo c\'elebre artigo de Gordon E. Moore, cofundador da Intel, que dizia que o n\'umero de transistores dentro de um processador duplicaria aproximadamente a cada 2 anos \cite{Moore1965}.
 A partir de 1970, a lei foi adaptada para a duplica\c{c}\~ao a cada 18 meses.
+A figura \ref{fig:moores_law} apresenta uma visualização da lei de Moore nos anos que se seguiram.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{fig/c1_introducao/moores_law.pdf}
-	\caption{Visualização da Lei de Moore. Eixos em escala logarítmica. Gráficos extraidos do Wikipedia sob licença \textit{Creative Commons}.}
+	\caption{Visualização da Lei de Moore. Eixos em escala logarítmica. Extraido de \cite{moore2011}.}
 	\label{fig:moores_law}
 \end{figure}
 
@@ -72,6 +73,7 @@ Com o aumento da complexidade das instruções, passou-se a adotar duas nomencla
 A arquitetura RISC possui um conjunto pequeno e muito otimizado de funções, comandos exclusivos para acesso a memória (arquitetura \textit{load/store}) e uma média de uma instrução completada por ciclo, quando desconsidera-se as instruções de acesso a memória.
 A arquitetura CISC possui várias funções para tarefas mais específicas, que por vezes demandam vários ciclos de relógio, e funções que realizam operações com informações lendo e/ou salvando direto na/para a memória.
 A arquitetura RISC, que possui em seu portfolio dispositivos como ARM, IBM PowerPC, Sun SPARK e MIPS, dentre outros, é muito mais utilizada nos dias de hoje.
+A figura \ref{fig:history_risc} mostra um pouco da história desta arquitetura.
 Até empresas como a Intel, que ficaram populares com seus processadores CISC, tem se curvado a arquitetura RISC devido a seu uso mais eficiente de potência.
 Eles vem utilizando uma arquitetura conhecida como núcleo de RISC (\textit{RISC core}), onde as instruções são recebidas em formato CISC e decodificadas para uma arquitetura interna RISC.
 
@@ -121,7 +123,7 @@ Estrin prop\^os um microprocessador composto de uma parte fixa e uma parte vari\
 A id\'eia de Estrin foi deixada de lado \`a medida que os microprocessadores e \textit{Application-Specific Integrated Circuits} (ASICs) se mostraram aptos a resolver os problemas da \'epoca.
 Por volta da d\'ecada de 1990, por\'em, o primeiro microprocessador h\'i­brido comercial foi desenvolvido \cite{Estrin2002}, trazendo novamente esta tecnologia \`a tona.
 
-A tecnologia inventada por Estrin, tamb\'em conhecido como estrutura \textit{Fixed Plus Variable} (F+V), trouxe \`a tona um novo paradigma de processamento de dados \cite{Hartenstein2001}.
+A tecnologia inventada por Estrin, tamb\'em conhecida como estrutura \textit{Fixed Plus Variable} (F+V), cuja representação está mostrada na figura \ref{fig:model_f+v}, trouxe \`a tona um novo paradigma de processamento de dados \cite{Hartenstein2001}.
 O motivo para tal \'e o fato de que a intera\c{c}\~ao entre as unidades de processamento e os dados mudou completamente.
 O que antes se conhecia por modelo temporal de computa\c{c}\~ao foi deixado de lado para, nesta nova arquitetura, se tornar um modelo espacial.
 Em outras palavras, os dados n\~ao eram direcionados um a um para uma unidade central de processamento, mas processados continuamente em um sistema distribu\'i­do no espa\c{c}o \cite{vassiliadis2007fine}.
