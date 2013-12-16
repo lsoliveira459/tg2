@@ -96,4 +96,15 @@ O uso de autorreconfiguração este caso possibilitaria a redução do espaço f
 Esta modificação permitiria também uma diminuição no consumo de energia do processador, além de permitir que instruções de ponto flutuante fossem implementadas diretamente na ALU, sem a necessidade de extensão do processador.
 Outra possibilidade é a implementação de um banco de registradores variável, permitindo ao compilador escolher quantos registradores utilizar em cada etapa do seu programa, otimizando ainda mais o desempenho deste.
 
-As dificuldades deste projeto dizem respeito a necessidade de construção prévia de um processador genérico funcional e a inclusão de uma memória de configuração.
+As dificuldades deste projeto dizem respeito a necessidade de construção prévia de um processador genérico funcional, a incluisão de uma memória para armazenamento de configurações, o desenvolvimento de cada configuração parcial para este componente e o desenvolvimento de um controlador para a troca de configurações.
+É provável que o circuito responsável pela reconfiguração possa ganhar um estágio dedicado a ele, devivo a sua complexidade e ao tempo de programação.
+Para se contornar o problema do tempo de reconfiguração, pode-se utilizar diversas ALUs, onde apenas uma estaria ativa no ciclo em execução.
+Sendo assim, outros sistemas de controle podem ser necessários.
+
+Uma outra possibilidade de implementação, menos eficiente, é a reconfiguração do sistema estágio-a-estágio.
+Ou seja, quando o dispositivo fosse ligado, apenas o primeiro estágio estaria programado.
+Esta implementação não é recomendada, uma vez que transforma um processador com \textit{pipeline} em um processador uniciclo.
+
+\subsection{Outros}
+De forma geral, qualquer sistema multiplexado ou que possua diversas etapas de processamento, pode ser implementado utilizando-se de autorreconfiguração.
+
