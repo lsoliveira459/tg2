@@ -47,7 +47,7 @@
 % Desta forma o autor define como quer que o título seja dividio em várias linhas. 
 % O exemplo abaixo é para um título que ocupa três linhas. Observe que mesmo com a linha
 % 4 não sendo utilizada, o comando \titulolinhaiv é chamado.
-\titulo{Estudo e Implementa\c{c}\~ao de Reconfigura\c{c}\~ao \mbox{Din\^amica} Em Instrumenta\c{c}\~ao, Automa\c{c}\~ao e Controle}
+\titulo{Estudo para Implementa\c{c}\~ao de Reconfigura\c{c}\~ao \mbox{Din\^amica} Em Instrumenta\c{c}\~ao, Automa\c{c}\~ao e Controle}
 
 % Os nomes dos autores são definidos pelos comandos \autori (autor 1) e \autorii (autor 2).
 % Para trabalhos com apenas um autor, deve-se usar \autorii{} para que não apareça 
@@ -146,20 +146,20 @@
 \renewcommand{\bibname}{REFERÊNCIAS BIBLIOGRÁFICAS}
 \addcontentsline{toc}{chapter}{REFERÊNCIAS BIBLIOGRÁFICAS}
 \bibliography{bibliografia}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Anexos
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\anexos
-%\makeatletter % não retirar estes comandos
-%\renewcommand{\@makechapterhead}[1]{%
-%  {\parindent \z@ \raggedleft \setfontarial\bfseries 
-%        \LARGE \thechapter. \space\space  
-%    \uppercase{#1}\par
-%    \vskip 40\p@
-%  }
-%}
-%\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Anexos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\anexos
+\makeatletter % não retirar estes comandos
+\renewcommand{\@makechapterhead}[1]{%
+  {\parindent \z@ \raggedleft \setfontarial\bfseries 
+        \LARGE \thechapter. \space\space  
+    \uppercase{#1}\par
+    \vskip 40\p@
+  }
+}
+\makeatother
 
 %% *** Anexo I: Diagramas esquemáticos ***
 %\include{anexo_Esquematicos}
@@ -168,6 +168,9 @@
 %% *** Anexo II: Descrição do CD ***
 %\include{anexo_CD}
 %\refstepcounter{noAnexo}
+
+% *** Anexo III: Errata ***
+\include{anexo_Errata} 
 
 % Acrescente mais anexos conforme julgar necessário.
 \end{document}
