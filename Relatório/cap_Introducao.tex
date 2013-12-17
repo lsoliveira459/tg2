@@ -115,9 +115,8 @@ Atualmente, nossos modernos computadores multiprocessados utilizam a arquitetura
 A sua capacidade de processamento atinge n\'i­veis extraordin\'arios, ultrapassando 20 GFlops em computadores comuns \cite{MaxxPI2013} e 54 PFlops em supercomputadores \cite{Top5002013}.
 Apesar disso, a arquitetura Harvard original ainda \'e muito usada em microcontroladores e processadores digitais de sinal (\textit{Digital Signal Processors} ou DSPs).
 
-\section{Computa\c{c}\~ao Reconfigur\'avel}
+\section*{Computa\c{c}\~ao Reconfigur\'avel}
 \label{ss:computacao_reconfiguravel}
-
 A computa\c{c}\~ao reconfigur\'avel foi proposta por volta de 1960 por Gerald Estrin para resolver problemas que n\~ao podiam ser resolvidos pela computa\c{c}\~ao da \'epoca \cite{Estrin2002}.
 Estrin prop\^os um microprocessador composto de uma parte fixa e uma parte vari\'avel, onde a parte vari\'avel seria usada para programar funcionamentos espec\'i­ficos para serem usados em determinados per\'i­odos de tempo.
 %A id\'eia de Estrin foi deixada de lado \`a medida que os microprocessadores e \textit{Application-Specific Integrated Circuits} (ASICs) se mostraram aptos a resolver os problemas da \'epoca.
@@ -173,7 +172,6 @@ No \'ultimo tipo de arquiteturas, a h\'i­brida, parte das conex\~oes s\~ao gros
 O capítulo de conclusão deveria incluir uma seção de propostas de projetos implementáveis ou otimizáveis através da autorreconfiguração.
 Seguem a seguir as modificações necessárias.
 
-\section{Propostas de Aplicações}
 O objetivo deste projeto deste o início foi o desenvolvimento de um sistema capaz de realização de autorreconfiguração, o que consitui o ápice tecnológico da reconfiguração dinâmica parcial.
 Tendo-se compreendido o fluxo de desenvolvimento para o uso desta tecnologia, propõe-se agora algumas possíveis aplicações.
 
@@ -285,6 +283,25 @@ Estudar a
 \subsection{Objetivos Específicos}
 \section{Metodologia}
 \section{Material e Ferramentas}
+Foi utilizado para este projeto um computador com as especificações indicadas na tabela \ref{tab:specs}.
+O conjunto de ferramentas utilizado foi o ISE Design Studio 14.6.
+Utilizou-se ainda o programa ActiveTcl (versão 8.6.1.0.297577) da ActiveState para a execução dos \textit{scripts} de compilação e o programa de código aberto Frhed (versão portátil 1.6r2) para a visualização de arquivos binários.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{| c | c |}
+\hline
+Componente & Especificação\\ \hline
+Processador & Intel\textregistered Core i7-3630QM (4 núcleos a 2.4-3.4 GHz)\\\hline
+Memória RAM & 12 GB\\\hline
+Placa Gráfica 1 & Intel\textregistered~HD Graphics 4000\\\hline
+Placa Gráfica 2 & Nvidia\textregistered~GeForce GT 635M\\\hline
+Sistema Operacional & Windows 7 Professional (64 bits)\\\hline
+Portas USB & USBs 2.1 e 3.0\\\hline
+\end{tabular}
+\caption{Especificações do computador utilizado.}
+\label{tab:specs}
+\end{table}
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{authordate1} 
