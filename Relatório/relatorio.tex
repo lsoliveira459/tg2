@@ -69,8 +69,9 @@
 
 % Comandos para criar a capa e a página de assinaturas.
 \capaprincipal
-\listoftodos
+
 \capaassinaturas
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Dedicatória 
@@ -121,17 +122,14 @@
 \setcounter{page}{1} \pagenumbering{arabic} \pagestyle{plain}
 
 % *** Introducao ***
-\part{Introdução}
 \include{cap_Introducao}
 
 % *** Revisao Bibliografica ***
 \include{cap_RevisaoBibliografica}
 
-\part{Desenvolvimento}
 % *** Desenvolvimento ***
 \include{cap_Desenvolvimento} 
 
-\part{Resultados e Conclusões}
 % *** Resultados Experimentais ***
 \include{cap_Experimentos}
 
