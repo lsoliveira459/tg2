@@ -39,9 +39,9 @@
 	\newcommand\qti[1]{\lq\lq{}\textit{#1}\rq\rq{}}
 \fi
 
-\chapter{Introdu\c{c}\~ao Histórica}\label{CapIntro}
+\chapter{Introdu\c{c}\~ao}\label{CapIntro}
 
-\resumodocapitulo{Este cap\'itulo contextualiza o tema apresentado, apresentando a motivação histórica para o desenvolvimento do mesmo.}
+\resumodocapitulo{Este cap\'itulo contextualiza o tema do trabalho, apresentando a motivação histórica seu desenvolvimento, uma motivação tecnológica, seus objetivos e metodologia.}
 
 \vspace{0.8cm}
 O mundo atual \'e controlado quase que completamente por sistemas digitais.
@@ -55,7 +55,7 @@ Os computadores dessa \'epoca liam e executavam instru\c{c}\~oes de forma linear
 Nos anos que se seguiram, a substituição das válvulas por transistores de sil\'icio ajudaram a reduzir o tamanho dos computadores de metros a cent\'imetros quadrados.
 Tal mudan\c{c}a permitiu um aumento na popularidade destes dispositivos para o uso pessoal, efeito que impulsionou a ind\'ustria de produ\c{c}\~ao de processadores \cite{Hennessy2011}.
 As empresas da \'epoca come\c{c}aram ent\~ao a guerra de miniaturiza\c{c}\~oes de transistores, marcada pelo c\'elebre artigo de Gordon E. Moore, cofundador da Intel, que dizia que o n\'umero de transistores dentro de um processador duplicaria aproximadamente a cada 2 anos \cite{Moore1965}.
-A partir de 1970, a lei foi adaptada para a duplica\c{c}\~ao a cada 18 meses.
+A partir de 1970, a lei foi adaptada para a duplica\c{c}\~ao a cada 18 meses \cite{Hennessy2011}.
 A figura \ref{fig:moores_law} apresenta uma visualização da lei de Moore nos anos que se seguiram.
 
 \begin{figure}[h]
@@ -66,7 +66,7 @@ A figura \ref{fig:moores_law} apresenta uma visualização da lei de Moore nos a
 \end{figure}
 
 Com a integra\c{c}\~ao de mais componentes dentro do processador, conjuntos de instru\c{c}\~oes cada vez mais complexas foram desenvolvidas.
-Estas intru\c{c}\~oes surgiram para acelerar a computa\c{c}\~ao de fun\c{c}\~oes de n\'iveis mais altos.
+Estas instru\c{c}\~oes surgiram para acelerar a computa\c{c}\~ao de fun\c{c}\~oes de n\'iveis mais altos.
 A integra\c{c}\~ao tamb\'em reduziu a pot\^encia dissipada por transistor, permitindo que as frequ\^encias de opera\c{c}\~ao dos computadores fosse aumentada \cite{Hennessy2011}.
 
 Com o aumento da complexidade das instruções, passou-se a adotar duas nomenclaturas diferentes para processadores: \textit{Reduced Instruction Set Computer} (RISC) e \textit{Complex Instruction Set Computer} (CISC) \cite{Fedeli2003}.
@@ -105,9 +105,9 @@ O problema diz respeito \`as restri\c{c}\~oes impostas pelo canal de comunica\c{
 Este problema se agrava a medida que o processador fica mais r\'apido que a mem\'oria, uma vez que o tempo de espera, em ciclos de rel\'ogios, para a obten\c{c}\~ao da informa\c{c}\~ao aumenta.
 Para solucionar o problema do gargalo de von Neumann, a arquitetura Harvard foi proposta.
 
-A arquitetura Harvard original propunha que a mem\'oria de programa e a mem\'oria de dados fossem fisicamente separadas e possuissem cada uma seu pr\'oprio canal de comunica\c{c}\~ao com o processador.
+A arquitetura Harvard original propunha que a mem\'oria de programa e a mem\'oria de dados fossem fisicamente separadas e possuissem cada uma seu pr\'oprio canal de comunica\c{c}\~ao com o processador \cite{Hennessy2011}.
 Essa modifica\c{c}\~ao acelera a execu\c{c}\~ao de certos programas, visto que programa e dados podem ser carregados das suas respectivas mem\'orias simultaneamente.
-Uma pequena altera\c{c}\~ao na arquitetura Harvard, conhecida de arquitetura Harvard modificada, permitia que mais de um canal de comunica\c{c}\~ao ligasse a uma mem\'oria tanto de programa quanto de dados.
+Uma pequena altera\c{c}\~ao na arquitetura Harvard, conhecida de arquitetura Harvard modificada, permitia que mais de um canal de comunica\c{c}\~ao ligasse a uma mem\'oria tanto de programa quanto de dados \cite{Hennessy2011}.
 Essas informa\c{c}\~oes eram divididas em mem\'orias tempor\'arias (\textit{cache}) espec\'i­ficas para o programa e para dados, formando assim uma arquitetura Harvard original.
 Essa modifica\c{c}\~ao combina os benef\'i­cios da arquitetura de von Neumann, ou seja, a modifica\c{c}\~ao de programas em tempo de execu\c{c}\~ao, e da arquitetura Harvard original, ou seja, o tempo de acesso reduzido.
 
@@ -120,8 +120,8 @@ Apesar disso, a arquitetura Harvard original ainda \'e muito usada em microcontr
 
 A computa\c{c}\~ao reconfigur\'avel foi proposta por volta de 1960 por Gerald Estrin para resolver problemas que n\~ao podiam ser resolvidos pela computa\c{c}\~ao da \'epoca \cite{Estrin2002}.
 Estrin prop\^os um microprocessador composto de uma parte fixa e uma parte vari\'avel, onde a parte vari\'avel seria usada para programar funcionamentos espec\'i­ficos para serem usados em determinados per\'i­odos de tempo.
-A id\'eia de Estrin foi deixada de lado \`a medida que os microprocessadores e \textit{Application-Specific Integrated Circuits} (ASICs) se mostraram aptos a resolver os problemas da \'epoca.
-Por volta da d\'ecada de 1990, por\'em, o primeiro microprocessador h\'i­brido comercial foi desenvolvido \cite{Estrin2002}, trazendo novamente esta tecnologia \`a tona.
+%A id\'eia de Estrin foi deixada de lado \`a medida que os microprocessadores e \textit{Application-Specific Integrated Circuits} (ASICs) se mostraram aptos a resolver os problemas da \'epoca.
+Por volta da d\'ecada de 1990, por\'em, o primeiro microprocessador h\'i­brido comercial foi desenvolvido \cite{Estrin2002}, trazendo esta tecnologia \`a tona.
 
 A tecnologia inventada por Estrin, tamb\'em conhecida como estrutura \textit{Fixed Plus Variable} (F+V), cuja representação está mostrada na figura \ref{fig:model_f+v}, trouxe \`a tona um novo paradigma de processamento de dados \cite{Hartenstein2001}.
 O motivo para tal \'e o fato de que a intera\c{c}\~ao entre as unidades de processamento e os dados mudou completamente.
@@ -150,7 +150,7 @@ As mem\'orias n\~ao vol\'ateis, como EPROM, EEPROM e FLASH, usam transistores es
 Quando a ponte possui carga, o transistor pode ser controlado pela ponte de sele\c{c}\~ao, que permanece carregada at\'e quando desligada.
 Estas t\'ecnicas permitem a resist\^encia da \textit{antifuse} e a reprogramabilidade da SRAM, sendo apenas mais complexa e demorada para ser programada \cite{vassiliadis2007fine}.
 
-As interconex\~oes entre c\'elulas l\'ogicas, que logicamente influenciam diretamente as c\'elulas em si, podem ser de cinco tipos: ilha, linha, mar-de-portas, hier\'arquico e estruturas unidimensionais \cite{vassiliadis2007fine}.
+As interconex\~oes entre c\'elulas l\'ogicas, que influenciam diretamente as c\'elulas em si, podem ser de cinco tipos: ilha, linha, mar-de-portas, hier\'arquico e estruturas unidimensionais \cite{vassiliadis2007fine}.
 A arquitetura do tipo ilha consiste em c\'elulas l\'ogicas conectadas umas as outras atrav\'es de caixas de conex\~oes e de roteamento.
 Nesta arquitetura, a c\'elula l\'ogica est\'a cercada por trilhas de conex\~oes, o que explica o nome.
 A arquitetura do tipo linha consiste em v\'arias linhas divididas em quantidades variadas de segmentos.
@@ -169,12 +169,122 @@ Nas arquiteturas com granularidade fina, como os \textit{Field-Programmable Gate
 Nas arquiteturas com granularidade grossa, os \textit{bits} s\~ao agrupados em palavras de tamanhos fixos, reduzindo assim o espa\c{c}o gasto com roteamento e melhorando a roteabilidade \cite{Hartenstein2001}.
 No \'ultimo tipo de arquiteturas, a h\'i­brida, parte das conex\~oes s\~ao grossas e partes s\~ao finas, combinando os benef\'i­cios das duas classes.
 
-%\section{Metodologia}
-%\subsection{Fluxo de Projeto}
-%\subsubsection{Particionamento}
-%\subsubsection{Aloca\c{c}\~ao}
-%\subsubsection{S\'i­ntese}
-%\label{sss:sintese}
+\section{Motivação}
+O capítulo de conclusão deveria incluir uma seção de propostas de projetos implementáveis ou otimizáveis através da autorreconfiguração.
+Seguem a seguir as modificações necessárias.
+
+\section{Propostas de Aplicações}
+O objetivo deste projeto deste o início foi o desenvolvimento de um sistema capaz de realização de autorreconfiguração, o que consitui o ápice tecnológico da reconfiguração dinâmica parcial.
+Tendo-se compreendido o fluxo de desenvolvimento para o uso desta tecnologia, propõe-se agora algumas possíveis aplicações.
+
+\subsection{Redes Neurais}
+Redes neurais s\~ao uma ferramenta de inteligência artificial largamente utilizada nas \'areas de \textit{Data Mining} e sistemas que necessitem de algum tipo de aprendizado.
+Elas utilizam de redes de elementos extremamente simples, como mostrado na figura \ref{fig:nn}, para criar uma fun\c{c}\~ao altamente n\~ao-linear com um comportamento esperado.
+Estes elementos podem ser matematicamente representados por somat\'orios ponderados afunilados por fun\c{c}\~oes n\~ao-lineares.
+Os pesos utilizados nestes somat\'orios s\~ao os elementos a serem adaptados de forma a modificar o comportamento da estrutura.
+Elas podem ser utilizadas tanto aprendizados supervisionados, onde funciona como um poderoso aproximador de fun\c{c}\~oes, quanto em aprendizados n\~ao-supervisionados, onde traduz um sistema hiperdimensional em bidimensional.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/propostas/model_nn}
+\caption{Modelo de rede neural com "$p$" entradas, "$q$" saídas e duas camadas.}
+\label{fig:nn}
+\end{figure}
+
+\subsubsection{Topologias}
+As redes neurais podem possuir v\'arias camadas de neur\^onios, que s\~ao as unidades b\'asicas de processamento, e v\'arias entradas e saídas.
+Quanto mais camadas s\~ao acrescentadas ao sistema, mais inst\'avel fica seu treinamento e custosa sua computa\c{c}\~ao.
+Em geral utilizam-se apenas duas ou três camadas com um n\'umero arbitr\'ario de neur\^onios em cada uma.
+N\~ao existe um algoritmo que determine qual seria a topologia ideal de uma rede para um certo modelo.
+Tal decis\~ao normalmente \'e feita com base em experiência e tentativas e erros.
+
+Existem topologias três topologias b\'asicas de redes neurais: a \textit{feedforward}, a recorrente e a atrasada.
+A primeira possui neur\^onios que entregam seus resultados apenas para camadas mais a frente.
+A segunda, mais complexa, al\'em de entregar seus resultados para as camadas mais a frente, realimentam camadas anteriores.
+A \'ultima utiliza de elementos especiais para atrasar o uso de certas entradas ou resultados.
+
+\subsubsection{Formas de funcionamento}
+As redes neurais podem ser usadas de diversas formas diferentes: atrav\'es de treinamento \textit{online}, onde o sistema continuamente recebe informa\c{c}\~oes e treina os pesos dos seus neuronios; atrav\'es de treinamento em lotes, onde o sistema acumula um lote de informa\c{c}\~oes e treina o sistema lote a lote; atrav\'es de treinamento \textit{offline}.
+Cada um dos usos listados tem seu uso específico e suas vantagens e desvantagens.
+O treinamento \textit{online} tem a vantagem de se adaptar mais frequentemente ao sistema que tenta modelar, mas precisa de muito mais processamento/potência para manter o sistema treinado.
+O treinamento em lotes tem a vantagem de poder ter a frequência de atualiza\c{c}\~ao dos pesos modificada de acordo com as necessidades.
+Sendo assim, a rela\c{c}\~ao taxa de atualiza\c{c}\~ao/potência pode ser ajustada.
+O treinamento \textit{offline} tem a vantagem de considerar um conjunto potencialmente representativo do sistema modelado al\'em da vantagem de ser a forma que precisa de menos processamento, visto que a atualiza\c{c}\~ao dos pesos acontece apenas uma vez.
+A desvantagem dessa forma \'e a falta de capacidade de adapta\c{c}\~ao frente a sistemas vari\'aveis no tempo.
+
+\subsubsection{Algoritmos de Treinamento}
+Al\'em das formas de funcionamento das redes neurais, outra característica que a define grandemente \'e o algoritmo de treinamento utilizado.
+Dentre os mais populares existem o \textit{backpropagation} e o de Levenberg-Marquardt.
+O algoritmo de \textit{backpropagation} \'e o mais difundido devido a sua facilidade de entendimento e implementa\c{c}\~ao.
+J\'a o algoritmo de Levenberg-Marquardt vê o ajuste de pesos de uma rede neural como um problema de otimiza\c{c}\~ao.
+
+\subsubsection{Propostas}
+A computa\c{c}\~ao reconfigur\'avel, mais especificamente a reconfigura\c{c}\~ao dinâmica parcial, pode ser usada para modificar a topologia da rede neural.
+Ela pode ser programada para, quando o erro ultrapassar um certo limite m\'aximo, aumentar ou diminuir o n\'umero de neur\^onios numa certa camada.
+Os desafios referentes a essa proposta s\~ao apenas relacionados a implementa\c{c}\~ao de um sistema com reconfigura\c{c}\~ao dinâmica parcial.
+
+Uma outra possibilidade \'e a modifica\c{c}\~ao do algoritmo de treinamento com base em seus custos computacionais e erros.
+Quando um algoritmo de baixo custo computacional come\c{c}ar a retornar um erro acima de certo limite m\'aximo, ele seria trocado pelo algoritmo imediatamente mais custoso.
+Os desafios dessa proposta s\~ao, al\'em dos relacionados a implementa\c{c}\~ao de um sistema com reconfigura\c{c}\~ao dinâmica parcial, a implementa\c{c}\~ao em \textit{hardware} de algoritmos de treinamentos de redes neurais.
+
+Ainda outra possibilidade seria a de implementar uma autorreconfigura\c{c}\~ao n\~ao-planejada no sistema, onde o n\'umero de neur\^onios e a forma de suas conex\~oes n\~ao seriam programados previamente em configura\c{c}\~oes específicas, como na primeira proposta, mas determinados em tempo de execu\c{c}\~ao.
+De forma um pouco mais clara, apenas o comportamento e \textit{bitstreams} referentes aos elementos b\'asicos/neur\^onios seriam programados.
+Suas conex\~oes e pesos seriam determinados por um sistema controlador presente na l\'ogica est\'atica do sistema reconfigur\'avel.
+A dificuldade de implementa\c{c}\~ao desse projeto o torna invi\'avel para um trabalho deste porte.
+
+\subsection{Controle Adaptativo}
+O controle adaptativo tradicional tem como principal objetivo o controle de sistemas incertos ou com características variantes no tempo.
+Um controlador adaptativo tem a forma mostrada na figura \ref{fig:cadapt}.
+Este sistema implementa uma l\'ogica de estima\c{c}\~ao e corre\c{c}\~ao de parâmetros segundo a estabilidade de Lyapunov.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/propostas/model_MRAC}
+\caption{Modelo de um controlador adaptativo do tipo MRAC.}
+\label{fig:cadapt}
+\end{figure}
+
+\subsubsection{Propostas}
+Utilizando o conceito básico deste tipo de controle e a reconfiguração dinâmica, é possível construir um controlador cuja forma é mudada segundo os requisitos dos sistema, i.e. hora seria um controlador proporcional, hora seria um controlador proporcional-integral-derivativo.
+As dificuldades desta proposta dizem respeito implementa\c{c}\~ao de sistemas com reconfigura\c{c}\~ao dinâmica parcial e ao projeto do sistema que controlaria a troca entre controladores.
+
+\subsection{Computação Genérica}
+Um computador de computação genérica possui um conjunto fixo de instruções implementados em um sistema imutável no tempo.
+A figura \ref{fig:mips} apresenta um processador MIPS de 5 estágios representando este um processador comum, i.e. imutável.
+Os únicos elementos lógicos passíveis de alteração são as memórias.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/propostas/MIPS_Architecture_(Pipelined)}
+\caption{Ilustração de um processador MIPS com \textit{pipeline} de 5 estágios.}
+\label{fig:mips}
+\end{figure}
+
+\subsubsection{Propostas}
+O uso de autorreconfiguração este caso possibilitaria a redução do espaço físico necessário para a implementação de elementos da unidade de lógica e aritmética (ALU).
+Esta modificação permitiria também uma diminuição no consumo de energia do processador, além de permitir que instruções de ponto flutuante fossem implementadas diretamente na ALU, sem a necessidade de extensão do processador.
+Outra possibilidade é a implementação de um banco de registradores variável, permitindo ao compilador escolher quantos registradores utilizar em cada etapa do seu programa, otimizando ainda mais o desempenho deste.
+
+As dificuldades deste projeto dizem respeito a necessidade de construção prévia de um processador genérico funcional, a incluisão de uma memória para armazenamento de configurações, o desenvolvimento de cada configuração parcial para este componente e o desenvolvimento de um controlador para a troca de configurações.
+É provável que o circuito responsável pela reconfiguração possa ganhar um estágio dedicado a ele, devivo a sua complexidade e ao tempo de programação.
+Para se contornar o problema do tempo de reconfiguração, pode-se utilizar diversas ALUs, onde apenas uma estaria ativa no ciclo em execução.
+Sendo assim, outros sistemas de controle podem ser necessários.
+
+Uma outra possibilidade de implementação, menos eficiente, é a reconfiguração do sistema estágio-a-estágio.
+Ou seja, quando o dispositivo fosse ligado, apenas o primeiro estágio estaria programado.
+Esta implementação não é recomendada, uma vez que transforma um processador com \textit{pipeline} em um processador uniciclo.
+
+\subsection{Outros}
+De forma geral, qualquer sistema multiplexado ou que possua diversas etapas de processamento, pode ser implementado utilizando-se de autorreconfiguração.
+Deve-se, porém, para sua utilização em aplicações reais, verificar se o \textit{overhead} de tempo introduzido é balanceado pelos ganhos de performance e potência.
+
+\section{Objetivos}
+\subsection{Objetivos Gerais}
+Estudar a 
+
+\subsection{Objetivos Específicos}
+\section{Metodologia}
+\section{Material e Ferramentas}
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{authordate1} 
