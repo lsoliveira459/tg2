@@ -292,6 +292,11 @@ Deve-se, porém, para sua utilização em aplicações reais, verificar se o \te
 \subsection{Objetivos Específicos}
 Como mostrado na figura \ref{fig:objetivos}, este projeto foi estruturado de forma a se desenvolver o estudo proposto de forma lógica, fluida e incremental.
 
+Como o objetivo final é a familiarização com as ferramentas e processos envolvidos na autoreconfiguração, decidiu-se começar estudando os elementos necessários para se realizar a reconfiguração dinâmica.
+O passo seguinte mais lógico é o de estudar como funciona as memórias dos sistema e de que jeito elas seriam melhor utilizadas.
+O último passo seria entender como funciona a autoreconfiguração em baixo nível, ou seja, como os dados devem ser entregues aos devidos componentes para que ela aconteça.
+Para cada um destes experimentos foi proposto um teste que validasse o completo entendimento do mesmo.
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.35\textwidth]{fig/c1_introducao/objetivos}
@@ -307,11 +312,26 @@ Este objetivo visa o entendimento da forma mais básica de reconfiguração din�
 \paragraph{Implementar um sistema autorreconfigurável:} Este trabalho deverá culminar no entendimento e implementação de um sistema autorreconfigurável simples. Para tal, espera-se que se entenda completamente o fluxo de projeto deste tipo de sistemas e as peculiaridades da sua implementação.
 
 \section{Metodologia}
-Como foi mencionado na seção anterior
+Como foi mencionado na seção anterior, este trabalho utilizará experimentos para auxiliar o desenvolvimento do estudo proposto.
+Desta forma, além de garantir algum material mesmo que tudo dê errado, consegue-se simplificar o processo de pesquisa e desenvolvimento através dos pequenos passos e análises frequentes.
+O fluxo lógico principal é o apresentado na figura \ref{fig:objetivos} e comentados na seção anterior.
 
-\section{Material e Ferramentas}
+Os experimentos são compostos por quatro partes principais: definição do teste, estudo dos requisitos, implementação e análise de resultados.
+Na seção de definição do teste, determina-se um teste que comprove o total entendimento dos elementos explorados pelo experimento.
+Na seção de estudo de requisitos, procura-se entender detalhadamente os componentes e ferramentas necessários para a realização do experimentos, tentando também prever algum erro que possa acontecer na sua utilização.
+Na seção de implementação, demonstra-se como reproduzir o experimento realizado.
+Na seção de análise de resultados, apresenta-se os erros mais comuns e suas soluções, algumas informações presentes nos relatórios de implementação em si e uma proposta de experimento seguinte.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/intro/kintex-7_kc705}
+\caption{Foto ilustrativa do kit de desenvolvimento Kintex-7 KC705 extraida do site da Xilinx.}
+\label{fig:kc705}
+\end{figure} 
+
+\section{Material e Ferramentas Utilizados}
 Foi utilizado para este projeto um computador com as especificações indicadas na tabela \ref{tab:specs}.
-O conjunto de ferramentas utilizado foi o ISE Design Studio 14.6.
+O conjunto de ferramentas utilizado foi o ISE Design Studio (versão 14.6).
 Utilizou-se ainda o programa ActiveTcl (versão 8.6.1.0.297577) da ActiveState para a execução dos \textit{scripts} de compilação e o programa de código aberto Frhed (versão portátil 1.6r2) para a visualização de arquivos binários.
 
 \begin{table}[h]
@@ -329,6 +349,10 @@ Portas USB & USBs 2.1 e 3.0\\\hline
 \caption{Especificações do computador utilizado.}
 \label{tab:specs}
 \end{table}
+
+Escolheu-se ainda utilizar o kit de desenvolvimento da Xilinx\textregistered{} chamado Kintex-7 KC705, mostrado na figura \ref{fig:kc705}.
+O único critério utilizado foi a disponibilidade dos equipamentos no início do projeto e a capacidade do dispositivo de realizar a reconfiguração dinâmica parcial.
+Este kit possui FPGA modelo XC7K325T-2FFG900C, leitor de cartão de memória, conector PCIe\textregistered{}, memória DDR3, visor de 7-segmentos e porta ethernet, dentre outros.
 
 \ifx\compilewholereport\undefined
 	\bibliographystyle{authordate1} 

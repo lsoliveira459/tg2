@@ -58,47 +58,16 @@
 \resumodocapitulo{Este capítulo trata da concepção dos experimentos realizados. Nele serão descritos com detalhes cada um dos experimentos, ficando a parte de análise reservada ao capítulo \ref{CapExperimentos}.}
 \vspace{0.8cm}
 
-\section{Objetivos}
-O projeto aqui desenvolvido tem por objetivo o estudo de autoreconfiguração parcial, incluindo as ferramentas e periféricos necessários para tal.
-Tentará-se, no decorrer dos próximos capítulos, apresentar o resultado das pesquisas bibliográficas, estudo de ferramentas, estudo de periféricos, estudo de tecnologias e análise dos resultados obtidos.
-
-Devido ao caráter experimental e exploratório do objetivo proposto, decidiu-se dividir o projeto em vários experimentos menores.
-Desta forma, além de garantir algum material mesmo que tudo dê errado, consegue-se simplificar o processo de pesquisa e desenvolvimento através dos pequenos passos e análises frequentes.
-
-Como o objetivo final é a familiarização com as ferramentas e processos envolvidos na autoreconfiguração, decidiu-se começar estudando os elementos necessários para se realizar a reconfiguração dinâmica.
-O passo seguinte mais lógico é o de estudar como funciona as memórias dos sistema e de que jeito elas seriam melhor utilizadas.
-O último passo seria entender como funciona a autoreconfiguração em baixo nível, ou seja, como os dados devem ser entregues aos devidos componentes para que ela aconteça.
-Para cada um destes experimentos foi proposto um teste que validasse o completo entendimento do mesmo.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.7\textwidth]{fig/c3_desenvolvimento/intro/kintex-7_kc705}
-\caption{Foto ilustrativa do kit de desenvolvimento Kintex-7 KC705 extraida do site da Xilinx.}
-\label{fig:kc705}
-\end{figure} 
-
-Para o desenvolvimento desse projeto, escolheu-se utilizar o kit de desenvolvimento da Xilinx\textregistered{} chamado Kintex-7 KC705, mostrado na figura \ref{fig:kc705}.
-O único critério utilizado foi a disponibilidade dos equipamentos no início do projeto e a capacidade do dispositivo de realizar a reconfiguração parcial dinâmica.
-Este kit possui FPGA modelo XC7K325T-2FFG900C, leitor de cartão de memória, conector PCIe\textregistered{}, memória DDR3, visor de 7-segmentos e porta ethernet, dentre outros.
-
-Escolheu-se ainda, de forma arbitrária, o uso da linguagem VHDL para a descrição de \textit{hardware} ao invés da Verilog e a plataforma de desenvolvimento \textit{ISE Design Suite}, ao invés da \textit{Vivado Design Suite}.
-
-\section{Experimentos}
-Os experimentos desenvolvidos nos capítulos a seguir tem como objetivo o estudo da implementação da autorreconfiguração e todos os elementos que a acompanham.
-Sendo assim, prova-se inicialmente que a reconfiguração é de fato dinâmica através de um experimento.
-Em seguida, para suportar o requisito de memória da autorreconfiguração, estuda-se as memórias e desenvolve-se um experimento para colocar este conhecimento em prática.
-Logo depois, espera-se entender a formação dos arquivos binários utilizados na reconfiguração e desenvolver um experimento que consiga interpretar algum cabeçalho existente.
-Por último, a autorrenconfiguração se tornará o objetivo principal de um experimento visando entender as interfaces utilizadas para este fim. 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					 Experimento 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experimento 1 - Reconfiguração Dinâmica}
+\section{Definição do Teste}
 De forma a dar validade a todo o projeto, desenvolveu-se um experimento para entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
 Este experimento tem como objetivo a construção de um projeto que se utilize de reconfiguração dinâmica para reprogramar um FPGA.
 
-\section{Introdução Teórica}
+\section{Estudo dos Requisitos}
 Antes de se começar a construir o experimento, é necessário estudar as peculiaridades da placa e deste tipo de projeto, bem como seu fluxo de desenvolvimento.
 Este estudo é apresetado a seguir.
 
