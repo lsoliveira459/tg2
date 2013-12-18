@@ -234,7 +234,7 @@ Indica-se também que o projeto é do tipo \qti{Post-synthesis Project} e que de
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{fig/c3_desenvolvimento/ex1/PlanAhead}
-\caption{Imagem do PlanAhead logo que aberto.}
+\caption{Imagem da interface inicial do PlanAhead.}
 \label{fig:ex1:planahead}
 \end{figure}
 
@@ -246,7 +246,7 @@ Pode-se agora definir a partição que armazenará o componente dinâmico.
 Isso é feito através do painel \qt{\textit{Netlist}}, selecionando-se a opção \qt{\textit{Set Partition}} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
 Na janela que aparece, seleciona-se a opção referente à partição reconfigurável, nomea-se o módulo reconfigurável de acordo com o componente que será carregado e indica-se o arquivo (NGC) que corresponde ao arquivo sintetizado do componente reconfigurável.
 Não é necessário informar restrições, visto que o componente, seguindo recomendações, não acessa os pinos de entrada e saída diretamente.
-Note ainda que é recomendado que o primeiro módulo a ser incluído seja o mais complexo e sucetível a falhas, permitindo que erros e falhas na definição da região a seguir sejam identificados mais cedo.
+Note ainda que é recomendado que a primeira configuração a ser implementada seja a mais complexa e sucetível a falhas (em geral tem-se uma configuração vazia e várias configurações que implementam comportamentos de complexidades variadas), permitindo que os erros e falhas, especialmente relacionados a recursos presentes na partição, sejam identificados mais cedo.
 
 Precisa-se definir também uma região para a partição recém criada.
 Isto pode ser feito pelo mesmo painel \qti{Netlist}, selecionando-se a opção \qti{Set Pblock Size} do menu que aparece ao se clicar em \qt{dynamic\_i} com o botão direito.
@@ -278,7 +278,7 @@ Note que, quando definindo o \qti{Partition Action}, a linha referente a \qti{St
 
 Em seguida, uma janela aparece perguntando o que fazer com estas novas configurações.
 Deve-se selecionar a opção \qti{Launch runs on local host} para iniciar suas implementações.
-Este processo é demorado, mas mais rápido que o da primeira configuração.
+Este processo é demorado, mas ainda é mais rápido que o da primeira configuração.
 Note que os avisos que aparecerem podem ser ignorados.
 
 Também é necessário promover estas novas configurações.
@@ -475,8 +475,8 @@ Apesar disso, sua velocidade de leitura máxima é de 33 MHz.
 Convertendo tal velocidade para a leitura de 32 bits, tem-se uma velocidade de leitura de aproximadamente 16 MHz.
 Pode-se programá-la através do iMPACT.
 
-\subsubsection{Memória \textit{SPI Flash}}
-A memória SPI Flash é diferente na sua forma de acesso, que acontece através da interface SPI.
+\subsubsection{Memória \textit{QSPI Flash}}
+A memória \textit{QSPI Flash}, como indicado no próprio nome (\textit{Quad Serial Peripheral Interface}), é diferente na sua forma de acesso, que acontece através de uma interface serial.
 Esta memória fornece 128 Mb de memória não volátil \cite{ug810}.
 Ela aceita três modos de operação, x1, x2 e x4, que corresponde a largura da palavra lida/escrita a cada pulso de relógio \cite{N25Q128}.
 A frequência de operação é de no máximo 50 MHz \cite{xapp586}.
@@ -490,12 +490,12 @@ Note que também não existe a possibilidade de programação do cartão atravé
 
 \subsubsection{\textit{CompactFlash} e o \textit{System ACE}}
 \textit{System ACE} é um sistema que permite a programação de FPGAs e memórias voláteis a partir de um cartão \textit{CompactFlash} \cite{ds080, ds583}.
-Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão, o que não é o caso desta.
+Este é bem robusto e popular em séries que possuem um leitor deste tipo de cartão, o que não é o caso do kit usado.
 
 \subsubsection{Memória DDR3}
 A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento e possui uma frequência de operação da ordem dos 800 MHz \cite{MT8JTF12864HZ}.
 Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
-Ela possui restrições de temporização extremamente apertadas e necessita do uso de componentes bastante escassos no FPGA.
+Ela possui restrições de temporização extremamente apertadas devido a sua alta frequência de operação, forçando o controlador a utilizar recursos de relógios e restrições de temporização que nem sempre podem ser atendidos.
 
 \subsection{Escolha da Memória}
 Este experimento tem por objetivo o desenvolvimento de um sistema que instancie e acesse memórias capazes de armazenar as configurações parciais geradas no experimento anterior.
@@ -548,7 +548,7 @@ Tanto o programa quando o processador gerarão arquivos binários que serão car
 \subsection{XPS}
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
 Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
-Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de intrução e de dados, quiça, 128 KB, 8 KB e 8 KB respectivamente.
+Dando prosseguimento, escolheu-se os periféricos desejados segundo a figura \ref{fig:ex2:bsb_prerifericos} e o tamanho das memórias local, de instrução e de dados, quiça, 128 KB, 8 KB e 8 KB respectivamente.
 Modificou-se ainda, como pode-se ver na figura \ref{fig:ex2:bsb_prerifericos}, o \textit{Baud Rate} da interface UART para 115200 bits/s e o C\_SPI\_MODE da QSPI\_FLASH para \qti{Quad SPI Mode}.
 
 \begin{figure}[htp]
@@ -669,7 +669,7 @@ Os resultados apresentados pelo SDK se resumem a uma compilação e uma programa
 \section{Conclusão}
 Conclui-se assim o experimento para o teste de programação das memórias.
 Notou-se que existe muita pouca literatura no assunto, forçando o programador a fazer uso dos forúns de discussão e conhecimentos gerais de programação embarcada.
-Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
+Apesar disso, o objetivo do experimento, que seria conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
 Uma forma interessante de dar continuidade a esta linha de pensamento é entender como funciona a programação da memória Flash através do computador, uma vez que este experimento apenas escreveu na memória através do próprio microcontrolador, e uma possível interpretação do arquivo binários, extraindo deles o máximo de informações possíveis.
 
@@ -682,7 +682,7 @@ Uma forma interessante de dar continuidade a esta linha de pensamento é entende
 O \textit{bootloader}, como mencionado no experimento anterior, é um sistema que carrega as informações de uma memória lenta, como a SPI Flash, para uma memória rápida, como a DDR3.
 Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flash e DDR3.
 O experimento 2 foi dedicado a aprender a utilizar estas memórias.
-Neste experimento, espera-se entender como é formado o arquivo binário, permitindo assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
+Neste experimento, espera-se entender como é formado o arquivo binário, permitindo assim carregá-lo e interpretá-lo enquanto é transferido para a memória DDR3.
 
 Para se alcançar o objetivo proposto, faz-se necessário entender como é construido o arquivo binário e como se inicializa a memória não-volátil.
 O fluxo de projeto é o mesmo do experimento anterior.
@@ -746,7 +746,8 @@ A memória SPI Flash, assim como todas as outras, precisa de um procedimento esp
 Em geral, as únicas informações que podem ser gravadas nas memórias não-voláteis são configurações para o FPGA e programas para algum MicroBlaze embarcado \cite{ug111}.
 Este processo é conhecido como programação indireta da memória Flash \cite{xapp586}.
 
-\subsubsection{Compilação} Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
+\subsubsection{Compilação}
+Para a realização da programação indireta, o arquivo binário precisa ser compilado de forma a gerar um padrão de bits compatível.
 Este procedimento é realizado na etapa de construção do processador.
 Quando não especificado, o arquivo binário gerado utiliza a interface QSPI x1, que possui banda de transferência de 1 bit por leitura/escrita,  e relógio de frequência 3 MHz.
 Com estas configurações, a programação do sistema demora apenas 1 minutos e 30 segundos \cite{xapp586}, mas pode ser ainda mais reduzido.
@@ -754,13 +755,13 @@ Com estas configurações, a programação do sistema demora apenas 1 minutos e 
 No PlanAhead, as configurações de compilação podem ser modificadas através do arquivo \qt{bitgen.ut} localizado na pasta \qt{etc} do projeto.
 Através da opção \qt{-g SPI\_buswidth:X}, onde X pode ser 1, 2 ou 4, pode-se alterar a interface utilizada neste tipo de programação \cite{ug628, xapp586}, sendo a x4 a mais eficiente.
 Pode-se ainda forçar a opção \qt{-g ConfigRate\_en:Y}, onde Y pode ser 3, 6, 9, 12, 16, 22, 26, 33, 40, 50 ou 66, para se utilizar de relógios de variadas frequências e obter assim o modo de configuração mais adequado para a memória em questão \cite{xapp586, ug628, ug810}.
-Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhora margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
+Existe também a opção \qt{-g SPI\_Fall\_Edge:Yes}, que permite melhorar as margens de tempo e pode aumentar as taxas de leitura para configurações \cite{ug628, ug586}.
 Uma opção alternativa é utilizar um relógio externo através da opção \qt{-g ExtMasterCclk\_en:Z}, onde Z pode ser \qt{Disable}, \qt{div-8}, \qt{div-4}, \qt{div-2} e \qt{div-1}.
 
 \subsubsection{Arquivo de Memória PROM}
-Após compilado o projeto, seu arquivo binário e qualquer outra informação a ser programada na memória Flash precisa ser adicionada a um arquivo do tipo MCS.
+Após compilado o projeto, o arquivo binário e qualquer outra informação a ser programada na memória Flash precisa ser adicionada a um arquivo do tipo MCS.
 Este processo é necessário para que o iMPACT consiga carregar e programar a memória Flash de forma correta.
-Pode-se construir este arquivo de memória PROM através do próprio iMPACT, processo que será descrito mais a frente.
+Pode-se construir este arquivo de memória PROM através do próprio iMPACT, processo que será descrito na seção de implementação.
 
 \section{Implementação}
 O teste deste experimento compreende a construção de um sistema microprocessador que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
@@ -782,7 +783,7 @@ O projeto do bootloader consiste apenas de uma máquina de estados para ler o ca
 Desta vez, tem-se como objetivo fazer com que o sistema se carregue e entre em funcionamento de forma autônoma.
 Para isto, precisa-se, depois da inclusão dos devidos arquivos, presentes no anexo, gerar o \textit{linker script}.
 Este arquivo descreve como o arquivo binário do \textit{bootloader} deve ser armazenado na memória interna do FPGA para execução.
-Este \textit{script} pode ser gerado clicando-se com o botão direito sobre o projeto do prgrama embarcado e selecionando-se a opção \qti{Generate Linker Script...} ou selecionando-se o projeto, abrindo-se o menu \qti{Xilinx Tools} e selecionando-se a opção do mesmo nome.
+Este \textit{script} pode ser gerado clicando-se com o botão direito sobre o projeto do programa embarcado e selecionando-se a opção \qti{Generate Linker Script...} ou selecionando-se o projeto, abrindo-se o menu \qti{Xilinx Tools} e selecionando-se a opção do mesmo nome.
 Para o escopo deste experimento, as configurações apresentadas na janela que se abre são suficientes, bastando clicar em \qti{Generate}.
 A criação deste \textit{script} permite agora que se utilize o programa \qt{data2mem} para construir um arquivo binário de configuração com um programa embarcado pré-programado.
 
@@ -859,7 +860,7 @@ O motivo para esta demora não é informado, mas suspeita-se que seja devido a v
 \section{Conclusão}
 O experimento realizado funcionou como esperado, tendo carregado as informações do computador para a memória Flash e, em tempo de execução, da memória Flash para a memória DDR3.
 Ainda foi possível interpretar o cabeçalho do arquivo binário, extraindo dele informações importantes para o correto carregamento das configurações.
-O processo de programação da memória Flash através do computador é bem demorado, chegando a levar 20 minutos, mas durante o \textit{boot} do sistema, ele é bem rápido, demorando apenas alguns poucos segundos.
+O processo de programação da memória Flash através do computador é bem demorado, chegando a levar 20 minutos, mas durante o \textit{boot} do sistema, ele é bem rápido, demorando apenas alguns poucos segundos (medidos visualmente, visto que não encontrou-se forma empírica de medir o tempo de inicialização do dispositivo).
 
 É relativamente complicado trabalhar com os periféricos e \textit{drivers} que os acompanham devido a documentação escassa e a grande disperção das informações.
 Este experimento só pode ser realizado devido a uma imensa pesquisa e compilação de guias de usuário, relatórios de aplicações, \textit{datasheets}, exemplos de projetos para diversos tipos de kits de desenvolvimento e comentários em fóruns de discussão.
@@ -880,7 +881,7 @@ Sendo assim, utilizará-se o mesmo comportamente do experimento 1 para definir u
 
 \chapter{Experimento 4 - Autoreconfiguração com \textit{MicroBlaze} e DDR3}
 \section{Definição do Teste}
-Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
+Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade de nenhum comando externo adicional.
 Para isto, deve-se entender o funcionamento de alguns periféricos e seus \textit{drivers}, como integrar tudo de forma satisfatória, e o fluxo de projeto que permita as funcionalidades desejadas.
 
 O projeto em questão pretende utilizar um microcontrolador para acionar a troca de comportamentos de uma partição reconfigurável totalmente independente.
@@ -889,12 +890,18 @@ Tal feito pode, em teoria, ser alcançado facilmente através do periférico AXI
 \section{Estudo dos Requisitos}
 \subsection{ICAP e ICAPE2}
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
-Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sitemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
+Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sistemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
 Estas portas de configuração se utilizam de um protocolo identico ao da interface SelectMAP \cite{wp374, ug702}, que se utiliza de uma série de comandos para iniciar um dos vários procedimentos de programação.
 Felizmente utiliza-se o controlador AXI4 HWICAP \cite{ds817}, que permite o controle da ICAP e ICAPE2 através do MicroBlaze.
 
 Estas interfaces, tanto a SelectMAP quanto as ICAP e ICAPE2, possuem um largura de banda de 32 bits e frequência máxima de operação de 100 MHz, permitindo uma taxa de tranferência de até 3.2 Gbps \cite{ug702}.
 Esta taxa de transferência permite que configurações parciais como a do experimento 1 sejam programadas em apenas 1.65 milisegundos ($611288\text{ bytes }\cdot8\frac{\text{bits}}{\text{byte}}\div3.200.000.000\frac{\text{bits}}{\text{segundo}} = 0,00165 \text{ segundo}$).
+
+\paragraph{Cálculo do tempo de programação da FPGA}
+Uma forma de estimar o tempo de programação do dispositivo, visto que isto não se encontrou uma forma empírica de fazer tal medição, foi a de utilizar as informações de taxa de transferência de dados entre os componentes.
+Ela pode ser feita utilizando-se das informações de tamanho da configuração parcial para a partição em questão e a taxa de transferência de dados para o ICAP.
+No caso da conta realizada no parágrafo anterior, precisou-se fazer as conversões de byte para bit, resultando em 
+$$611288\text{ bytes }\cdot8\frac{\text{bits}}{\text{byte}}\div3.200.000.000\frac{\text{bits}}{\text{segundo}} = 0,00165 \text{ segundo}$$
 
 A única diferença entre as interfaces ICAP e ICAPE2 é a ausência de um sinal de espera na segunda.
 A ICAPE2, apesar de ter um comportamente mais determinístico no que diz respeito aos tempos de escrita e leitura, não está disponível para alguns dispositivos.
@@ -925,7 +932,9 @@ Apesar disso, este passo possui um grau de complexidade muito elevado, além do 
 
 \section{Resultados}
 Este experimento foi abordado de diversas formas diferentes, mas nenhuma levou em nenhum resultado palpável.
-Tentou-se implementar o microcontrolador com e sem memórias DDR3, visto que ela foi a causadora de diversos erros, mas até sem ela observou-se a necessidade de construção manual de arquivos complexos, processo impraticável considerando o escopo deste projeto.
+Mesmo desconsiderando-se o problema da inicialização da memória local do microcontrolador, diversos erros relativos a temporização da memória DDR3 surgiram.
+A pesquisa por soluções se mostrou pouco útil, abordando soluções com complexidade superior ao escopo deste projeto.
+A remoção da memória DDR3 resolveu os problemas relativos a temporização, mas trouxe a tona os erros previstos no estudo de requisitos.
 
 \section{Conclusão}
 Muitos erros, pouca documentação e pouco tempo impediram o atingimento completo dos objetivos propostos para este experimento.
@@ -954,7 +963,7 @@ Apesar disso, as ferramentas suportam algumas outras opções, como a inclusão 
 Esta segunda opção será a abordada neste experimento.
 
 \subsection{Periférico Reconfigurável}
-A ferramenta XPS permite a construção de periféricos com comportamentos completamente arbitrários.
+A ferramenta XPS permite a construção de periféricos customizados.
 Estes periféricos podem ser utilizados para instanciar módulos reconfiguráveis \cite{ug744}.
 O PlanAhead deve ser usado em conjunto com o XPS para a definição das partições e configurações.
 
@@ -976,7 +985,7 @@ Este teste foi arquitetado para utilizar o máximo possivel dos elementos já de
 Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1 para a modelagem do comportamento do periférico reconfigurável, o microprocessador desenvolvido no experimento 2 sem a memória DDR3 e o programa desenvolvido no experimento 3 considerando a ausência da memória DDR3, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
 
 \subsection{XPS}
-Ao se abrir o programa, deve-se construir um sistema utilizando o BSB, assim como no experimento 2.
+Ao se abrir o programa, deve-se construir um sistema utilizando o \textit{Base System Builder}, assim como no experimento 2.
 Quando questionado, seleciona-se os periféricos segundo a figura \ref{fig:ex5:perifericos}.
 Note que a interface UART tem \textit{Baud Rate} de 115200 e o controlador da memória QSPI Flash tem modo de operação \textit{Quad}.
 
@@ -988,18 +997,18 @@ Note que a interface UART tem \textit{Baud Rate} de 115200 e o controlador da me
 \end{figure}
 
 Quando o programa termina de abrir, deve-se selecionar a opção \qti{Create or Import Peripheral...} do menu \qti{Hardware}.
-Pode-se deixar todas as opções como estão, com excessão da \qti{Software reset} na página de \qti{IPIF (IP Interface) Services}.
+Pode-se deixar todas as opções como estão, com exceção da \qti{Software reset} na página de \qti{IPIF (IP Interface) Services}.
 Nota-se que foi criada a pasta \qt{pcores} com uma pasta com nome igual ao periférico recém criado.
 Deve-se modificar os arquivos padrões criados para incluir a lógica do experimento 1.
 Um exemplo de como se modificar este arquivo está presente no anexo.
 Após modificado o periférico, deve-se reescanear a pasta de periféricos do usuário através da opção \qti{Rescan User Repositories} do menu \qti{Project}.
 Em seguida pode-se adicionar este periférico ao sistema.
 
-Após a inclusão do periférico, as suas portas estarão toda desconectadas.
+Após a inclusão do periférico, as suas portas estarão desconectadas.
 Pode-se conectá-las através da aba \qti{Ports}, expandindo a árvore referente a este periférico, clicando sobre a porta \qt{LEDs\_8Bits\_TRI\_O} com o botão direito e selecionando a opção \qti{Make External}.
 Com isto um pino, cria-se um pino conjunto de pinos de saída conforme necessitado pelo componente.
 Este pino pode ter seu nome modificado através da árvore \qti{External Ports}, isto não é obrigatório.
-O pino \qt{clk\_200MHz} será configurado mais a seguir.
+O pino \qt{clk\_200MHz} será configurado mais a frente.
 
 É necessário também a inclusão do periférico \qti{FPGA Internal Configuraion Access Port} (AXI\_\-HW\-ICAP).
 Na adição, deve-se marcar a opção \qti{Instantiate STARTUP primitive in the HWICAP core} para que o pino EOS (\textit{End of Startup}) não seja mais necessário.
@@ -1008,6 +1017,7 @@ Por causa disso, devido a presença de apenas uma primitiva STARTUP, também é 
 É preciso ainda executar o assistente de configuração de relógios, aberto através do menu \qti{Hardware} selecionando-se a opção \qti{Launch Clock Wizard...}.
 Na janela que se abre, deve ajustar todas os \qti{Clock Sources} para \qt{<AUTO>}, e a o relógio do periférico customizado \qt{clk\_200MHz} para 200.
 Pode-se verificar a correta realização deste passo através da aba \qti{Ports}.
+Note que deve-se primeiro incluir todos os periféricos desejados antes de ajustar os relógios, reduzindo a probabilidade de erros e a necessidade de retrabalho.
 
 Por último, deve-se ajustar os endereços e tamanhos das memórias.
 Para tal, deve-se ir a aba \qt{Addresses} e alterar o tamnho da memória \qt{QSPI\_FLASH} para 128M e seu endereço-base para 0x80000000.
@@ -1016,11 +1026,11 @@ Note que este passo não é obrigatório, apenas indicado.
 
 \subsubsection{Compilação e Exportação}
 Precisa-se agora gerar os arquivos NGC e BMM para que possam ser importados mais a frente pelo PlanAhead.
-Isto pode é realizado clicando-se no botão \qti{Generate Netlist} no painel \qti{Navigator} ou no menu \qti{Hardware}.
+Isto pode ser realizado clicando-se no botão \qti{Generate Netlist} no painel \qti{Navigator} ou no menu \qti{Hardware}.
 
 A exportação do projeto serve para que as informações deste projeto sejam transmitidas para o SDK.
 Ela pode ser feita pelo botão \qti{Export Design} no painel \qti{Navigator} ou pelo item \qti{Export Hardware Design to SDK...} no menu \qti{Project}.
-Note que a opção \qti{Include bistream and BMM file}, presente na janela que se abre, deve ser desmarcado.
+Note que a opção \qti{Include bistream and BMM file}, presente na janela que se abre, deve ser desmarcada.
 A exportação do projeto para um arquivo binário acarretará em erro, visto que o periférico reconfigurável possui componentes não definidos.
 Clica-se então no botão \qti{Export \& Launch SDK}.
 
@@ -1030,15 +1040,15 @@ A etapa do PlanAhead é mais urgente e importante, visto que permite a criação
 
 \subsection{PlanAhead}
 O procedimento do PlanAhead para este experimento é muito similar ao do experimento 1.
-Ao abrir o programa, cria-se um novo projeto, lembrando de se selecionar a opção de projeto pós-síntese (\qti{Post-synthesis Project}) e de habilitar a reconfiguração parcial (\qti{Enable Partial Reconfiguration}).
-Deve-se ainda incluir os arquivos NGC do projeto do microprocessador e suas restrições, presentes na presentes na pasta \qti{implementations} e \qti{data} do projeto do XPS, respectivamente.
+Ao abrir o programa, cria-se um novo projeto, lembrando de selecionar a opção de projeto pós-síntese (\qti{Post-synthesis Project}) e de habilitar a reconfiguração parcial (\qti{Enable Partial Reconfiguration}).
+Deve-se ainda incluir os arquivos NGC do projeto do microprocessador e suas restrições, presentes na pasta \qti{implementations} e \qti{data} do projeto do XPS, respectivamente.
 
-Após a criação do projeto, deve-se abrir o o arquivo sintetizado através do botão \qti{Open Synthesized Design}.
+Após a criação do projeto, deve-se abrir o arquivo sintetizado através do botão \qti{Open Synthesized Design}.
 Alguns avisos podem aparecer, mas pode-se ignorá-los.
 Este processo faz com que os componentes do projeto possam ser visualizados e manipulados.
 
 A primeira coisa a se fazer com o projeto aberto é definir-se a partição reconfigurável que comportará o componente mutável.
-Para tal, expande-se o item referente ao periférico da lista no painel \qti{Netlist} e clica-se com o botão direito sobre o componente identificado por \qti{USER\_LOGIC\_I} e seleciona-se a opção \qti{Set Partition}.
+Para tal, expande-se o item referente ao periférico da lista no painel \qti{Netlist}, clica-se com o botão direito sobre o componente identificado por \qti{USER\_LOGIC\_I} e seleciona-se a opção \qti{Set Partition}.
 Adiciona-se então uma partição reconfigurável com o \textit{netlist} de alguma das configurações criadas no experimento 1.
 Deve-se verificar o experimento 1 para o procedimento para compilar os diferentes \textit{netlists}.
 
@@ -1094,7 +1104,7 @@ A figura \ref{fig:ex5:timing} mostra uma indicação de ocorrência deste erro.
 \begin{figure}[htp]
 \centering
 \includegraphics[width=0.95\textwidth]{fig/c3_desenvolvimento/ex5/timing.pdf}
-\caption{Conteúdo da aba \textit{Design Runs} appós a implementação da primeira configuração e durante a implementação das seguintes. Note que o valor em vermelo indica que as restrições de tempo não foram atingidas, necessitando revisão.}
+\caption{Conteúdo da aba \textit{Design Runs} após a implementação da primeira configuração e durante a implementação das seguintes. Note que o valor em vermelo indica que as restrições de tempo não foram atingidas, necessitando revisão.}
 \label{fig:ex5:timing}
 \end{figure}
 
@@ -1227,7 +1237,7 @@ Este requisito, porém, não afetou o funcionamento do sistema.
 \begin{figure}[htp]
 \centering
 \includegraphics[width=0.6\textwidth]{fig/c3_desenvolvimento/ex5/device.pdf}
-\caption{Resultado da implementação do sistema no dispositivo. Os pontos em azul claro representam os elementos lógicos utilizados. O retangulo roxo no canto inferior direito delimita a partição reconfigurável.}
+\caption{Resultado da implementação do sistema no dispositivo. Os pontos em azul claro representam os elementos lógicos utilizados. O retangulo roxo no canto inferior direito delimita a partição reconfigurável, que neste caso possui uma configuração vazia.}
 \label{fig:ex5:device}
 \end{figure}
 
