@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,openright]{book}
+\documentclass[11pt,a4paper,openright,oneside]{book}
 
 \usepackage{ft2unb}
 
@@ -39,7 +39,7 @@
 % Documento principal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-
+\frontmatter
 \grau{Engenheiro de Controle e Automa\c{c}\~ao} \tipodemonografia{Trabalho de Gradua\c{c}\~ao}
 
 % Os comandos a seguir servem para definir o título do trabalho. Para evitar 
@@ -69,17 +69,12 @@
 
 % Comandos para criar a capa e a página de assinaturas.
 \capaprincipal
-
 \capaassinaturas
-\clearpage
+\fichacatalografica
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Dedicatória 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\frontmatter
-\pagestyle{plain}
-\pagenumbering{roman}
-\setcounter{page}{2}
 
 % Texto de dedicatória do primeiro autor
 \dedicatoria{Dedico este trabalho a meus pais Marconi e Marta Oliveira, a minha família, a minha namorada Ananda Medeiros, a todos os meus amigos, em especial a Emerson Grzeidak e a Kevin Gularte, e a todos os meus professores.}
@@ -104,6 +99,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Resumo: arquivo resumo.tex editável no Scientific Word
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{page}{5}
 \include{resumos}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,7 +118,9 @@
 % Corpo principal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
-\setcounter{page}{1} \pagenumbering{arabic} \pagestyle{plain}
+\pagestyle{plain}
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 % *** Introducao ***
 \include{cap_Introducao}
@@ -151,16 +149,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Anexos
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\anexos
-\makeatletter % não retirar estes comandos
-\renewcommand{\@makechapterhead}[1]{%
-  {\parindent \z@ \raggedleft \setfontarial\bfseries 
-        \LARGE \thechapter. \space\space  
-    \uppercase{#1}\par
-    \vskip 40\p@
-  }
-}
-\makeatother
+%\anexos
+%\makeatletter % não retirar estes comandos
+%\renewcommand{\@makechapterhead}[1]{%
+%  {\parindent \z@ \raggedleft \setfontarial\bfseries 
+%        \LARGE \thechapter. \space\space  
+%    \uppercase{#1}\par
+%    \vskip 40\p@
+%  }
+%}
+%\makeatother
 
 %% *** Anexo I: Diagramas esquemáticos ***
 %\include{anexo_Esquematicos}

@@ -100,7 +100,7 @@
 \definecolor{blue}{HTML}{3399FF}
 
 \begin{titlepage}
-\thispagestyle{empty}
+\pagestyle{empty}
 \begin{tikzpicture}[overlay,remember picture]
     \newcommand\cs{0.02} % column separation
     \newcommand\rs{0.6} %row separation
@@ -163,7 +163,7 @@
 %%% Contra-capa:
 \newcommand{\capaassinaturas}{
 \begin{titlepage}
-\thispagestyle{plain}
+\pagestyle{plain}
 \setcounter{page}{2}
 \begin{tikzpicture}[overlay,remember picture]
     \coordinate (O) at (current page.south west);
@@ -207,15 +207,19 @@
 %%% FICHA CATALOGRÁFICA
 \newcommand{\fichacatalografica}{
 \begin{titlepage}
-\thispagestyle{plain}
-\setcounter{page}{2}
+\pagestyle{plain}
+\setcounter{page}{3}
+FICHA CATALOGRÁFICA
+
+SUBSTITUIR POR FOLHA ADEQUADA!
+\clearpage
 \end{titlepage}
 }
 
 %%% Dedicatória
 \newcommand{\paginadededicatorias}{
 \begin{titlepage}
-\thispagestyle{plain}
+\pagestyle{plain}
 \setcounter{page}{4}
 \begin{center}
 \vspace*{\fill}
