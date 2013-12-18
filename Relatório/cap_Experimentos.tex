@@ -38,13 +38,13 @@
 	\newcommand\qti[1]{\lq\lq{}\textit{#1}\rq\rq{}}
 \fi
                       
-\chapter{Resultados}\label{CapExperimentos}
+\chapter{Discussão de Resultados}\label{CapExperimentos}
 
 % Resumo opcional. Comentar se não usar.
 \resumodocapitulo{Este capítulo tem como objetivo apresentar um resumo dos resultados alcançados pelos vários experimentos realizados, uma vez que os resultados específicos estão contidos nos capítulos dos respectivos experimentos.}
 \vspace{0.8cm}
 
-Os experimentos realizados neste trabalhos serviram para construir um conhecimento profundo em torno do desenvolvimento de aplicações reconfiguráveis baseadas em FPGAs.
+Os experimentos realizados neste trabalho serviram para construir um conhecimento detalhado em torno do desenvolvimento de aplicações reconfiguráveis baseadas em FPGAs.
 Entende-se que as partes mais importantes deste conhecimento, além da capacidade de resolução de problemas relacionados, é o entendimento do fluxo de desenvolvimento necessário.
 Este fluxo, resumido na figura \ref{fig:res:prfileflow}, não é descrito claramente na literatura, tornando esta tecnologia complicada de se estudar e utilizar.
 O que buscou-se fazer com os experimentos foi determinar uma linha de pensamento sólida e lógica, que ajudasse a determinar este fluxo mais facilmente.
@@ -70,7 +70,7 @@ Este por sua vez, serviu para clarificar alguns detalhes referentes a integraç�
 
 \section{Análise de Tempo de Desenvolvimento}
 O fator mais explicitamente influenciador dos resultados deste projeto foi o tempo, especialmente quando aliado ao caráter experimental deste projeto.
-Pode-se observar da figura \ref{fig:res:prfileflow} que cada ferramenta possui um tempo máximo e mínimo necessários para seu uso.
+Pode-se observar da figura \ref{fig:res:prfileflow} que cada ferramenta possui um tempo máximo e mínimo necessários para seu uso, considerando-se o sistema computacional apresentado na introdução.
 Estes tempos foram estimados com base nos tempos gastos nos experimentos, considerando-se que nenhum erro grave tenha acontecido.
 
 A figura \ref{fig:res:prtimeflow} possui uma representação alternativa, que mostra a construção do projeto como um \textit{pipeline}.
@@ -81,7 +81,7 @@ Considerando-se ainda que a maior parte dos erros é apresentada na etapa final 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=\textwidth]{fig/resultados/prtimeflow.pdf}
-\caption{Representação do fluxo de projeto através de um \textit{pipeline}. As informações acima dele indicam o tempo mínimo e máximo gasto em cada etapa, sendo que as etapas que possuem alguma fase de desenvolvimento apresentam um \lq\lq{}(??)\rq\rq{} para indicar que não tem como estimar o tempo gasto. As informações abaixo indicam o tempo mínimo e máximo gasto acumulado desde o início do projeto. A presença do sinal \lq\lq{}+\rq\rq{} indica que o valor apresentado é apenas uma estimativa empírica do valor máximo, podendo este ser ainda maior.}
+\caption{Representação do fluxo de projeto através de um \textit{pipeline}. As informações acima dele indicam o tempo mínimo e máximo gasto em cada etapa, sendo que as etapas que possuem alguma fase de desenvolvimento apresentam um \lq\lq{}(??)\rq\rq{} para indicar que não tem como estimar o tempo gasto. As informações abaixo indicam o tempo mínimo e máximo gasto acumulado desde o início do projeto. A presença do sinal \lq\lq{}+\rq\rq{} indica que o valor apresentado é apenas uma estimativa empírica do valor máximo, podendo este ser ainda maior. Considerou-se o uso do computador descrito na introdução.}
 \label{fig:res:prtimeflow}
 \end{figure}
 
