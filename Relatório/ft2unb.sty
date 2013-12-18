@@ -37,7 +37,7 @@
 
 \setcounter{secnumdepth}{3} % numeração de seções até nível 3
 \setcounter{tocdepth}{2} % numeração de seções no sumário até nível 2
-\pagestyle{empty}
+\pagestyle{plain}
 
 %%% Dados do trabalho
 % Data
@@ -100,6 +100,7 @@
 \definecolor{blue}{HTML}{3399FF}
 
 \begin{titlepage}
+\thispagestyle{empty}
 \begin{tikzpicture}[overlay,remember picture]
     \newcommand\cs{0.02} % column separation
     \newcommand\rs{0.6} %row separation
@@ -162,6 +163,8 @@
 %%% Contra-capa:
 \newcommand{\capaassinaturas}{
 \begin{titlepage}
+\thispagestyle{plain}
+\setcounter{page}{2}
 \begin{tikzpicture}[overlay,remember picture]
     \coordinate (O) at (current page.south west);
     \coordinate (B) at (current page.south);
@@ -201,9 +204,19 @@
 \end{titlepage}
 }
 
+%%% FICHA CATALOGRÁFICA
+\newcommand{\fichacatalografica}{
+\begin{titlepage}
+\thispagestyle{plain}
+\setcounter{page}{2}
+\end{titlepage}
+}
+
 %%% Dedicatória
 \newcommand{\paginadededicatorias}{
 \begin{titlepage}
+\thispagestyle{plain}
+\setcounter{page}{4}
 \begin{center}
 \vspace*{\fill}
 \begin{flushright}
