@@ -51,21 +51,58 @@
 	  identifierstyle=\itshape\color{blue!40!black},
 	  stringstyle=\itshape\color{blue!40!black},
 }
-
-\chapter{Introdu\c{c}\~{a}o}
-\label{cap:introducao}
-
-\resumodocapitulo{Este capítulo trata da concepção dos experimentos realizados. Nele serão descritos com detalhes cada um dos experimentos, ficando a parte de análise reservada ao capítulo \ref{CapExperimentos}.}
-\vspace{0.8cm}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					 Experimento 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Experimento 1 - Reconfiguração Dinâmica}
+\chapter{Experimento 1 - Reconfigura\c{c}\~ao Din\^amica}
 \section{Definição do Teste}
+\label{ex1:def}
 De forma a dar validade a todo o projeto, desenvolveu-se um experimento para entender o processo de desenvolvimento de sistemas reconfiguráveis dinamicamente e algumas peculiaridades do kit de desenvolvimento.
 Este experimento tem como objetivo a construção de um projeto que se utilize de reconfiguração dinâmica para reprogramar um FPGA.
+
+Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
+Implementou-se para isto o sistema esquematizado na figura \ref{fig:ex1:componentes}.
+Este sistema contém o \qti{Top} para interfaceamento com a FPGA, o \qti{Clock\_Station} e o \qti{Clocks} para tratamento do sinal de relógio, a \qti{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qti{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
+A interface \qti{Top} possui conexões com os LEDs e o SYSCLK do dispositivo FPGA, bem como conexões de entrada e saída com os componentes instanciados nela.
+O componente \qti{Clock\_Station} recebe a entrada de relógio diferencial e retorna 3 sinais de relógios simples, um com 1 Hz, outro com 2 Hz e o último com 5 Hz.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/c3_desenvolvimento/ex1/componentes.pdf}
+\caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos, os em azul são dinâmicos e o em amarelo corresponde a um componente gerado automaticamente com o através das ferramentas da Xilinx.}
+\label{fig:ex1:componentes}
+\end{figure}
+
+\subsection{Comportamento}
+O projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
+Seguindo essa lógica, dois projetos com comportamentos diferentes foram construídos usando como base a figura \ref{fig:ex1:componentes}.
+O comportamento individual de cada módulo ou componente será descrito a seguir.
+Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como ISE, visto que esta ferramenta da Xilinx é a mais utilizada para projetos comuns.
+
+O componente \qti{Static} possui 3 entradas para relógios, um pulsando a 1 Hz, outro a 2 Hz e o teceiro a 5 Hz, e 3 saída paras LEDs.
+Ele simplesmente liga as entradas (relógios) às saídas (LEDs), criando assim uma forma visual de comprovar que a reconfiguração do componente \qti{Dynamic} acontecerá dinamicamente.
+
+O componente \qti{Dynamic} possui dois comportamentos distintos.
+O primeiro deles é o de um simples contador crescente de 4 bits.
+O segundo é uma máquina de estados que alterna os 4 bits de saída entre "1100" e "0011" a cada pulso de relógio.
+Este componente possui uma entrada para um relógio pulsando a 1 Hz, que acionará as transições, e uma palavra de 4 bits de saída.
+A frequência de operação deste componente foi escolhida para, junto com as frequências do \qti{Static}, permitir a visualação de que \qti{Static} não para de funcionar quando \qti{Dynamic} está sendo reconfigurado.
+
+O componente \qti{Clocks} recebe os sinais diferenciais de relógio e o transformam em um sinal comum.
+O bloco lógico utilizado para isso foi construído usando ferramentas presentes no ISE.
+Uma vez que a ferramenta permitia a construção de um relógio com divisor de frequência, a frequência do relógio da placa, que nesse caso é de 200 MHz, foi reduzida para 20 MHz.
+
+O módulo \qt{Top} instancia os componentes descritos acima e faz a interface dos mesmos com a FPGA.
+O componente dinâmico precisa de uma declaração de protótipo para ser instanciado corretamente.
+Utilizou-se o código abaixo para esta finalidade.
+\begin{lstlisting}[style=customVHDL]
+component dynamic
+    port ( clk  : in  std_logic;
+           leds : out std_logic_vector (3 downto 0));
+end component;
+\end{lstlisting}
+O módulo \qt{Top} possui também um divisor de frequência para reduzir a frequência devolvida por \qt{Clocks} para 1 e 2 Hz.
 
 \section{Estudo dos Requisitos}
 Antes de se começar a construir o experimento, é necessário estudar as peculiaridades da placa e deste tipo de projeto, bem como seu fluxo de desenvolvimento.
@@ -132,52 +169,9 @@ Note que a reconfiguração parcial pede uma síntese utilizando o método \qt{d
 Isto acontece para que os requisitos de interfaceamento dos componentes reconfiguráveis sejam encontrados antes de se determinar como incluí-los no projeto, a partir de onde se continua o processo normal de implementação.
 Note também que a implementação deve garantir que a lógica em comum, ou estática, seja implementada da mesma forma para as diferentes configurações \cite{ug702}.
 
-\section{Experimento}
-Para se entender mais a fundo o fluxo de projeto, nada melhor que construir um projeto.
-Implementou-se para isto o sistema esquematizado na figura \ref{fig:ex1:componentes}.
-Este sistema contém o \qti{Top} para interfaceamento com a FPGA, o \qti{Clock\_Station} e o \qti{Clocks} para tratamento do sinal de relógio, a \qti{Static}, que possui um lógica estática para demonstrar que a reconfiguração de uma partição não interfere com outra, e a \qti{Dynamic}, que possui a lógica a ser alterada dinâmicamente.
-A interface \qti{Top} possui conexões com os LEDs e o SYSCLK do dispositivo FPGA, bem como conexões de entrada e saída com os componentes instanciados nela.
-O componente \qti{Clock\_Station} recebe a entrada de relógio diferencial e retorna 3 sinais de relógios simples, um com 1 Hz, outro com 2 Hz e o último com 5 Hz.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{fig/c3_desenvolvimento/ex1/componentes.pdf}
-\caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos, os em azul são dinâmicos e o em amarelo corresponde a um componente gerado automaticamente com o através das ferramentas da Xilinx.}
-\label{fig:ex1:componentes}
-\end{figure}
-
-\subsection{Comportamento}
-O projeto de um sistema parcialmente reconfigurável pode ser visto como vários projetos completos com partes em comum.
-Seguindo essa lógica, dois projetos com comportamentos diferentes foram construídos usando como base a figura \ref{fig:ex1:componentes}.
-O comportamento individual de cada módulo ou componente será descrito a seguir.
-Este passo está ilustrado no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como ISE, visto que esta ferramenta da Xilinx é a mais utilizada para projetos comuns.
-
-O componente \qti{Static} possui 3 entradas para relógios, um pulsando a 1 Hz, outro a 2 Hz e o teceiro a 5 Hz, e 3 saída paras LEDs.
-Ele simplesmente liga as entradas (relógios) às saídas (LEDs), criando assim uma forma visual de comprovar que a reconfiguração do componente \qti{Dynamic} acontecerá dinamicamente.
-
-O componente \qti{Dynamic} possui dois comportamentos distintos.
-O primeiro deles é o de um simples contador crescente de 4 bits.
-O segundo é uma máquina de estados que alterna os 4 bits de saída entre "1100" e "0011" a cada pulso de relógio.
-Este componente possui uma entrada para um relógio pulsando a 1 Hz, que acionará as transições, e uma palavra de 4 bits de saída.
-A frequência de operação deste componente foi escolhida para, junto com as frequências do \qti{Static}, permitir a visualação de que \qti{Static} não para de funcionar quando \qti{Dynamic} está sendo reconfigurado.
-
-O componente \qti{Clocks} recebe os sinais diferenciais de relógio e o transformam em um sinal comum.
-O bloco lógico utilizado para isso foi construído usando ferramentas presentes no ISE.
-Uma vez que a ferramenta permitia a construção de um relógio com divisor de frequência, a frequência do relógio da placa, que nesse caso é de 200 MHz, foi reduzida para 20 MHz.
-
-O módulo \qt{Top} instancia os componentes descritos acima e faz a interface dos mesmos com a FPGA.
-O componente dinâmico precisa de uma declaração de protótipo para ser instanciado corretamente.
-Utilizou-se o código abaixo para esta finalidade.
-\begin{lstlisting}[style=customVHDL]
-component dynamic
-    port ( clk  : in  std_logic;
-           leds : out std_logic_vector (3 downto 0));
-end component;
-\end{lstlisting}
-O módulo \qt{Top} possui também um divisor de frequência para reduzir a frequência devolvida por \qt{Clocks} para 1 e 2 Hz.
-
+\section{Implementação}
 \subsection{Síntese}
-Com o comportamento do projeto definido, o próximo passo segundo o fluxo de ferramentas é a síntese, identificada no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como XST.
+Com o comportamento do projeto definido na seção \ref{ex1:def}, o próximo passo segundo o fluxo de ferramentas é a síntese, identificada no fluxo de ferramentas da figura \ref{fig:ex1:prsoftwareflow} como XST.
 Este passo é necessário uma vez que o próximo passo, referente ao PlanAhead, não aceita como entrada códigos-fonte, mas arquivos conhecidos como \textit{netlists}.
 Os códigos-fonte precisam passar por uma etapa de síntese separada para poderem ser importados no PlanAhead.
 
@@ -320,60 +314,6 @@ Este arquivo possui \qt{partial} em seu nome, o que o diferencia do arquivo bin�
 Note que utilizar os arquivos binários completos não gera erro, mas constitui reconfiguração total, não parcial.
 Após a seleção da configuração desejada, o último passo necessário é a programação, que pode ser realizada clicando-se com o botão direito no dispositivo e selecionando-se a opção \qt{\textit{Program}}.
 
-\subsection{Possíveis Erros}
-Esta seção é destinada apenas para a solução de alguns erros encontrados durante a realização deste experimento.
-É muito provável que, se o experimento for desenvolvido exatamente como mostrado aqui, nenhum destes erros aconteça.
-
-\subsubsection{Erros no código-fonte} Este é um dos erros mais comuns.
-A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
-Para acelerar o processo, realiza-se apenas a síntese.
-Outra possibilidade é o uso do XST diretamente \, reduzindo ainda mais o tempo desta verificação. 
-
-\subsubsection{Erro no carregamento do módulo reconfigurável}
-Este erro, do PlanAhead, em geral acontece quando o componente instanciado no \qti{Top} possuem sinais diferentes do instanciado no \qti{Dynamic}.
-Para corrigí-lo, deve-se verificar os códigos-fonte, síntetizá-los novamente, limpar a pasta \qt{PlanAhead} e recomeçar este passo (PlanAhead) novamente.
-
-\subsubsection{Erros na alocação de partições}
-\label{par:alocacao}
-Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\textit{AR\# 53290: Partial Reconfiguration - 7 series device layout of tiles (CLB, DSP, BRAM, INT) and a shared clocking structure of vertical clock spines between interconnect (routing) tiles}. Disponível em \url{http://www.xilinx.com/support/answers/53290.htm}}.
-Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições (UCF) ou alterando a região da partição.
-A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \qt{INCLUSIVE=ROUTE} na linha que contém \qt{INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"}.
-
-A segunda forma é simplemente mudando a posição da região da partição para a direita, para a esquerda ou sua largura, de acordo com a mensagem de erro retornada.
-Esta método não é determinístico e pode ser necessárias várias tentativas antes de se conseguir uma partição mapeável. 
-Este processo pode também ser realizado através do arquivo de restrições (UCF).
-O código abaixo contém uma alocação de partição funcional para este experimento, podendo ser copiada sobre a definição atualmente existente no arquivo UCF.
-\begin{lstlisting}
-INST "dynamic_i" AREA_GROUP = "pblock_dynamic_i";
-AREA_GROUP "pblock_dynamic_i" RANGE=SLICE_X80Y205:SLICE_X139Y244;
-AREA_GROUP "pblock_dynamic_i" RANGE=DSP48_X3Y82:DSP48_X5Y97;
-AREA_GROUP "pblock_dynamic_i" RANGE=RAMB18_X3Y82:RAMB18_X5Y97;
-AREA_GROUP "pblock_dynamic_i" RANGE=RAMB36_X3Y41:RAMB36_X5Y48;
-\end{lstlisting}
-
-O arquivo UCF pode ser aberto pelo painel \qti{Sources} sob a árvore \qti{Constrains}.
-Em caso de mais de um arquivo UCF presente, o desejado pode ser identificado pela marcação \qti{(target)} ao lado.
-Dois cliques são suficientes para abrí-lo. 
-
-\subsubsection{Esquecer de promover a partição}
-A promoção da primeira configuração antes de se implementar as seguintes contribui para a implementação de configurações compatíveis.
-Esquecer de promover esta partição pode fazer com que erros sejam gerados na etapa de verificação das partições.
-
-\subsubsection{O PlanAhead pode travar enquanto implementando uma configuração}
-Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
-A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
-
-\subsubsection{Erros na detecção da placa}
-Note que algum programa aberto pode interferir com a varredura realizada pelo iMPACT, fazendo-a falhar.
-Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
-Note ainda que a placa deve estar ligada para poder ser detectada.
-
-\subsubsection{Erro na geração do arquivo binário}
-Na geração do arquivo binário, o erro BitGen:342 pode aparecer \footnote{\qti{AR\# 51813
-14.2 BitGen - "ERROR:Bitgen:342 occurs after adding probes to the design in the case of 7 series devices"}, \url{http://www.xilinx.com/support/answers/51813.html}}.
-Este erro aparece devido ao uso de pinos não explicitados no arquivo UCF, fazendo com que o PlanAhead tenha que usar as configurações padrões nestes pinos.
-Uma forma de solucionar este problema é acrescentando a opção \qt{-g UnconstrainedPins:Allow} no comando do BitGen. 
-
 \section{Resultados}
 \subsection{Síntese}
 A síntese ocorreu como esperado, gerando os arquivos sintetisados (NGC).
@@ -442,19 +382,76 @@ A parte estática do dispositivo foi alocada como mostrado na figura \ref{fig:ex
 A etapa do iMPACT também foi bem sucedida.
 A programação da configuração completa levou 10 segundos e a programação da configuração parcial levou 1 segundo.
 
+\subsection{Possíveis Erros}
+Esta seção é destinada apenas para a solução de alguns erros encontrados durante a realização deste experimento.
+É muito provável que, se o experimento for desenvolvido exatamente como mostrado aqui, nenhum destes erros aconteça.
+
+\subsubsection{Erros no código-fonte} Este é um dos erros mais comuns.
+A melhor forma de previní-lo é através da construção dos diversos comportamentos/configurações individuais utilizando o ISE.
+Para acelerar o processo, realiza-se apenas a síntese.
+Outra possibilidade é o uso do XST diretamente \, reduzindo ainda mais o tempo desta verificação. 
+
+\subsubsection{Erro no carregamento do módulo reconfigurável}
+Este erro, do PlanAhead, em geral acontece quando o componente instanciado no \qti{Top} possuem sinais diferentes do instanciado no \qti{Dynamic}.
+Para corrigí-lo, deve-se verificar os códigos-fonte, síntetizá-los novamente, limpar a pasta \qt{PlanAhead} e recomeçar este passo (PlanAhead) novamente.
+
+\subsubsection{Erros na alocação de partições}
+\label{par:alocacao}
+Um erro bastante comum que aparece no PlanAhead é o de erro de alocação\footnote{\textit{AR\# 53290: Partial Reconfiguration - 7 series device layout of tiles (CLB, DSP, BRAM, INT) and a shared clocking structure of vertical clock spines between interconnect (routing) tiles}. Disponível em \url{http://www.xilinx.com/support/answers/53290.htm}}.
+Existem duas possíveis formas de corrigí-lo: modificando-se o arquivo de restrições (UCF) ou alterando a região da partição.
+A primeira forma, que ajuda a garantir que todos os recursos reconfiguráveis estão incluidas na região da partição, é a inclusão de \qt{INCLUSIVE=ROUTE} na linha que contém \qt{INST "dynamic\_i" AREA\_GROUP = "pblock\_dynamic\_i"}.
+
+A segunda forma é simplemente mudando a posição da região da partição para a direita, para a esquerda ou sua largura, de acordo com a mensagem de erro retornada.
+Esta método não é determinístico e pode ser necessárias várias tentativas antes de se conseguir uma partição mapeável. 
+Este processo pode também ser realizado através do arquivo de restrições (UCF).
+O código abaixo contém uma alocação de partição funcional para este experimento, podendo ser copiada sobre a definição atualmente existente no arquivo UCF.
+\begin{lstlisting}
+INST "dynamic_i" AREA_GROUP = "pblock_dynamic_i";
+AREA_GROUP "pblock_dynamic_i" RANGE=SLICE_X80Y205:SLICE_X139Y244;
+AREA_GROUP "pblock_dynamic_i" RANGE=DSP48_X3Y82:DSP48_X5Y97;
+AREA_GROUP "pblock_dynamic_i" RANGE=RAMB18_X3Y82:RAMB18_X5Y97;
+AREA_GROUP "pblock_dynamic_i" RANGE=RAMB36_X3Y41:RAMB36_X5Y48;
+\end{lstlisting}
+
+O arquivo UCF pode ser aberto pelo painel \qti{Sources} sob a árvore \qti{Constrains}.
+Em caso de mais de um arquivo UCF presente, o desejado pode ser identificado pela marcação \qti{(target)} ao lado.
+Dois cliques são suficientes para abrí-lo. 
+
+\subsubsection{Esquecer de promover a partição}
+A promoção da primeira configuração antes de se implementar as seguintes contribui para a implementação de configurações compatíveis.
+Esquecer de promover esta partição pode fazer com que erros sejam gerados na etapa de verificação das partições.
+
+\subsubsection{O PlanAhead pode travar enquanto implementando uma configuração}
+Apesar de mais raro, o PlanAhead pode travar quando implementando uma configuração.
+A melhor solução é o reinício do computador, visto que o programa bloqueia alguns arquivos durante a implementação e não os desbloqueia quando fechado forçadamente.
+
+\subsubsection{Erros na detecção da placa}
+Note que algum programa aberto pode interferir com a varredura realizada pelo iMPACT, fazendo-a falhar.
+Para prevenir este erro, deve-se fechar o XPS, o SDK e qualquer outro programa que possa se utilizar das interfaces USB.
+Note ainda que a placa deve estar ligada para poder ser detectada.
+
+\subsubsection{Erro na geração do arquivo binário}
+Na geração do arquivo binário, o erro BitGen:342 pode aparecer \footnote{\qti{AR\# 51813
+14.2 BitGen - "ERROR:Bitgen:342 occurs after adding probes to the design in the case of 7 series devices"}, \url{http://www.xilinx.com/support/answers/51813.html}}.
+Este erro aparece devido ao uso de pinos não explicitados no arquivo UCF, fazendo com que o PlanAhead tenha que usar as configurações padrões nestes pinos.
+Uma forma de solucionar este problema é acrescentando a opção \qt{-g UnconstrainedPins:Allow} no comando do BitGen. 
+
 \section{Conclusão}
 O processo de desenvolvimento de partições reconfiguráveis e sua programação foi explorado e compreendido com sucesso.
 Observou-se os pontos críticos do desenvolvimento e o fluxo mais adequado para a construção deste tipo de projeto, bem como alguns erros comuns e suas soluções.
+O próximo passo segundo os objetivos mostrados anteriormente é a identificação de requisitos.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					 Experimento 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experimento 2 - Memórias}
+\section{Definição do Teste}
 Seguindo o raciocínio apresentado no capítulo \ref{cap:introducao}, o próximo passo natural no desenvolvimento deste projeto é o entendimento do funcionamento das memórias.
 Esta etapa abre caminho para que se armazene os arquivos binários de configurações parciais em uma memória embarcada, removendo a necessidade do computador para tal.
+Para que se valide o correto entendimento do funcionamento e uso das memórias, será realizado um teste que mostre que eles puderam ser lidos e escritos corretamente.
 
-\section{Introdução Teórica}
+\section{Estudo dos Requisitos}
 Para o desenvolvimento deste experimento, faz-se necessário o estudo dos diferentes tipos de memórias, citando seus pontos fracos e fortes.
 Também é necessário o estudo do MicroBlaze e das ferramentas XPS e SDK, visto que a forma mais direta de se trabalhar com memória em FPGAs é através do uso de microcontroladores embarcados.
 
@@ -501,18 +498,21 @@ A memória DDR3 é uma memória volátil com 1 GB de capacidade de armazenamento
 Só pode ser programada apenas em tempo de execução, fazendo-se necessário o uso de um \textit{bootloader}.
 Ela possui restrições de temporização extremamente apertadas e necessita do uso de componentes bastante escassos no FPGA.
 
-\subsection{Fluxo de Projeto}
-O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}.
-A figura \ref{fig:ex2:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
-Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
-Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT através do SDK.
+\subsection{Escolha da Memória}
+Este experimento tem por objetivo o desenvolvimento de um sistema que instancie e acesse memórias capazes de armazenar as configurações parciais geradas no experimento anterior.
+Para isto, deve-se entender o processo de construção de um processador embarcado MicroBlaze, com periféricos para acesso às memórias, e de construção de programa embarcado.
+Deve-se ainda, antes de qualquer coisa, definir que tipo de memória é a mais apropriada para o objetivo traçado.
 
-\begin{figure}[htp]
-\centering
-\includegraphics[height=100px]{fig/c3_desenvolvimento/ex2/softwareflow.pdf}
-\caption{Foto ilustrativa do fluxo de ferramentas para o desenvolvimento de sistemas com MicroBlaze, extraído de \cite{ug081}.}
-\label{fig:ex2:softwareflow}
-\end{figure}
+Nota-se do primeiro experimento que os \textit{bitfiles} parciais gerados possuiam 645 KB cada, totalizando 1935 KB, ou 1,89 MB.
+Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
+Observa-se também que a interface de reprogramação dinâmica, ICAPE2, utilizada em experimentos mais a frente, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s \cite{ug702}.
+Por causa disso, todas as interfaces não-voláteis disponíveis acabariam se tornando gargalos no tempo de programação.
+
+A única memória com tamanho e velocidade suficientemente grandes para este projeto é a memória DDR3.
+Apesar disto, esta memória é volátil, necessitando ser inicializada sempre que o sistema é ligado.
+Uma solução para este problema é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica, ou seja, através do uso de um \textit{bootloader}.
+
+Sendo assim, optou-se por utilizar a memória QSPI Flash para uso na inicialização e a memória DDR3 para uso na execução.
 
 \subsection{MicroBlaze}
 O MicroBlaze é um microprocessador otimizado para implementação em FPGAs da Xilinx \cite{ug081}.
@@ -532,23 +532,20 @@ A interface mais atual suportada, e que foi utilizada neste experimento, é a Ad
 A AXI4 é uma interface mapeada em memória que oferece produtividade, flexibilidade e disponibilidade.
 Ela possui três tipos de interfaces, a AXI4, a AXI4-Lite e a AXI4-Stream, onde as duas primeiras são compostam de 5 canais de comunicação: de leitura de endereço, de escrita de endereço, de leitura de dados, de escrita de dados e de escrita de resposta.
 
-\section{Experimento}
-Este experimento tem por objetivo o desenvolvimento de um sistema que instancie e acesse memórias capazes de armazenar as configurações parciais geradas no experimento anterior.
-Para isto, deve-se entender o processo de construção de um processador embarcado MicroBlaze, com periféricos para acesso às memórias, e de construção de programa embarcado.
-Deve-se ainda, antes de qualquer coisa, definir que tipo de memória é a mais apropriada para o objetivo traçado.
+\subsection{Fluxo de Projeto}
+O procedimento para a construção de um projeto com MicroBlaze segue o fluxo descrito na figura \ref{fig:ex1:softwareflow}.
+A figura \ref{fig:ex2:softwareflow} apresenta o fluxo de ferramentas para este caso específico.
+Em outras palavras, o fluxo espera que primeiro se desenvolva o microprocessador com todos os seus periféricos para depois se desenvolver o programa que será embarcado.
+Tanto o programa quando o processador gerarão arquivos binários que serão carregados pelo iMPACT através do SDK.
 
-\subsection{Escolha da Memória}
-Nota-se do primeiro experimento que os \textit{bitfiles} parciais gerados possuiam 645 KB cada, totalizando 1935 KB, ou 1,89 MB.
-Com isso o uso das memórias que se utilizam de recursos internos da FPGA fica comprometido.
-Observa-se também que a interface de reprogramação dinâmica, ICAPE2, utilizada em experimentos mais a frente, opera a uma frequência de até 100 MHz e pode receber palavras de até 32 bits, ou seja, 3200 Mb/s \cite{ug702}.
-Por causa disso, todas as interfaces não-voláteis disponíveis acabariam se tornando gargalos no tempo de programação.
+\begin{figure}[htp]
+\centering
+\includegraphics[height=100px]{fig/c3_desenvolvimento/ex2/softwareflow.pdf}
+\caption{Foto ilustrativa do fluxo de ferramentas para o desenvolvimento de sistemas com MicroBlaze, extraído de \cite{ug081}.}
+\label{fig:ex2:softwareflow}
+\end{figure}
 
-A única memória com tamanho e velocidade suficientemente grandes para este projeto é a memória DDR3.
-Apesar disto, esta memória é volátil, necessitando ser inicializada sempre que o sistema é ligado.
-Uma solução para este problema é a implementação de um sistema que carregue as informações de uma memória não-volátil, tanto a Linear Flash quanto a SPI Flash seriam suficientes, para a memória DDR3 em um momento inicial, e depois permita que a memória DDR3 seja acessada para a reconfiguração dinâmica, ou seja, através do uso de um \textit{bootloader}.
-
-Sendo assim, optou-se por utilizar a memória QSPI Flash para uso na inicialização e a memória DDR3 para uso na execução.
-
+\section{Implementação}
 \subsection{XPS}
 Para começar, deve-se abrir o programa e criar um novo projeto usando o \textit{Base System Builder} (BSB), opção que corresponde ao item superior esquerdo do menu da tela inicial.
 Na janela que aparece, escolheu-se a placa de desenvolvimento Kintex-7 KC705 \textit{Evaluation Platform}, \textit{Board Revision} C, e a opção de um só processador no sistema, para simplificar o projeto.
@@ -675,19 +672,23 @@ Conclui-se assim o experimento para o teste de programação das memórias.
 Notou-se que existe muita pouca literatura no assunto, forçando o programador a fazer uso dos forúns de discussão e conhecimentos gerais de programação embarcada.
 Apesar disso, o objetivo do experimento, quiça conseguir ler/escrever de/em endereços das memória DDR3 e SPI Flash específicos, foi atingido com sucesso.
 
+Uma forma interessante de dar continuidade a esta linha de pensamento é entender como funciona a programação da memória Flash através do computador, uma vez que este experimento apenas escreveu na memória através do próprio microcontrolador, e uma possível interpretação do arquivo binários, extraindo deles o máximo de informações possíveis.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					 Experimento 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experimento 3 - \textit{Bootloader}}
+\section{Definição do Teste}
 O \textit{bootloader}, como mencionado no experimento anterior, é um sistema que carrega as informações de uma memória lenta, como a SPI Flash, para uma memória rápida, como a DDR3.
 Usou-se um microcontrolador MicroBlaze com interfaces para as memórias SPI Flash e DDR3.
 O experimento 2 foi dedicado a aprender a utilizar estas memórias.
 Neste experimento, espera-se entender como é formado o arquivo binário, permitindo assim carregá-lo e interpretá-lo enquanto o transferindo para a memória DDR3.
 
-\section{Introdução Teórica}
 Para se alcançar o objetivo proposto, faz-se necessário entender como é construido o arquivo binário e como se inicializa a memória não-volátil.
 O fluxo de projeto é o mesmo do experimento anterior.
+
+\section{Estudo dos Requisitos}
 
 \subsection{Arquivo Binário}
 \label{sec:binario}
@@ -762,7 +763,7 @@ Após compilado o projeto, seu arquivo binário e qualquer outra informação a 
 Este processo é necessário para que o iMPACT consiga carregar e programar a memória Flash de forma correta.
 Pode-se construir este arquivo de memória PROM através do próprio iMPACT, processo que será descrito mais a frente.
 
-\section{Experimento}
+\section{Implementação}
 O teste deste experimento compreende a construção de um sistema microprocessador que carregue os arquivos binários da memória SPI Flash para a memória DDR3.
 Este experimento contribuirá para a compreenção do processo de inicialização de memórias não-voláteis e do tratamento do cabeçalho dos arquivos binários.
 Usará-se os programas XPS, SDK, que fazem parte do Embedded Development Kit (EDK), data2mem e iMPACT.
@@ -871,18 +872,22 @@ Este experimento só pode ser realizado devido a uma imensa pesquisa e compilaç
 \label{fig:ex3:resultado}
 \end{figure}
 
+Para o próximo experimento, acredita-se já ter todas as ferramentas necessárias para a implementação da autorreconfiguração propriamente dita.
+Sendo assim, utilizará-se o mesmo comportamente do experimento 1 para definir uma partição reconfigurável e microcontroladores bem similares aos dos experimentos 2 e 3 para controlar a reconfiguração.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					 Experimento 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experimento 4 - Autoreconfiguração com \textit{MicroBlaze} e DDR3}
+\section{Definição do Teste}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
 Para isto, deve-se entender o funcionamento de alguns periféricos e seus \textit{drivers}, como integrar tudo de forma satisfatória, e o fluxo de projeto que permita as funcionalidades desejadas.
 
-\section{Introdução Teórica}
 O projeto em questão pretende utilizar um microcontrolador para acionar a troca de comportamentos de uma partição reconfigurável totalmente independente.
 Tal feito pode, em teoria, ser alcançado facilmente através do periférico AXI4 HWICAP, que acessa as portas de configuração ICAP e ICAPE2, descritas a seguir.
 
+\section{Estudo dos Requisitos}
 \subsection{ICAP e ICAPE2}
 As interfaces ICAP e ICAPE2 (\textit{Internal Configuration Access Port}) são formas de se acessar, tanto para leitura quanto para escrita, a configuração interna do FPGA.
 Algumas das aplicações mais comuns que a utilizam incluem sistemas \textit{MultiBoot} \cite{xapp468, xapp1100}, sitemas frequentemente atualizados e sistemas críticos que necessitam de frequente verificação do correto funcionamento do sistema \cite{xapp468, xapp887}, e.g. sistemas embarcados em aplicações espaciais sucetíveis a radiações capazes de alterar o conteúdo dos elementos lógicos. 
@@ -936,12 +941,14 @@ Sendo assim, a reconfiguração seria iniciada pelo MicroBlaze para alterar o fu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experimento 5 - Autoreconfiguração com \textit{MicroBlaze} e sem DDR3}
+
+\section{Definição do Teste}
 Espera-se neste experimento projetar e implementar um sistema baseado em MicroBlaze que se reconfigure de forma autônoma, ou seja, sem a necessidade nenhum comando externo adicional.
 Para isto, deve-se entender o processo de criação de periféricos reconfiguráveis e seus \textit{drivers}, o funcionamento do periférico AXI4 HWICAP e integrar tudo de forma satisfatória.
 
 Ao contrário do experimento anterior, neste experimento não se utilizará o \textit{Project Navigator}, eliminando assim várias complexidades introduzidas por ele.
 
-\section{Introdução Teórica}
+\section{Estudo dos Requisitos}
 O desenvolvimento de sistemas que suportem a autorreconfiguração ainda não é totalmente suportado pelas ferramentas da Xilinx, como foi mostrado no experimento anterior.
 Algumas tarefas, como a inclusão de um executável em um processador (através do mapa de memória) instanciado em um sistema com módulos reconfiguráveis, precisam ser feitas a mão.
 Apesar disso, as ferramentas suportam algumas outras opções, como a inclusão direta de um módulo reconfigurável como periférico em um microcontrolador.
@@ -965,7 +972,7 @@ Por último, utiliza-se o PlanAhead para criar as diversas configurações e par
 \label{fig:ex5:prsoftwareflow}
 \end{figure}
 
-\section{Experimento}
+\section{Implementação}
 Este teste foi arquitetado para utilizar o máximo possivel dos elementos já desenvolvidos  neste trabalho.
 Utilizará-se os comportamentos reconfiguráveis desenvolvidos no experimento 1 para a modelagem do comportamento do periférico reconfigurável, o microprocessador desenvolvido no experimento 2 sem a memória DDR3 e o programa desenvolvido no experimento 3 considerando a ausência da memória DDR3, para se construir um sistema microprocessado que possa acionar a mudança de configurações de uma partição reconfigurável.
 
