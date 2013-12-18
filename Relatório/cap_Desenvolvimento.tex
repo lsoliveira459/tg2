@@ -70,7 +70,7 @@ O componente \qti{Clock\_Station} recebe a entrada de relógio diferencial e ret
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{fig/c3_desenvolvimento/ex1/componentes.pdf}
-\caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos, os em azul são dinâmicos e o em amarelo corresponde a um componente gerado automaticamente com o através das ferramentas da Xilinx.}
+\caption{Foto ilustrativa do sistema desenvolvido para o teste de validação do experimento 1. Ele é composto por uma parte estática e uma parte dinâmica. O elementos em branco são estáticos, os em azul são dinâmicos e o em amarelo corresponde a um componente gerado automaticamente através das ferramentas da Xilinx.}
 \label{fig:ex1:componentes}
 \end{figure}
 
@@ -102,7 +102,6 @@ component dynamic
            leds : out std_logic_vector (3 downto 0));
 end component;
 \end{lstlisting}
-O módulo \qt{Top} possui também um divisor de frequência para reduzir a frequência devolvida por \qt{Clocks} para 1 e 2 Hz.
 
 \section{Estudo dos Requisitos}
 Antes de se começar a construir o experimento, é necessário estudar as peculiaridades da placa e deste tipo de projeto, bem como seu fluxo de desenvolvimento.
@@ -119,11 +118,11 @@ A razão para tal é a presença de circuitos sensíveis a interferências, tais
 O kit disponibiliza duas opções de relógio: o SYSCLK e o USER\_CLOCK.
 O primeiro possui uma frequência fixa de oscilação de 200 MHz.
 O segundo possui uma frequência original de 156,250 MHz, mas pode ser programado através de uma interface I$^2$C para ter frequências entre 10 MHz e 810 MHz.
-Nota-se porém que o uso do SYSCLK é bem mais simples que o do USER\_CLOCK, não sendo necessário nenhum circuito controlador/programador.
+Nota-se, porém, que o uso do SYSCLK é bem mais simples que o do USER\_CLOCK, não sendo necessário nenhum circuito controlador/programador.
 
 O Xilinx Design Tools disponibiliza uma ferramenta chamada \textit{CORE Generator} para a construção de diversos tipos de circuitos de propriedade intelectual.
-Dentre eles se encontra o guia \textit{Clocking Wizard}, que pode construir elementos para transformar o sinal do relógio em um sinal simples.
-Através dele também é possivel utilizar as PLLs da placa para modificar a frequência deste sinal para valores entre 20 MHz e 800 MHz.
+Dentre eles se encontra o guia \textit{Clocking Wizard}, que pode construir elementos para transformar o sinal diferencial do relógio em um sinal simples.
+Através dele também é possivel utilizar as PLLs da placa para modificar a frequência deste sinal para valores entre 20 MHz e 933 MHz \cite{ds182}.
 
 \subsubsection{Estrutura de Pastas}
 A questão da organização do projeto em pastas bem específicas foi bem reforçado na literatura \cite{ug702, ug743, ug744}.
