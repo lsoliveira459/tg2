@@ -16,10 +16,7 @@ Diversos problemas surgiram com relação a memória DDR3, forçando a removê-l
 No experimento 5, conseguiu-se solucionar o problema da inicialização do arquivo binário, obtendo-se ao final um sistema autenticamente autorreconfigurável.
 O módulo reconfigurável, porém, fazia parte do microcontrolador, interagindo com ele através da interface AXI Lite.
 
-
-
-Sabe-se que existem formas mais eficientes e interessantes de se implementar a autorreconfiguração.
-Um exemplo é a repetição do experimento 5 onde o módulo reconfigurável não esteja atrelado ao microcontrolador, mas apenas a um componente de interfaceamento \lq\lq{}Top\rq\rq{}.
-Outra possibilidade é a implementação do microcontrolador com controladores para a memória DDR3 dentro de uma partição reconfigurável.
-Sendo assim, durante o início do sistema, o microcontrolador poderia carregar e interpretar as configurações da memória Flash para a memória DDR3 e sinalizar o término para um controlador externo, que então reconfiguraria o microcontrolador para um controlador de memória DDR3, permitindo que as configurações fossem lidas pelo \textit{hardware}.
-Observa-se que ainda é possível construir um sistema totalmente independente de microcontroladores, apesar de isto aumentar muito a complexidade do projeto.
+Nota-se que prentende-se ainda, com os resultados alcaçados, desenvolver outros experimentos para continuar o estudo deste tema.
+Com o auxílio do fluxo de projeto apresentado no capítulo de resultados, deseja-se modificar o experimento 5 para o seu funcionamento com o MicroBlaze apenas como um componentes, ao invés de \lq\lq{}Top\rq\rq{}.
+Em seguida, pode-se continuar para a remoção completa do microprocessador, permitindo que o processo inteiro seja controlado apenas por máquinas de estado implementadas em \textit{hardware}.
+Deseja-se ainda a correta integração da memória DDR3 ao projeto, removendo o gargalo no tempo de programação introduzido pela memória não-volatil.
